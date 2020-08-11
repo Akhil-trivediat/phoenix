@@ -1,0 +1,46 @@
+<div class="container">
+    <section class="widget-auth mx-auto" widgster [optionsControl]="false" [reloadControl]="false" [fullscreenControl]="false"
+        [collapseControl]="false" [closeControl]="false" titleClass="mt-0">
+        <h3 *widgsterTitle>
+            Enter your confirmation code
+        </h3>
+        <p class="widget-auth-info">
+            Enter your username and confirmation code to confirm registration
+        </p>
+        <form [formGroup]="formGroup" (ngSubmit)="confirmCode()">
+            <div class="form-group mt">
+                <label for="username">Username</label>
+                <div class="input-group input-group-transparent">
+                    <div class="input-group-addon">
+                        <i class="la la-user text-white"></i>
+                    </div>
+                    <input id="username" class="form-control input-transparent pl-3" formControlName="username" type="username" required name="username"
+                        placeholder="Username" />
+                </div>
+            </div>
+            <div class="form-group mt">
+                <label for="confirmCode">Confirmation Code</label>
+                <div class="input-group input-group-transparent">
+                    <div class="input-group-addon">
+                        <i class="la la-user text-white"></i>
+                    </div>
+                    <input id="confirmCode" class="form-control input-transparent pl-3" formControlName="confirmCode" type="confirmCode" required
+                        name="confirmCode" placeholder="Confirmation Code" />
+                </div>
+            </div>
+            <div class="bg-widget auth-widget-footer">
+                <button type="submit" class="btn btn-sm btn-danger auth-btn">
+                    <span class="auth-btn-circle">
+                        <i class="la la-caret-right"></i>
+                    </span>
+                    Confirm Code
+                </button>
+            </div>
+        </form>
+    </section>
+    <a routerLink="/login" class="d-block text-center mb-4">Go to Login</a>
+
+</div>
+<footer class="auth-footer">
+    2019 &copy; Sing App - React Admin Dashboard Template.
+</footer>

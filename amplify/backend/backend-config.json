@@ -1,0 +1,9 @@
+{
+	"auth": {
+		"phoenixspa0e39dd6a": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": []
+		}
+	}
+}

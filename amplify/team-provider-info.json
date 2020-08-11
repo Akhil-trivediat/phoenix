@@ -1,0 +1,20 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-phoenixspa-dev-205633-authRole",
+            "UnauthRoleArn": "arn:aws:iam::289616476864:role/amplify-phoenixspa-dev-205633-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::289616476864:role/amplify-phoenixspa-dev-205633-authRole",
+            "Region": "eu-central-1",
+            "DeploymentBucketName": "amplify-phoenixspa-dev-205633-deployment",
+            "UnauthRoleName": "amplify-phoenixspa-dev-205633-unauthRole",
+            "StackName": "amplify-phoenixspa-dev-205633",
+            "StackId": "arn:aws:cloudformation:eu-central-1:289616476864:stack/amplify-phoenixspa-dev-205633/82dcd450-db6d-11ea-9ebf-0a2295eaee0e",
+            "AmplifyAppId": "d2654g2xh6vefx"
+        },
+        "categories": {
+            "auth": {
+                "phoenixspa0e39dd6a": {}
+            }
+        }
+    }
+}

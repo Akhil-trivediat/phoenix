@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { TrendModule } from 'ngx-trend';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { SwiperConfigInterface, SwiperModule, SWIPER_CONFIG } from 'ngx-swiper-wrapper';
 import { CountUpModule } from 'ngx-countup';
 import { CalendarModule as AngularCalendarModule, DateAdapter, CalendarDateFormatter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
@@ -14,19 +13,17 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { SkyconsModule } from '../../components/skycon/skycon.module';
 import { WidgsterModule } from '../../components/widgster/widgster.module';
 import { UtilsModule } from '../../utils/utils-module/utils.module';
+import { MainComponent } from './main.component';
 
 export const routes = [
-  { path: '', redirectTo: 'visits', pathMatch: 'full' }
+  // { path: '', redirectTo: 'visits', pathMatch: 'full' }
+  { path: '', component: MainComponent}
 ];
-
-const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
-  direction: 'horizontal',
-  slidesPerView: 'auto'
-};
 
 @NgModule({
   declarations: [
     // Components / Directives/ Pipes
+    MainComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +32,6 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     SkyconsModule,
     NgApexchartsModule,
     NgxEchartsModule,
-    SwiperModule,
     CountUpModule,
     AngularCalendarModule.forRoot({
       provide: DateAdapter,
@@ -47,10 +43,6 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     UtilsModule
   ],
   providers: [
-    {
-      provide: SWIPER_CONFIG,
-      useValue: DEFAULT_SWIPER_CONFIG
-    }
   ]
 })
 export class MainModule { }

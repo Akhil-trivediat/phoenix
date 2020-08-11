@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter, Renderer2, ElementRef, ChangeDetectionStrategy } from '@angular/core';
-
+import {AppService} from '../../app.service';
 @Component({
   selector: '[navbar]',
   templateUrl: './navbar.template.html',
@@ -19,7 +19,8 @@ export class Navbar {
 
   constructor(
     private renderer: Renderer2,
-    private el: ElementRef
+    private el: ElementRef,
+    private appService: AppService
   ) {}
 
   sidebarPosition(position): void {
@@ -51,5 +52,9 @@ export class Navbar {
   }
 
   logout() {
+  }
+
+  get loginDetails() {
+    return AppService.token;
   }
 }

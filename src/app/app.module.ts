@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RouterModule, PreloadAllModules } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastrModule } from 'ngx-toastr';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AlertModule } from 'ngx-bootstrap/alert';
@@ -19,7 +18,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
-
+import { LoginService } from './pages/login/login.service';
 import { ROUTES } from './app.routes';
 import { CheckAllService } from './layout/utils/services/check-all.service';
 import { AppComponent } from './app.component';
@@ -27,6 +26,9 @@ import { AppGuard } from './app.guard';
 import { AppInterceptor } from './app.interceptor';
 import { AppConfig } from './app.config';
 import { UtilsModule } from './utils/utils-module/utils.module';
+import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
+import { AppService } from './app.service';
+import { ToastrModule } from 'ngx-toastr';
 
 const APP_PROVIDERS = [
   CheckAllService,
@@ -40,11 +42,11 @@ const APP_PROVIDERS = [
     AppComponent
   ],
   imports: [
+    AmplifyAngularModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    ToastrModule.forRoot(),
     RouterModule.forRoot(ROUTES, {
       useHash: true,
       preloadingStrategy: PreloadAllModules
@@ -63,13 +65,17 @@ const APP_PROVIDERS = [
     AccordionModule.forRoot(),
     CarouselModule.forRoot(),
     PaginationModule.forRoot(),
+    ToastrModule.forRoot(),
     UtilsModule
   ],
   providers: [
     APP_PROVIDERS,
+    AmplifyService,
     {
       provide: HTTP_INTERCEPTORS, useClass: AppInterceptor, multi: true
-    }
+    },
+    LoginService,
+    AppService
   ]
 })
 export class AppModule { }

@@ -1,6 +1,7 @@
 import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
+import {AppService} from './app.service';
 
 @Injectable()
 export class AppGuard implements CanActivate {
@@ -12,6 +13,6 @@ export class AppGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | boolean {
-    return true;
+    return AppService.isLoggedIn;
   }
 }

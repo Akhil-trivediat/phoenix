@@ -4,6 +4,7 @@ frameworkVersion: ">=1.2.0 <2.0.0"
 
 plugins:
   - serverless-s3-sync
+  - serverless-cloudfront-invalidate
 
 custom:
   s3Sync:
@@ -11,6 +12,11 @@ custom:
     - bucketName: pheonixspa
       localDir: dist/
   s3Bucket: pheonixspa
+  cloudfrontInvalidate:
+      distributionId: "E2HAO5PDIOB4KU"
+      distributionIdKey: "E2HAO5PDIOB4KU"
+      items: # one or more paths required
+        - "/*"
 
 provider:
   name: aws

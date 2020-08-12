@@ -1,4 +1,7 @@
 <div class="container">
+  <p align="center" *ngIf="formGroup.errors && formGroup.errors.passwordsDoNotMatch">
+    Passwords do not match. Please make sure the password and confirm password values are the same
+  </p>
   <section class="widget-auth mx-auto" widgster [optionsControl]="false" [reloadControl]="false" [fullscreenControl]="false" [collapseControl]="false" [closeControl]="false" bodyClass="mt-0">
     <h3 *widgsterTitle class=mt-0>Create an account</h3>
     <p class="widget-auth-info">
@@ -27,6 +30,9 @@
           <input name="email" class="form-control input-transparent" id="email" formControlName="email" type="text"
                  placeholder="Email" required>
         </div>
+        <div *ngIf="formGroup.get('email').dirty && formGroup.get('email').errors">
+            <p align="center">Invalid Email Address</p>
+        </div>
       </div>
       <div class="form-group">
         <label for="password">Password</label>
@@ -37,6 +43,13 @@
           <input name="password" class="form-control input-transparent" id="password" type="password" formControlName="password"
                  placeholder="Password" required>
         </div>
+        <div *ngIf="formGroup.get('password').dirty && formGroup.get('password').errors">
+            <p align="center">Invalid Password</p>
+            <p align="center">Password must contain at least 8 characters</p>
+            <p align="center">Password must contain at least 1 lower case character</p>
+            <p align="center">Password must contain at least 1 upper case character</p>
+            <p align="center">Password must contain at least 1 special character</p>
+        </div>
       </div>
       <div class="form-group">
         <label for="confirmPassword">Confirm</label>
@@ -44,18 +57,25 @@
           <div class="input-group-addon">
             <i class="la la-lock text-white"></i>
           </div>
-          <input name="confirmPassword" class="form-control input-transparent" id="confirmPassword" type="password"
+          <input name="confirmPassword" formControlName="confirmPassword" class="form-control input-transparent" id="confirmPassword" type="password"
                  placeholder="Confirm" required>
+        </div>
+        <div *ngIf="formGroup.get('confirmPassword').dirty && formGroup.get('confirmPassword').errors">
+            <p align="center">Invalid Password</p>
+            <p align="center">Password must contain at least 8 characters</p>
+            <p align="center">Password must contain at least 1 lower case character</p>
+            <p align="center">Password must contain at least 1 upper case character</p>
+            <p align="center">Password must contain at least 1 special character</p>
         </div>
       </div>
       <div class="bg-widget auth-widget-footer">
         <button class="btn btn-sm btn-danger auth-btn"
-                type="submit">{{registerService.isFetching ? 'Loading...' : 'Register'}}</button>
+                type="submit" [disabled]="formGroup.invalid">{{registerService.isFetching ? 'Loading...' : 'Register'}}</button>
         <p class="widget-auth-info mt-4">
           Already have the account? Login now!
         </p>
         <a class="d-block text-center mb-4" routerLink="/login">Enter the account</a>
-        <div class="social-buttons">
+        <!-- <div class="social-buttons">
           <button (click)="googleLogin()" class="btn btn-primary social-button">
             <i class="social-icon social-google"></i>
             <p class="social-text">GOOGLE</p>
@@ -64,7 +84,7 @@
             <i class="social-icon social-microsoft"></i>
             <p class="social-text">MICROSOFT</p>
           </button>
-        </div>
+        </div> -->
       </div>
 
     </form>

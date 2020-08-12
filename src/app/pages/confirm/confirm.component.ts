@@ -1,5 +1,5 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
-import {FormGroup, FormBuilder} from '@angular/forms';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {Auth} from 'aws-amplify';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
@@ -14,8 +14,8 @@ const fb:FormBuilder = new FormBuilder();
 export class ConfirmComponent implements OnInit {
   @HostBinding('class') classes = 'auth-page app';
   public formGroup: FormGroup = fb.group({
-    username: '',
-    confirmCode: ''
+    username: ['',[Validators.required]],
+    confirmCode: ['',[Validators.required]]
   });
   constructor(private toastrService: ToastrService, private router: Router) { }
 

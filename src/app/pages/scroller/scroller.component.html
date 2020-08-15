@@ -1,0 +1,25 @@
+<div class="continer">
+  <h3>Infinite Scroll Test</h3>
+  <cdk-virtual-scroll-viewport itemSize="10">
+    <!-- Print stuff here -->
+    <div *cdkVirtualFor="let fact of dataSource" class="enclosing-box">
+      <div *ngIf="fact" class="fact-item">
+        <section widgster [reloadControl]="false" [fullscreenControl]="false" [collapseControl]="false">
+          <h6 *widgsterTitle> SENSOR DATA </h6>
+          <div class="stats-row">
+            <div class="stat-item">
+              <h6 class="name">Sensor Number: {{fact.text}}</h6>
+              <p class="value">{{fact.data|number: '1.0-2'}}%</p>
+            </div>
+          </div>
+          <div class="progress progress-xs">
+            <div class="progress-bar bg-success" [style.width.%]="fact.data"></div>
+          </div>
+        </section>
+      </div>
+      <div *ngIf="!fact">
+        Loading ...
+      </div>
+    </div>
+  </cdk-virtual-scroll-viewport>
+</div>

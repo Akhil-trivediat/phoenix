@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Auth } from 'aws-amplify';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { patternValidator, confirmPasswordValidator} from './validators/register.validators';
+import { patternValidator, confirmPasswordValidator } from './validators/register.validators';
 
 const fb: FormBuilder = new FormBuilder();
 
@@ -22,7 +22,7 @@ export class RegisterComponent {
     password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(128), patternValidator]],
     email: ['', [Validators.required, Validators.email]],
     confirmPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(125), patternValidator]]
-  }, {validators: confirmPasswordValidator});
+  }, { validators: confirmPasswordValidator });
 
   constructor(
     public loginService: LoginService,
@@ -48,7 +48,7 @@ export class RegisterComponent {
       }).then(result => {
         this.toastrService.success('Registration Successful');
         this.router.navigate(['confirm']);
-  
+
       });
     } else {
       console.log(this.formGroup);

@@ -15,9 +15,6 @@ export const ROUTES: Routes = [{
   path: 'confirm', loadChildren: () => import('./pages/confirm/confirm.module').then(module => module.ConfirmModule)
 },
 {
-  path: 'scrolling', loadChildren: () => import('./pages/scroller/scroller.module').then(module => module.ScrollerModule)
-},
-{
   path: 'app', canActivate: [AppGuard], loadChildren: () => import('./layout/layout.module').then(module => module.LayoutModule)
 }
 ];

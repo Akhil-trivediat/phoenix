@@ -1,28 +1,28 @@
 <!-- <amplify-authenticator></amplify-authenticator> -->
 <div class="container">
-  <section 
+  <section
     class="widget-auth mx-auto"
-    widgster 
+    widgster
     [optionsControl]="false"
     [reloadControl]="false"
-    [fullscreenControl]="false" 
+    [fullscreenControl]="false"
     [collapseControl]="false"
     [closeControl]="false"
     titleClass="mt-0"
   >
     <h3 *widgsterTitle>
-      Login to your Web App
+      Login to Pheonix
     </h3>
     <p class="widget-auth-info">
       Use your username to sign in.
     </p>
-    <alert type="secondary alert-sm text-center mt-2 widget-middle-overflow rounded-0">
+    <!--<alert type="secondary alert-sm text-center mt-2 widget-middle-overflow rounded-0">
       This is a real app with Node.js backend - use
       <br/>
       <span class="font-weight-bold">"admin@flatlogic.com / password"</span>
       <br/>
       to login!
-    </alert>
+    </alert>-->
     <form [formGroup]="formGroup">
       <alert *ngIf="loginService.errorMessage" type="danger alert-sm widget-middle-overflow rounded-0">
         {{loginService.errorMessage}}
@@ -56,10 +56,10 @@
           </span>
           {{loginService.isFetching ? 'Loading...' : 'Login'}}
         </button>
-        <p class="widget-auth-info mt-4">
+        <!--<p class="widget-auth-info mt-4">
           Don't have an account? Sign up now!
-        </p>
-        <a routerLink="/register" class="d-block text-center mb-4">Create an Account</a>
+        </p>-->
+        <a routerLink="/register" class="d-block text-center mb-4">Forgot Password</a>
         <!-- <div class="social-buttons">
           <button (click)="googleLogin()" class="btn btn-primary social-button">
             <i class="social-icon social-google"></i>

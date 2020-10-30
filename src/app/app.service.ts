@@ -9,7 +9,10 @@ export class AppService {
     }
 
     static saveToken(token) {
+        let jwtToken:any;
         AppService.savedToken = token;
+        jwtToken = token.getSignInUserSession().getAccessToken().getJwtToken();
+        localStorage.setItem('com.pheonix.token', jwtToken);
     }
 
     static setLogin(isLoggedIn: boolean) {

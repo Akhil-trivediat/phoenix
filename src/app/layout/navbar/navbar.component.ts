@@ -1,5 +1,8 @@
 import { Component, Output, EventEmitter, Renderer2, ElementRef, ChangeDetectionStrategy } from '@angular/core';
-import {AppService} from '../../app.service';
+import { Router } from '@angular/router';
+import { Auth } from 'aws-amplify';
+import { AppService } from '../../app.service';
+import { LoginService } from '../../pages/login/login.service';
 @Component({
   selector: '[navbar]',
   templateUrl: './navbar.template.html',
@@ -20,7 +23,9 @@ export class Navbar {
   constructor(
     private renderer: Renderer2,
     private el: ElementRef,
-    private appService: AppService
+    public router: Router,
+    private appService: AppService,
+    private loginService: LoginService
   ) {}
 
   sidebarPosition(position): void {
@@ -52,6 +57,8 @@ export class Navbar {
   }
 
   logout() {
+    localStorage.removeItem('com.pheonix.token');
+    this.loginService.logOut();
   }
 
   get loginDetails() {

@@ -30,6 +30,7 @@ import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
 import { AppService } from './app.service';
 import { ToastrModule } from 'ngx-toastr';
 
+
 const APP_PROVIDERS = [
   CheckAllService,
   AppGuard,
@@ -39,7 +40,8 @@ const APP_PROVIDERS = [
 @NgModule({
   bootstrap: [AppComponent],
   declarations: [
-    AppComponent
+    AppComponent,
+
   ],
   imports: [
     AmplifyAngularModule,

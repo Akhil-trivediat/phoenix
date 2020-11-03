@@ -14,6 +14,9 @@ export const ROUTES: Routes = [{
 {
   path: 'confirm', loadChildren: () => import('./pages/confirm/confirm.module').then(module => module.ConfirmModule)
 },
+ {
+   path: 'forgotpassword', loadChildren: () => import('./pages/forgotpassword/forgotpassword.module').then(module => module.ForgotPasswordModule)
+  },
 {
   path: 'app', canActivate: [AppGuard], loadChildren: () => import('./layout/layout.module').then(module => module.LayoutModule)
 }

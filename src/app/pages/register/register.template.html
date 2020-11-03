@@ -86,7 +86,14 @@
           </button>
         </div> -->
       </div>
+     <div class="container-fluid form">
+       <div class="row" *ngIf="CurrentState=='Wait'">
+         <div class="col-md-12 close-form">
+          <h2> Please Wait...</h2>
+         </div>
+       </div>
 
+     </div>
     </form>
   </section>
   <footer class="auth-footer">

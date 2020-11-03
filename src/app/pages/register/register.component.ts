@@ -6,8 +6,10 @@ import { Auth } from 'aws-amplify';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { patternValidator, confirmPasswordValidator } from './validators/register.validators';
+import {userError} from "@angular/compiler-cli/src/transformers/util";
 
 const fb: FormBuilder = new FormBuilder();
+
 
 @Component({
   selector: 'app-login',

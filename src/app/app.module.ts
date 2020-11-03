@@ -29,6 +29,8 @@ import { UtilsModule } from './utils/utils-module/utils.module';
 import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
 import { AppService } from './app.service';
 import { ToastrModule } from 'ngx-toastr';
+import { ResetPasswordComponent } from './shared/component/reset-password/reset-password.component';
+import { AlertComponent } from './shared/component/alert/alert.component';
 
 const APP_PROVIDERS = [
   CheckAllService,
@@ -39,7 +41,9 @@ const APP_PROVIDERS = [
 @NgModule({
   bootstrap: [AppComponent],
   declarations: [
-    AppComponent
+    AppComponent,
+    ResetPasswordComponent,
+    AlertComponent
   ],
   imports: [
     AmplifyAngularModule,

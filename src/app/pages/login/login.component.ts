@@ -1,5 +1,5 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
-import {LoginService} from './login.service';
+import { LoginService } from './login.service';
 import {Auth} from 'aws-amplify';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {AppService} from '../../app.service';
@@ -24,16 +24,6 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    console.log('clicked login');
-    Auth.signIn(this.formGroup.get('username').value, this.formGroup.get('password').value).then((result) => {
-      if (result) {
-        AppService.saveToken(result);
-        AppService.setLogin(true);
-        this.router.navigate(['app/main']);
-      }
-    }).catch(error => {
-      console.log(error);
-    });
+    this.loginService.logIn(this.formGroup.get('username').value, this.formGroup.get('password').value);
   }
-
 }

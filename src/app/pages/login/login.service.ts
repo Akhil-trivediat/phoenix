@@ -1,8 +1,10 @@
 import {AppConfig} from '../../app.config';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {JwtHelperService} from '@auth0/angular-jwt';
 import {Injectable} from '@angular/core';
+import { AppService } from '../../app.service';
+import {JwtHelperService} from '@auth0/angular-jwt';
+import { Auth } from 'aws-amplify';
 
 const jwt = new JwtHelperService();
 
@@ -15,7 +17,7 @@ export class LoginService {
   constructor(
     appConfig: AppConfig,
     private http: HttpClient,
-    private router: Router,
+    private router: Router
   ) {
     this.config = appConfig.getConfig();
   }
@@ -34,6 +36,28 @@ export class LoginService {
 
   set errorMessage(val: string) {
     this._errorMessage = val;
+  }
+
+  logIn(username: string, password: string) {
+    Auth.signIn(username, password).then((result) => {
+      if (result) {
+        AppService.saveToken(result);
+        AppService.setLogin(true);
+        this.router.navigate(['app/main']);
+      }
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
+  logOut() {
+    Auth.signOut()
+      .then(() => {
+        this.router.navigate(['/login']);
+      })
+      .catch((err) => {
+        console.log(err);
+    });
   }
 
   isAuthenticated() {
@@ -112,4 +136,6 @@ export class LoginService {
   requestLogin() {
     this.isFetching = true;
   }
+
+  
 }

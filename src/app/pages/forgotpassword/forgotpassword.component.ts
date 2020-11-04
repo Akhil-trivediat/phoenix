@@ -1,7 +1,10 @@
 import {Component, HostBinding, OnInit} from '@angular/core';
 import {Auth} from 'aws-amplify';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, NgForm, FormControl} from "@angular/forms";
 import {Router} from "@angular/router";
+import { Location } from '@angular/common';
+import { LoginService } from '../login/login.service';
+import { NotificationService } from '../../shared/service/notification.service';
 
 const fb = new FormBuilder();
 @Component({
@@ -16,27 +19,56 @@ export class ForgotPasswordComponent implements OnInit {
   })
   errorMessage: string;
   isFetching = false;
-  constructor(private router: Router) { }
+  bShowChangePwdForm: boolean = false;
+  showAlert = false;
+  emailValue: string;
+
+  constructor(
+    private router: Router,
+    private location: Location,
+    private loginService: LoginService,
+    private notificationService: NotificationService
+  ) { }
 
   ngOnInit() {
+    
   }
 
-  sumbitemail() {
-    // Send confirmation code to user's email
-    this.isFetching = true;
-    Auth.forgotPassword(this.formGroup.get('username').value)
-      .then(data => {
-         this.isFetching = false;
-          console.log(data)
-         // this.router.navigate(['app/main']);
-          //navigate to reset password
-           }
-        ).catch(err => {
-            this.isFetching = false;
-              this.errorMessage = err;
-          console.log(err)
-          }
-       );
+  onCancelBtnClick() {
+    this.location.back();
+  }
 
+  submitemail(forgotPasswordForm: NgForm) {
+    this.isFetching = true;
+    this.emailValue = forgotPasswordForm.form.value.email;
+    this.loginService.sendVerificationCode(forgotPasswordForm).then(
+      response => {
+        this.isFetching = false;
+        this.bShowChangePwdForm = true;
+      },
+      err => {
+        this.isFetching = false;
+        this.errorMessage = err;
+      }
+    );
+  }
+
+  onChangePassword(changePasswordForm: NgForm) {
+    this.showAlert = false;
+    this.loginService.changePassword(changePasswordForm).then(
+      (response) => {
+        this.showAlert = true;
+        this.notificationService.success(response.message);
+        this.router.navigate(['/login']);
+      },
+      (err) => {
+        this.showAlert = true;
+        this.notificationService.error(err.message);
+      }
+    );
+  }
+
+  onResendVerificationCode() {
+    this.bShowChangePwdForm = false;
   }
 }

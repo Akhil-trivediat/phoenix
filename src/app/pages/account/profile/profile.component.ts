@@ -20,9 +20,4 @@ export class ProfileComponent implements OnInit {
   onResetClick() {
     this.router.navigate(["/app/resetPassword"]);
   }
-
-  onResetPassword(resetForm: NgForm) {
-    this.loginService.resetPassword(resetForm);
-    resetForm.reset();
-  }
 }

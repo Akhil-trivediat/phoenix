@@ -63,12 +63,38 @@ export class LoginService {
     });
   }
 
-  // Reset Password
+  // Reset Password: This will reset the password.
   resetPassword(resetForm: NgForm): Promise<any> {
     var formDetails = resetForm.form.value;
     return Auth.currentAuthenticatedUser()
      .then(user => {
         return Auth.changePassword(user, formDetails.oldPassword, formDetails.newPassword);
+    });
+  }
+
+  // Change Password: This will create a new password if you forget password.
+  changePassword(changePasswordForm: NgForm): Promise<any> {
+    var formDetails = changePasswordForm.form.value;
+    var isResolved;
+    return Auth.forgotPasswordSubmit(formDetails.email, formDetails.Code, formDetails.NewPassword)
+    .then(data => {
+      return isResolved=true;
+    });
+
+    
+    // .catch(err => {
+    //   return err;
+    // })
+  }
+
+  // Send Verification Code: This will send verification code to the corresponding email id.
+  sendVerificationCode(forgotPasswordForm: NgForm): Promise<any> {
+    return Auth.forgotPassword(forgotPasswordForm.form.value.email)
+    .then(data => {
+      return data;
+    })
+    .catch(err => {
+      return err;
     });
   }
 

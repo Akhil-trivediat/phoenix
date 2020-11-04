@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { WidgsterModule } from '../../components/widgster/widgster.module';
 import { AlertModule } from 'ngx-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+//import { AlertComponent } from '../../shared/component/alert/alert.component';
 
 const routes: Routes = [{
   path: '',
@@ -12,7 +13,7 @@ const routes: Routes = [{
 }];
 
 @NgModule({
-  declarations: [ForgotPasswordComponent],
+  declarations: [], //ForgotPasswordComponent
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

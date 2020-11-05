@@ -17,6 +17,7 @@ const fb: FormBuilder = new FormBuilder();
   templateUrl: './register.template.html'
 })
 export class RegisterComponent {
+  CurrentState ='Wait';
   @HostBinding('class') classes = 'auth-page app';
 
   public formGroup: FormGroup = fb.group({

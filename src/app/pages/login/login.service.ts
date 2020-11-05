@@ -5,6 +5,7 @@ import {Injectable} from '@angular/core';
 import { AppService } from '../../app.service';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import { Auth } from 'aws-amplify';
+import { NgForm } from '@angular/forms';
 
 const jwt = new JwtHelperService();
 
@@ -38,6 +39,7 @@ export class LoginService {
     this._errorMessage = val;
   }
 
+  // Login Operations
   logIn(username: string, password: string) {
     Auth.signIn(username, password).then((result) => {
       if (result) {
@@ -50,6 +52,7 @@ export class LoginService {
     });
   }
 
+  // Logout Operations
   logOut() {
     Auth.signOut()
       .then(() => {
@@ -57,6 +60,41 @@ export class LoginService {
       })
       .catch((err) => {
         console.log(err);
+    });
+  }
+
+  // Reset Password: This will reset the password.
+  resetPassword(resetForm: NgForm): Promise<any> {
+    var formDetails = resetForm.form.value;
+    return Auth.currentAuthenticatedUser()
+     .then(user => {
+        return Auth.changePassword(user, formDetails.oldPassword, formDetails.newPassword);
+    });
+  }
+
+  // Change Password: This will create a new password if you forget password.
+  changePassword(changePasswordForm: NgForm): Promise<any> {
+    var formDetails = changePasswordForm.form.value;
+    var isResolved;
+    return Auth.forgotPasswordSubmit(formDetails.email, formDetails.Code, formDetails.NewPassword)
+    .then(data => {
+      return isResolved=true;
+    });
+
+    
+    // .catch(err => {
+    //   return err;
+    // })
+  }
+
+  // Send Verification Code: This will send verification code to the corresponding email id.
+  sendVerificationCode(forgotPasswordForm: NgForm): Promise<any> {
+    return Auth.forgotPassword(forgotPasswordForm.form.value.email)
+    .then(data => {
+      return data;
+    })
+    .catch(err => {
+      return err;
     });
   }
 

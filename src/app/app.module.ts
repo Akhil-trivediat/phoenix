@@ -29,6 +29,9 @@ import { UtilsModule } from './utils/utils-module/utils.module';
 import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
 import { AppService } from './app.service';
 import { ToastrModule } from 'ngx-toastr';
+import { ResetPasswordComponent } from './shared/component/reset-password/reset-password.component';
+import { AlertComponent } from './shared/component/alert/alert.component';
+import { ForgotPasswordComponent } from './pages/forgotpassword/forgotpassword.component'
 
 
 const APP_PROVIDERS = [
@@ -41,7 +44,9 @@ const APP_PROVIDERS = [
   bootstrap: [AppComponent],
   declarations: [
     AppComponent,
-
+    ResetPasswordComponent,
+    AlertComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     AmplifyAngularModule,

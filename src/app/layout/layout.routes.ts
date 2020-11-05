@@ -1,5 +1,6 @@
 import { Routes, RouterModule } from '@angular/router';
 import { Layout } from './layout.component';
+import { ResetPasswordComponent } from '../shared/component/reset-password/reset-password.component';
 
 const routes: Routes = [
   {
@@ -7,6 +8,8 @@ const routes: Routes = [
       { path: '', redirectTo: 'main', pathMatch: 'full' },
       { path: 'main', loadChildren: () => import('../pages/main/main.module').then(module => module.MainModule) },
       { path: 'scrolling', loadChildren: () => import('../pages/scroller/scroller.module').then(module => module.ScrollerModule) },
+      { path: 'profile', loadChildren: () => import('../pages/account/profile/profile.module').then(module => module.ProfileModule) },
+      { path: 'resetPassword', component: ResetPasswordComponent }
     ]
   }
 ];

@@ -11,6 +11,7 @@ export class Sidebar implements OnInit, AfterViewInit {
 
   public sidebarState: SidebarState = {
     dashboardCollapsed: true,
+    accountCollapsed: true,
     ecommerceCollapsed: true,
     coreCollapsed: true,
     uiCollapsed: true,
@@ -90,6 +91,7 @@ export class Sidebar implements OnInit, AfterViewInit {
 
 export interface SidebarState {
   dashboardCollapsed: boolean;
+  accountCollapsed: boolean;
   ecommerceCollapsed: boolean;
   coreCollapsed: boolean;
   uiCollapsed: boolean;

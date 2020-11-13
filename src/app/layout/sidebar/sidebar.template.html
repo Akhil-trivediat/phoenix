@@ -34,14 +34,14 @@
   </li>
 
   <li class="accordion-group panel" [routerLinkActive]="['active']">
-    <a class="accordion-toggle" (click)="sidebarBehavior($event, 'accountCollapsed')" aria-controls="main-collapse"
+    <a class="accordion-toggle" (click)="sidebarBehavior($event, 'accountCollapsed')" aria-controls="account-collapse"
        [class.open]="!sidebarState.accountCollapsed">
       <i class="fi flaticon-home"></i>
       <span class="name">Account</span>
     </a>
-    <ul id="main-collapse" class="accordion-body" [attr.aria-expanded]="sidebarState.accountCollapsed"
+    <ul id="account-collapse" class="accordion-body" [attr.aria-expanded]="sidebarState.accountCollapsed"
         [collapse]="sidebarState.accountCollapsed" [isAnimated]="true">
-      <li [routerLinkActive]="['active']"><a routerLink="main/user">User</a></li>
+      <li [routerLinkActive]="['active']"><a routerLink="users">Users</a></li>
     </ul>
   </li>
 

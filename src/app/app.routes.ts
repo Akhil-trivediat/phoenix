@@ -16,14 +16,8 @@ export const ROUTES: Routes = [{
 },
  {
    path: 'forgotpassword', loadChildren: () => import('./pages/forgotpassword/forgotpassword.module').then(module => module.ForgotPasswordModule)
-  },
+ },
   {
-    path: 'user', loadChildren: () => import('./pages/user/user.module').then(module => module.UserModule)
-  },
-  {
-    path: 'userpage', loadChildren: () => import('./pages/user/userpage/userpage.module').then(module => module.UserpageModule)
-  },
-{
   path: 'app', canActivate: [AppGuard], loadChildren: () => import('./layout/layout.module').then(module => module.LayoutModule)
 }
 ];

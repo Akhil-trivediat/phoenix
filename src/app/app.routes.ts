@@ -16,8 +16,8 @@ export const ROUTES: Routes = [{
 },
  {
    path: 'forgotpassword', loadChildren: () => import('./pages/forgotpassword/forgotpassword.module').then(module => module.ForgotPasswordModule)
-  },
-{
+ },
+  {
   path: 'app', canActivate: [AppGuard], loadChildren: () => import('./layout/layout.module').then(module => module.LayoutModule)
 }
 ];

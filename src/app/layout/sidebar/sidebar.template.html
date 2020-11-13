@@ -32,9 +32,19 @@
   <li>
     <a routerLink="inbox"><i class="fi flaticon-paper-plane"></i><span class="name">Notifications</span></a>
   </li>
-  <li>
-    <a routerLink="inbox"><i class="fi flaticon-paper-plane"></i><span class="name">Account</span></a>
+
+  <li class="accordion-group panel" [routerLinkActive]="['active']">
+    <a class="accordion-toggle" (click)="sidebarBehavior($event, 'accountCollapsed')" aria-controls="account-collapse"
+       [class.open]="!sidebarState.accountCollapsed">
+      <i class="fi flaticon-home"></i>
+      <span class="name">Account</span>
+    </a>
+    <ul id="account-collapse" class="accordion-body" [attr.aria-expanded]="sidebarState.accountCollapsed"
+        [collapse]="sidebarState.accountCollapsed" [isAnimated]="true">
+      <li [routerLinkActive]="['active']"><a routerLink="users">Users</a></li>
+    </ul>
   </li>
+
   <li>
     <a routerLink="scrolling"><li class="fi flaticon-paper-plane"></li><span class="name">Infiite Scroller Test</span></a>
   </li>

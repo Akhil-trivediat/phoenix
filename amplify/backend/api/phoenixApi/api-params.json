@@ -1,0 +1,35 @@
+{
+    "paths": [
+        {
+            "name": "/list",
+            "lambdaFunction": "phoenixListUser",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/list"
+        }
+    ],
+    "resourceName": "phoenixApi",
+    "apiName": "phoenixApi",
+    "functionArns": [
+        {
+            "lambdaFunction": "phoenixListUser"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-phoenixspa-develop-170706-authRole",
+        "unAuthRoleName": "amplify-phoenixspa-develop-170706-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "phoenixListUser",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

@@ -1,9 +1,12 @@
 {
-	"auth": {
-		"phoenixspa0e39dd6a": {
-			"service": "Cognito",
-			"providerPlugin": "awscloudformation",
-			"dependsOn": []
-		}
-	}
+  "auth": {
+    "phoenixAmplify": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  },
+  "function": {},
+  "api": {}
 }

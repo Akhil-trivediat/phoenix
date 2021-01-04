@@ -1,20 +1,38 @@
 {
-    "dev": {
-        "awscloudformation": {
-            "AuthRoleName": "amplify-phoenixspa-dev-205633-authRole",
-            "UnauthRoleArn": "arn:aws:iam::289616476864:role/amplify-phoenixspa-dev-205633-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::289616476864:role/amplify-phoenixspa-dev-205633-authRole",
-            "Region": "eu-central-1",
-            "DeploymentBucketName": "amplify-phoenixspa-dev-205633-deployment",
-            "UnauthRoleName": "amplify-phoenixspa-dev-205633-unauthRole",
-            "StackName": "amplify-phoenixspa-dev-205633",
-            "StackId": "arn:aws:cloudformation:eu-central-1:289616476864:stack/amplify-phoenixspa-dev-205633/82dcd450-db6d-11ea-9ebf-0a2295eaee0e",
-            "AmplifyAppId": "d2654g2xh6vefx"
-        },
-        "categories": {
-            "auth": {
-                "phoenixspa0e39dd6a": {}
-            }
-        }
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-phoenixspa-dev-205633-authRole",
+      "UnauthRoleArn": "arn:aws:iam::289616476864:role/amplify-phoenixspa-dev-205633-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::289616476864:role/amplify-phoenixspa-dev-205633-authRole",
+      "Region": "eu-central-1",
+      "DeploymentBucketName": "amplify-phoenixspa-dev-205633-deployment",
+      "UnauthRoleName": "amplify-phoenixspa-dev-205633-unauthRole",
+      "StackName": "amplify-phoenixspa-dev-205633",
+      "StackId": "arn:aws:cloudformation:eu-central-1:289616476864:stack/amplify-phoenixspa-dev-205633/82dcd450-db6d-11ea-9ebf-0a2295eaee0e",
+      "AmplifyAppId": "d2654g2xh6vefx"
+    },
+    "categories": {
+      "auth": {
+        "phoenixspa0e39dd6a": {}
+      }
     }
+  },
+  "develop": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-phoenixspa-develop-170706-authRole",
+      "UnauthRoleArn": "arn:aws:iam::289616476864:role/amplify-phoenixspa-develop-170706-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::289616476864:role/amplify-phoenixspa-develop-170706-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-phoenixspa-develop-170706-deployment",
+      "UnauthRoleName": "amplify-phoenixspa-develop-170706-unauthRole",
+      "StackName": "amplify-phoenixspa-develop-170706",
+      "StackId": "arn:aws:cloudformation:us-east-2:289616476864:stack/amplify-phoenixspa-develop-170706/aff71a80-4c25-11eb-8032-027116004a80",
+      "AmplifyAppId": "d1p0n2ozjnduuf"
+    },
+    "categories": {
+      "auth": {
+        "phoenixAmplify": {}
+      }
+    }
+  }
 }

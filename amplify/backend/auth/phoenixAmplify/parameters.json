@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "phoenixspa0e39dd6a_identitypool_0e39dd6a",
+    "identityPoolName": "phoenixAmplify",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "phoeni0e39dd6a",
-    "userPoolName": "phoenixspa0e39dd6a_userpool_0e39dd6a",
+    "resourceNameTruncated": "phoeni7a82379b",
+    "userPoolName": "phoenixAmplify",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -18,7 +18,10 @@
     "passwordPolicyMinLength": 8,
     "passwordPolicyCharacters": [],
     "requiredAttributes": [
-        "email"
+        "email",
+        "family_name",
+        "middle_name",
+        "given_name"
     ],
     "userpoolClientGenerateSecret": true,
     "userpoolClientRefreshTokenValidity": 30,
@@ -28,10 +31,10 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "phoeni0e39dd6a_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "phoeni7a82379b_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "0e39dd6a",
-    "resourceName": "phoenixspa0e39dd6a",
+    "sharedId": "7a82379b",
+    "resourceName": "phoenixAmplify",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
@@ -45,9 +48,17 @@
             "Arn"
         ]
     },
-    "useDefault": "default",
+    "useDefault": "manual",
+    "thirdPartyAuth": false,
+    "usernameAttributes": [
+        "email"
+    ],
+    "userPoolGroups": false,
+    "adminQueries": false,
     "triggers": "{}",
+    "hostedUI": false,
     "userPoolGroupList": [],
+    "serviceName": "Cognito",
     "parentStack": {
         "Ref": "AWS::StackId"
     },

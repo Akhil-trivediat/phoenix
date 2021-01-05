@@ -32,6 +32,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { ResetPasswordComponent } from './shared/component/reset-password/reset-password.component';
 import { AlertComponent } from './shared/component/alert/alert.component';
 import { ForgotPasswordComponent } from './pages/forgotpassword/forgotpassword.component';
+import { AccountRegistrationComponent } from './pages/account-registration/account-registration.component';
 
 
 

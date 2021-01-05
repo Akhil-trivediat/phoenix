@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { AppGuard } from './app.guard';
-import { ConfirmModule } from './pages/confirm/confirm.module';
 
 export const ROUTES: Routes = [{
   path: '', redirectTo: 'login', pathMatch: 'full'
@@ -15,8 +14,11 @@ export const ROUTES: Routes = [{
   path: 'confirm', loadChildren: () => import('./pages/confirm/confirm.module').then(module => module.ConfirmModule)
 },
  {
-   path: 'forgotpassword', loadChildren: () => import('./pages/forgotpassword/forgotpassword.module').then(module => module.ForgotPasswordModule)
- },
+   path: 'changepassword', loadChildren: () => import('./pages/forgotpassword/forgotpassword.module').then(module => module.ForgotPasswordModule)
+ }, 
+{
+  path: 'accountRegistration', loadChildren: () => import('./pages/account-registration/account-registration.module').then(module => module.AccountRegistrationModule)
+},
   {
   path: 'app', canActivate: [AppGuard], loadChildren: () => import('./layout/layout.module').then(module => module.LayoutModule)
 }

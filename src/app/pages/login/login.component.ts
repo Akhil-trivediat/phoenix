@@ -18,6 +18,9 @@ export class LoginComponent implements OnInit {
     username: '',
     password: ''
   })
+
+  bShowErrorMessage: boolean = false;
+
   constructor(public loginService: LoginService, private appService: AppService, private router: Router) { }
 
   ngOnInit() {

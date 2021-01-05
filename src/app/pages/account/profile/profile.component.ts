@@ -18,6 +18,6 @@ export class ProfileComponent implements OnInit {
   }
 
   onResetClick() {
-    this.router.navigate(["/app/resetPassword"]);
+    this.router.navigate(["/changepassword"]);
   }
 }

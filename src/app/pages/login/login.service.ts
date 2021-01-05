@@ -5,7 +5,9 @@ import {Injectable} from '@angular/core';
 import { AppService } from '../../app.service';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import { Auth } from 'aws-amplify';
-import { NgForm } from '@angular/forms';
+import { NgForm, NgModel } from '@angular/forms';
+
+import { ChallengeName } from './login.data';
 
 const jwt = new JwtHelperService();
 
@@ -14,6 +16,8 @@ export class LoginService {
   config: any;
   _isFetching: boolean = false;
   _errorMessage: string = '';
+
+  challengeName:Array<string> = ChallengeName;
 
   constructor(
     appConfig: AppConfig,
@@ -41,15 +45,40 @@ export class LoginService {
 
   // Login Operations
   logIn(username: string, password: string) {
+    this.requestLogin();
     Auth.signIn(username, password).then((result) => {
       if (result) {
-        AppService.saveToken(result);
+        this.receiveLogin();
+        
         AppService.setLogin(true);
-        this.router.navigate(['app/main']);
+        
+        if(result.challengeName === this.challengeName[9]){
+          this.router.navigate(['forgotpassword']);
+        } else {
+          AppService.saveToken(result);
+          this.router.navigate(['app/main']);
+        }
+        
       }
     }).catch(error => {
       console.log(error);
+      this.loginError(error.message);
     });
+  }
+
+  loginError(errorMessage: string) {
+    this.isFetching = false;
+    this.errorMessage = errorMessage;
+  }
+
+  receiveLogin() {
+    this.isFetching = false;
+    this.errorMessage = '';
+    //this.router.navigate(['/app/main/visits']);
+  }
+
+  requestLogin() {
+    this.isFetching = true;
   }
 
   // Logout Operations
@@ -88,8 +117,9 @@ export class LoginService {
   }
 
   // Send Verification Code: This will send verification code to the corresponding email id.
-  sendVerificationCode(forgotPasswordForm: NgForm): Promise<any> {
-    return Auth.forgotPassword(forgotPasswordForm.form.value.email)
+  sendVerificationCode(emailID: any): Promise<any> {
+    let email = emailID.form ? emailID.form.value.email : emailID.value;
+    return Auth.forgotPassword(email)
     .then(data => {
       return data;
     })
@@ -159,21 +189,4 @@ export class LoginService {
     document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     this.router.navigate(['/login']);
   }
-
-  loginError(payload) {
-    this.isFetching = false;
-    this.errorMessage = payload;
-  }
-
-  receiveLogin() {
-    this.isFetching = false;
-    this.errorMessage = '';
-    this.router.navigate(['/app/main/visits']);
-  }
-
-  requestLogin() {
-    this.isFetching = true;
-  }
-
-  
 }

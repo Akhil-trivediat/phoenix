@@ -1,0 +1,66 @@
+
+<div class="container">
+    <h3>{{ action }} User</h3>
+    <p *ngIf="action === 'Delete';">Are you sure you want to delete this user?</p>
+    <div>
+        <ng-template #deleteButton>
+            <div class="button-group mt" role="group">
+                <button (click)="bsModalRef.hide()" type="button" class="btn btn-s">Cancel</button>
+                <button (click)="userAction()" type="button" class="btn btn-s btn-danger">{{ action }}</button>
+            </div>
+        </ng-template>
+      </div>
+    <form [formGroup]="userForm" *ngIf="action != 'Delete'; else deleteButton">
+        <div class="form-group mt">
+            <label for="email">Email*</label>
+            <div class="input-group input-group-transparent">
+                <input type="email" class="form-control input-transparent pl-3" id="email" aria-describedby="emailHelp" 
+                    placeholder="Email" formControlName="email" required name="email">
+            </div>
+            <small id="emailHelp" class="form-text text-danger" 
+                *ngIf="userForm.controls.email.touched && userForm.controls.email.errors?.required">This is a required field!</small>
+            <small id="emailHelp" class="form-text text-danger" *ngIf="userForm.controls.email.errors?.email">Ooops! it looks like this is not a valid email</small>
+        </div>
+        <div class="form-group mt">
+            <label for="firstname">First Name*</label>
+            <div class="input-group input-group-transparent">
+                <input id="firstname" class="form-control input-transparent pl-3" formControlName="firstname"
+                    type="text" required name="firstname" placeholder="First Name"/>
+            </div>
+            <small class="form-text text-danger" 
+                *ngIf="userForm.controls.firstname.touched && userForm.controls.firstname.errors?.required">This is a required field!</small>
+        </div>
+        <div class="form-group mt">
+            <label for="lastname">Last Name*</label>
+            <div class="input-group input-group-transparent">
+                <input id="lastname" class="form-control input-transparent pl-3" formControlName="lastname"
+                    type="text" required name="lastname" placeholder="Last Name"/>
+            </div>
+            <small class="form-text text-danger" 
+                *ngIf="userForm.controls.lastname.touched && userForm.controls.lastname.errors?.required">This is a required field!</small>
+        </div>
+        <div class="form-group mt">
+            <label for="orgname">Organization Name*</label>
+            <div class="input-group input-group-transparent">
+                    <input id="orgname" class="form-control input-transparent pl-3" formControlName="orgname"
+                    type="text" required name="orgname" placeholder="Organization Name"/>
+            </div>
+            <small class="form-text text-danger" 
+                *ngIf="userForm.controls.orgname.touched && userForm.controls.orgname.errors?.required">This is a required field!</small>
+        </div>
+        <div class="form-group mt">
+            <label for="phoneno">Phone Number*</label>
+            <div class="input-group input-group-transparent">
+                <input id="phoneno" class="form-control input-transparent pl-3" formControlName="phoneno"
+                    type="text" required name="phoneno" placeholder="Phone Number"/>
+            </div>
+            <small class="form-text text-danger" 
+                *ngIf="userForm.controls.phoneno.touched && userForm.controls.phoneno.errors?.required">This is a required field!</small>
+        </div>
+
+        <div class="button-group mt" role="group">
+            <button (click)="bsModalRef.hide()" type="button" class="btn btn-s">Cancel</button>
+            <button (click)="userAction()" type="submit" class="btn btn-s btn-info" [disabled]="!userForm.valid">{{ action }}</button>
+        </div>
+    </form> 
+</div>

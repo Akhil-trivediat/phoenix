@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule  } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RouterModule, PreloadAllModules } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -29,14 +29,12 @@ import { UtilsModule } from './utils/utils-module/utils.module';
 import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
 import { AppService } from './app.service';
 import { ToastrModule } from 'ngx-toastr';
+import { RecaptchaModule, RECAPTCHA_SETTINGS, RecaptchaSettings } from 'ng-recaptcha';
 import { ResetPasswordComponent } from './shared/component/reset-password/reset-password.component';
 import { AlertComponent } from './shared/component/alert/alert.component';
 import { ForgotPasswordComponent } from './pages/forgotpassword/forgotpassword.component';
 import { AccountRegistrationComponent } from './pages/account-registration/account-registration.component';
-
-
-
-
+import { DialogComponent } from './pages/account/users/dialog/dialog.component';
 
 const APP_PROVIDERS = [
   CheckAllService,
@@ -77,7 +75,8 @@ const APP_PROVIDERS = [
     CarouselModule.forRoot(),
     PaginationModule.forRoot(),
     ToastrModule.forRoot(),
-    UtilsModule
+    UtilsModule,
+    RecaptchaModule
   ],
   providers: [
     APP_PROVIDERS,
@@ -86,7 +85,16 @@ const APP_PROVIDERS = [
       provide: HTTP_INTERCEPTORS, useClass: AppInterceptor, multi: true
     },
     LoginService,
-    AppService
+    AppService,
+    {
+      provide: RECAPTCHA_SETTINGS,
+      useValue: {
+        siteKey: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
+      } as RecaptchaSettings,
+    }
+  ],
+  entryComponents: [
+    DialogComponent
   ]
 })
 export class AppModule { }

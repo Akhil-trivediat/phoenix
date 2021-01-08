@@ -14,6 +14,9 @@
         Account Registration
       </h3>
       <form #accRegistrationForm="ngForm">
+        <alert *ngIf="loginService.errorMessage" type="danger alert-sm widget-middle-overflow rounded-0">
+          {{loginService.errorMessage}}
+        </alert>
         <!-- Email -->
         <div class="form-group mt">
           <label for="email">Email*</label>
@@ -40,9 +43,65 @@
             </p>
           </div>
         </div>
+        <!-- Password -->
+        <div class="form-group mt">
+          <label for="password">Password*</label>
+          <div class="input-group input-group-transparent">
+            <!-- <div class="input-group-addon">
+              <i class="la la-lock text-white"></i>
+            </div> -->
+            <input 
+              type="password" 
+              name="password" 
+              class="form-control input-transparent pl-3"
+              ngModel 
+              placeholder="Password"
+              #password="ngModel" 
+              required />
+          </div>
+        </div>
+        <!-- Confirm Password -->
+        <div class="form-group mt">
+          <label for="confirmPassword">Confirm Password*</label>
+          <div class="input-group input-group-transparent">
+            <!-- <div class="input-group-addon">
+              <i class="la la-lock text-white"></i>
+            </div> -->
+            <input 
+              type="password" 
+              name="confirmPassword" 
+              class="form-control input-transparent pl-3"
+              ngModel 
+              placeholder="Confirm Password"
+              #confirmPassword="ngModel" 
+              required />
+          </div>
+          <small class="form-text text-danger" 
+                *ngIf="confirmPassword.touched && confirmPassword.value !== password.value">The Password must match!</small>
+        </div>
+        
+        <div class="form-group mt">
+          <label for="confirmPassword">Where would you want us to send the verification code?</label>
+          <div class="input-group input-group-transparent">
+            <div class="form-check" style="margin-left: 1.5em;">
+              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+              <label class="form-check-label" for="exampleRadios1">
+                Email
+              </label>
+            </div>
+            <div class="form-check" style="margin-left: 1.5em;">
+              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" checked>
+              <label class="form-check-label" for="exampleRadios2">
+                Phone No
+              </label>
+            </div>
+          </div>
+          <small class="form-text text-danger" 
+                *ngIf="confirmPassword.touched && confirmPassword.value !== password.value">The Password must match!</small>
+        </div>
         <!-- Get Verification Code -->
         <div class="form-group mt acc-btn-group">
-          <button (click)="ongetVerificationCode(email)" type="submit" class="btn btn-sm btn-primary" [disabled]="email.invalid">
+          <button (click)="ongetVerificationCode(email,password)" type="submit" class="btn btn-sm btn-primary" [disabled]="email.invalid">
             <span class="auth-btn-circle">
               <i class="la la-caret-right"></i>
             </span>
@@ -50,7 +109,7 @@
           </button>
         </div>
 
-        <div *ngIf="bShowAccRegistration">
+        <div *ngIf="loginService.displayAccRegistration">
           <!-- Enter Verification Code -->
           <div class="form-group">
             <label for="Code">Enter Verification Code*</label>
@@ -143,24 +202,6 @@
                 ngModel 
                 placeholder="Phone Number"
                 #phonenum="ngModel" 
-                required />
-            </div>
-          </div>
-
-          <!-- Password -->
-          <div class="form-group mt">
-            <label for="password">Password*</label>
-            <div class="input-group input-group-transparent">
-              <!-- <div class="input-group-addon">
-                <i class="la la-lock text-white"></i>
-              </div> -->
-              <input 
-                type="password" 
-                name="password" 
-                class="form-control input-transparent pl-3"
-                ngModel 
-                placeholder="Password"
-                #password="ngModel" 
                 required />
             </div>
           </div>

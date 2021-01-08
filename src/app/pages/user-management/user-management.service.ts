@@ -1,22 +1,22 @@
+import { Injectable } from '@angular/core';
 import {AppConfig} from '../../app.config';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {Injectable} from '@angular/core';
 import { AppService } from '../../app.service';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import { Auth } from 'aws-amplify';
 import { NgForm, NgModel } from '@angular/forms';
 
-import { ChallengeName } from './login.data';
+import { ChallengeName } from '../login/login.data';
 
 const jwt = new JwtHelperService();
-
-@Injectable()
-export class LoginService {
+@Injectable({
+  providedIn: 'root'
+})
+export class UserManagementService {
   config: any;
   _isFetching: boolean = false;
   _errorMessage: string = '';
-  bHideAccRegistration: boolean = false;
 
   challengeName:Array<string> = ChallengeName;
 
@@ -42,14 +42,6 @@ export class LoginService {
 
   set errorMessage(val: string) {
     this._errorMessage = val;
-  }
-
-  get displayAccRegistration() {
-    return this.bHideAccRegistration;
-  }
-
-  set displayAccRegistration(val: boolean) {
-    this.bHideAccRegistration = val;
   }
 
   // Login Operations
@@ -138,15 +130,6 @@ export class LoginService {
   }
 
   getVC(email,password): Promise<any> {
-    // return Auth.signUp(email.value,password.value).then(
-    //   data => {
-    //     console.log(data);
-    //   }
-    // ).catch(
-    //   err => {
-    //     console.log(err);
-    //   }
-    // );
     return Auth.signUp(
       {
         username: email.value,
@@ -157,24 +140,11 @@ export class LoginService {
       }
     )
     .then(data => {
-      this.displayAccRegistration = true;
-      this.errorMessage = '';
       return data;
-    
     })
     .catch(err => {
-      this.displayAccRegistration = false;
-      this.loginError(err.message);
       return err;
     });
-  }
-
-  confirmSignUp(email: string,code: string): Promise<any> {
-    return Auth.confirmSignUp(email,code)
-    .then((data) => 
-      {
-        return data;
-      });
   }
 
   isAuthenticated() {

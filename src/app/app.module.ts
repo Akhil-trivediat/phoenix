@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule  } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RouterModule, PreloadAllModules } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -33,10 +33,7 @@ import { ResetPasswordComponent } from './shared/component/reset-password/reset-
 import { AlertComponent } from './shared/component/alert/alert.component';
 import { ForgotPasswordComponent } from './pages/forgotpassword/forgotpassword.component';
 import { AccountRegistrationComponent } from './pages/account-registration/account-registration.component';
-
-
-
-
+import { DialogComponent } from './pages/account/users/dialog/dialog.component';
 
 const APP_PROVIDERS = [
   CheckAllService,
@@ -86,7 +83,10 @@ const APP_PROVIDERS = [
       provide: HTTP_INTERCEPTORS, useClass: AppInterceptor, multi: true
     },
     LoginService,
-    AppService
+    AppService,
+  ],
+  entryComponents: [
+    DialogComponent
   ]
 })
 export class AppModule { }

@@ -1,9 +1,8 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
-import { LoginService } from './login.service';
 import {Auth} from 'aws-amplify';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {AppService} from '../../app.service';
-import {Router} from '@angular/router';
+import { LoginService } from './login.service';
+import { AuthService } from '../../shared/service/auth.service';
 
 const fb = new FormBuilder();
 
@@ -21,12 +20,20 @@ export class LoginComponent implements OnInit {
 
   bShowErrorMessage: boolean = false;
 
-  constructor(public loginService: LoginService, private appService: AppService, private router: Router) { }
+  constructor(
+    public loginService: LoginService,
+    private authService: AuthService
+    ) { }
 
   ngOnInit() {
   }
 
   login() {
-    this.loginService.logIn(this.formGroup.get('username').value, this.formGroup.get('password').value);
+    const username = this.formGroup.get('username').value;
+    const password = this.formGroup.get('password').value;
+
+    this.authService.login(username, password);
+
+    this.loginService.logIn(username, password);
   }
 }

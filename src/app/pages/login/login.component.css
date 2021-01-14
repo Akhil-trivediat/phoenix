@@ -7,3 +7,6 @@
     transform: translate(-50%, -50%);
 }
 
+alert {
+    text-align: center;
+}

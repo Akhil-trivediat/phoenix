@@ -19,7 +19,7 @@ export class AuthenticationService {
       "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
     };
 
-    return this.http.get('http://localhost:8080/verifyToken', { headers });
+    return this.http.get('http://localhost:4200/#/login', { headers });
   }
   
 }

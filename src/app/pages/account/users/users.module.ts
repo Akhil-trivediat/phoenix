@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Route } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 import { UsersComponent } from './users.component';
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 import {PopoverModule} from "ngx-bootstrap";
+import { DialogComponent } from './dialog/dialog.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 const routes: Route[] = [{
@@ -11,12 +14,14 @@ const routes: Route[] = [{
   component: UsersComponent
 }];
 @NgModule({
-  declarations: [UsersComponent],
+  declarations: [UsersComponent,DialogComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
     NgxDatatableModule,
-    PopoverModule
+    PopoverModule,
+    ModalModule,
+    ReactiveFormsModule
   ]
 })
 export class UsersModule { }

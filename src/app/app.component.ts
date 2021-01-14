@@ -12,15 +12,15 @@ export class AppComponent implements OnInit{
   constructor(public authService: AuthenticationService) { }
 
   ngOnInit(){
-    this.authService.getAuth()
-      .subscribe(
-        data => { 
-          console.log(data);
-        },
-        error => {
-          console.log(error);
-        }
-  );
+  //   this.authService.getAuth()
+  //     .subscribe(
+  //       data => { 
+  //         console.log(data);
+  //       },
+  //       error => {
+  //         console.log(error);
+  //       }
+  // );
   }
 
 }

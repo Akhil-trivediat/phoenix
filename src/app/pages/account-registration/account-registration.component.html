@@ -1,0 +1,186 @@
+<div class="container auth-page">
+    <section
+      class="widget-auth mx-auto"
+      widgster
+      [optionsControl]="false"
+      [reloadControl]="false"
+      [fullscreenControl]="false"
+      [collapseControl]="false"
+      [closeControl]="false"
+      titleClass="mt-0"
+    >
+    
+      <h3 *widgsterTitle>
+        Account Registration
+      </h3>
+      <form #accRegistrationForm="ngForm">
+        <!-- Email -->
+        <div class="form-group mt">
+          <label for="email">Email*</label>
+          <div class="input-group input-group-transparent">
+            <!-- <div class="input-group-addon">
+              <i class="la la-user text-white"></i>
+            </div> -->
+            <input
+              type="email" 
+              name="email" 
+              class="form-control input-transparent pl-3"
+              ngModel 
+              placeholder="Email"
+              #email="ngModel" 
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+              required />
+          </div>
+          <div class="errorStyles" *ngIf="email.touched">
+            <p *ngIf="email.errors?.required">
+              This is a required field!
+            </p>
+            <p *ngIf="email.errors?.pattern">
+              This is not a valid Email.
+            </p>
+          </div>
+        </div>
+        <!-- Get Verification Code -->
+        <div class="form-group mt acc-btn-group">
+          <button (click)="ongetVerificationCode(email)" type="submit" class="btn btn-sm btn-primary" [disabled]="email.invalid">
+            <span class="auth-btn-circle">
+              <i class="la la-caret-right"></i>
+            </span>
+            Get Verification Code
+          </button>
+        </div>
+
+        <div *ngIf="bShowAccRegistration">
+          <!-- Enter Verification Code -->
+          <div class="form-group">
+            <label for="Code">Enter Verification Code*</label>
+            <input 
+              type="text" 
+              name="Code" 
+              class="form-control input-transparent pl-3"
+              ngModel 
+              placeholder="Please enter Verification Code"
+              #code="ngModel" 
+              required>
+            <div class="errorStyles" *ngIf="code.touched">
+              <p *ngIf="code.errors?.required">
+                This is a required field!
+              </p>
+            </div>
+          </div>
+
+          <!-- First Name -->
+          <div class="form-group mt">
+            <label for="firstname">First Name*</label>
+            <div class="input-group input-group-transparent">
+              <!-- <div class="input-group-addon">
+                <i class="la la-user text-white"></i>
+              </div> -->
+              <input
+                type="text" 
+                name="firstname" 
+                class="form-control input-transparent pl-3"
+                ngModel 
+                placeholder="First Name"
+                #firstname="ngModel" 
+                required />
+              
+            </div>
+            <div class="errorStyles" *ngIf="firstname.touched">
+              <p *ngIf="firstname.errors?.required">
+                This is a required field!
+              </p>
+            </div>
+          </div>
+
+          <!-- Last Name -->
+          <div class="form-group mt">
+            <label for="lastname">Last Name*</label>
+            <div class="input-group input-group-transparent">
+              <!-- <div class="input-group-addon">
+                <i class="la la-user text-white"></i>
+              </div> -->
+              <input
+                type="text" 
+                name="lastname" 
+                class="form-control input-transparent pl-3"
+                ngModel 
+                placeholder="Last Name"
+                #lastname="ngModel" 
+                required />
+            </div>
+          </div>
+
+          <!-- Org Name -->
+          <div class="form-group mt">
+            <label for="orgname">Organization Name*</label>
+            <div class="input-group input-group-transparent">
+              <!-- <div class="input-group-addon">
+                <i class="la la-user text-white"></i>
+              </div> -->
+              <input
+                type="text" 
+                name="orgname" 
+                class="form-control input-transparent pl-3"
+                ngModel 
+                placeholder="Organization Name"
+                #orgname="ngModel" 
+                required />
+            </div>
+          </div>
+
+          <!-- Phone Number -->
+          <div class="form-group mt">
+            <label for="phonenum">Phone Number*</label>
+            <div class="input-group input-group-transparent">
+              <!-- <div class="input-group-addon">
+                <i class="la la-user text-white"></i>
+              </div> -->
+              <input
+                type="text" 
+                name="phonenum" 
+                class="form-control input-transparent pl-3"
+                ngModel 
+                placeholder="Phone Number"
+                #phonenum="ngModel" 
+                required />
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group mt">
+            <label for="password">Password*</label>
+            <div class="input-group input-group-transparent">
+              <!-- <div class="input-group-addon">
+                <i class="la la-lock text-white"></i>
+              </div> -->
+              <input 
+                type="password" 
+                name="password" 
+                class="form-control input-transparent pl-3"
+                ngModel 
+                placeholder="Password"
+                #password="ngModel" 
+                required />
+            </div>
+          </div>
+
+          <!-- Buttons -->
+          <div class="form-group mt acc-btn-group">
+            <button (click)="onSubmit(accRegistrationForm)" type="submit" class="btn btn-sm btn-primary" [disabled]="accRegistrationForm.invalid">
+              <span class="auth-btn-circle">
+                <i class="la la-caret-right"></i>
+              </span>
+              Submit
+            </button>
+            <button (click)="onCancel()" type="submit" class="btn btn-sm">
+              <span class="auth-btn-circle">
+                <i class="la la-caret-right"></i>
+              </span>
+              Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </section>
+  </div>

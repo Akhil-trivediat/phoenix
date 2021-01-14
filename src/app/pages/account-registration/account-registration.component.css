@@ -1,0 +1,22 @@
+::ng-deep .amplify-component{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.acc-btn-group {
+    text-align: right;
+}
+
+.acc-btn-group > .btn:first-child {
+    margin-right: 1em;
+}
+
+.errorStyles {
+    color: red;
+    font-size: 13px;
+    font-weight: 400;
+}

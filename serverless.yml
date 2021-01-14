@@ -1,7 +1,5 @@
 service: pheonixservice
 
-frameworkVersion: ">=1.2.0 <2.0.0"
-
 plugins:
   - serverless-s3-sync
   - serverless-cloudfront-invalidate

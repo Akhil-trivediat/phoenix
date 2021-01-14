@@ -17,7 +17,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
   }
 
-  onResetClick() {
-    this.router.navigate(["/changepassword"]);
-  }
+  // onResetClick() {
+  //   this.router.navigate(["/changepassword"]);
+  // }
 }

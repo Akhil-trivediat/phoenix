@@ -99,15 +99,21 @@ export class AccountRegistrationComponent implements OnInit {
   }
 
   onSubmit(accRegistrationForm: NgForm) {
-    this.loginService.confirmSignUp(accRegistrationForm.value.email,accRegistrationForm.value.Code).then(
+    const email: string = accRegistrationForm.controls.email.value;
+    const confirmationCode: string = accRegistrationForm.controls.code.value;
+    this.loginService.confirmSignUp(email,confirmationCode).then(
       (response) => {
-        //console.log(response);
         // POST call to api gateway with the user data
-        let path;
         let postData;
-        this.requesterService.addRequest(path, postData);
-        // navigate to Login Page
-        this.router.navigate(['login']);
+        this.requesterService.addRequest('/account/user', postData).subscribe(
+          (response) => {
+            // navigate to Login Page
+            this.router.navigate(['login']);
+          },
+          (error) => {
+            this.router.navigate(['login']);
+          }
+        );
       },
       (error) => {
        // console.log(error);

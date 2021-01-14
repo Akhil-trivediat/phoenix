@@ -69,7 +69,7 @@
           </div>
           
           <div class="errors" *ngIf="(accRegistrationForm.controls.confirmPassword.touched || accRegistrationForm.controls.confirmPassword.dirty)">
-            <small class="form-text text-danger" *ngIf="accRegistrationForm.controls.password.errors.required">Password is required!</small>
+            <!-- <small class="form-text text-danger" *ngIf="accRegistrationForm.controls.confirmPassword.errors.required">Password is required!</small> -->
             <small class="form-text text-danger" *ngIf="accRegistrationForm.get('confirmPassword').value != accRegistrationForm.get('password').value">Password must match</small>
           </div>
           <!-- <small class="form-text text-danger" 
@@ -97,7 +97,7 @@
         </div>
         <!-- Get Verification Code -->
         <div class="form-group mt acc-btn-group">
-          <button (click)="onSendVerificationCode(accRegistrationForm,email,password)" type="submit" class="btn btn-sm btn-primary" 
+          <button (click)="onSendVerificationCode(accRegistrationForm)" type="submit" class="btn btn-sm btn-primary" 
             [disabled]="accRegistrationForm.controls.email.invalid || 
                          accRegistrationForm.controls.phonenum.invalid ||
                          accRegistrationForm.controls.password.invalid ||

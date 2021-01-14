@@ -5,10 +5,10 @@
       "name": "pheonixservice"
     },
     "provider": {
-      "stage": "dev",
-      "variableSyntax": "\\${([^{}]+?)}",
       "name": "aws",
       "runtime": "nodejs12.x",
+      "stage": "dev",
+      "variableSyntax": "\\${([^{}:]+?(?:\\(|:)(?:[^:{}][^{}]*?)?)}",
       "region": "us-east-1",
       "versionFunctions": true,
       "compiledCloudFormationTemplate": {
@@ -55,6 +55,21 @@
                               "Ref": "ServerlessDeploymentBucket"
                             },
                             "/*"
+                          ]
+                        ]
+                      },
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":s3:::",
+                            {
+                              "Ref": "ServerlessDeploymentBucket"
+                            }
                           ]
                         ]
                       }
@@ -213,6 +228,21 @@
                             "/*"
                           ]
                         ]
+                      },
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":s3:::",
+                            {
+                              "Ref": "ServerlessDeploymentBucket"
+                            }
+                          ]
+                        ]
                       }
                     ],
                     "Condition": {
@@ -242,10 +272,18 @@
           "localDir": "dist/"
         }
       ],
-      "s3Bucket": "pheonixspa"
+      "s3Bucket": "pheonixspa",
+      "cloudfrontInvalidate": {
+        "distributionId": "E2HAO5PDIOB4KU",
+        "distributionIdKey": "E2HAO5PDIOB4KU",
+        "items": [
+          "/*"
+        ]
+      }
     },
     "plugins": [
-      "serverless-s3-sync"
+      "serverless-s3-sync",
+      "serverless-cloudfront-invalidate"
     ],
     "pluginsData": {},
     "functions": {},
@@ -351,7 +389,6 @@
       "service": {
         "$ref": "$[\"service\"][\"serviceObject\"]"
       },
-      "frameworkVersion": ">=1.2.0 <2.0.0",
       "plugins": {
         "$ref": "$[\"service\"][\"plugins\"]"
       },
@@ -363,22 +400,12 @@
       },
       "resources": {
         "$ref": "$[\"service\"][\"resources\"]"
-      },
-      "functions": {
-        "$ref": "$[\"service\"][\"functions\"]"
-      },
-      "package": {
-        "artifactDirectoryName": "serverless/pheonixservice/dev/1597258627811-2020-08-12T18:57:07.811Z"
-      },
-      "layers": {
-        "$ref": "$[\"service\"][\"layers\"]"
-      },
-      "configValidationMode": "warn"
+      }
     },
     "isDashboardMonitoringPreconfigured": false
   },
   "package": {
-    "artifactDirectoryName": "serverless/pheonixservice/dev/1597258627811-2020-08-12T18:57:07.811Z",
+    "artifactDirectoryName": "serverless/pheonixservice/dev/1610635215837-2021-01-14T14:40:15.837Z",
     "artifact": ""
   }
 }

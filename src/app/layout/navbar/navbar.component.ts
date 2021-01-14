@@ -64,4 +64,8 @@ export class Navbar {
   get loginDetails() {
     return AppService.token;
   }
+
+  onResetClick() {
+    this.router.navigate(["/changepassword"]);
+  }
 }

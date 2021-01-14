@@ -34,6 +34,9 @@ import { AlertComponent } from './shared/component/alert/alert.component';
 import { ForgotPasswordComponent } from './pages/forgotpassword/forgotpassword.component';
 import { AccountRegistrationComponent } from './pages/account-registration/account-registration.component';
 import { DialogComponent } from './pages/account/users/dialog/dialog.component';
+import { DevicesComponent } from './pages/devices/devices.component';
+import { DeviceRegistrationComponent } from './pages/devices/device-registration/device-registration.component';
+//import { TreeviewModule } from 'ngx-treeview';
 
 const APP_PROVIDERS = [
   CheckAllService,
@@ -47,7 +50,9 @@ const APP_PROVIDERS = [
     AppComponent,
     ResetPasswordComponent,
     AlertComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    DevicesComponent,
+    DeviceRegistrationComponent
   ],
   imports: [
     AmplifyAngularModule,
@@ -74,6 +79,7 @@ const APP_PROVIDERS = [
     CarouselModule.forRoot(),
     PaginationModule.forRoot(),
     ToastrModule.forRoot(),
+    //TreeviewModule.forRoot(),
     UtilsModule
   ],
   providers: [

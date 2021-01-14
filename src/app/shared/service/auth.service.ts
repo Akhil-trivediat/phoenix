@@ -147,7 +147,13 @@ export class AuthService {
     );
   }
 
-  
+  getCurrentUserInfo(): Promise<any> { // used
+    return Auth.currentUserInfo().then(
+      (userInfo) => {
+        return userInfo;
+      }
+    );
+  }
 
   
 

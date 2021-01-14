@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, NgForm} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
 //import { LoginService } from '../login/login.service';
 import { LoginService } from '../login/login.service';
+import { RequesterService } from '../../shared/service/requester.service'
+import { PasswordStrengthValidator } from '../../shared/validator/password-strength.validators';
+import { MismatchValidator } from '../../shared/validator/password-match.validator';
 import { error } from 'console';
 
 const fb = new FormBuilder();
@@ -16,6 +19,9 @@ const fb = new FormBuilder();
   styleUrls: ['./account-registration.component.css']
 })
 export class AccountRegistrationComponent implements OnInit {
+  
+
+
   public formGroup: FormGroup = fb.group({
     firstname: '',
     lastname: '',
@@ -23,31 +29,69 @@ export class AccountRegistrationComponent implements OnInit {
     phonenum: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    radiobtn: ''
   })
-  //bShowAccRegistration: boolean = false;
+
+  radiobtn: any;
+ 
   constructor(
     public loginService: LoginService,
     private location: Location,
-    private router: Router
-  ) { }
-
+    private router: Router,
+    private requesterService: RequesterService
+  ) {
+    this.radiobtn = "0";
+   }
+   accRegistrationForm: any;
   ngOnInit() {
+    this.accRegistrationForm = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email] ),
+      phonenum: new FormControl('', [Validators.required] ),
+      // passwords: new FormGroup({
+      //   password: new FormControl('', [Validators.required, Validators.minLength(8), PasswordStrengthValidator] ),
+      //   confirmPassword: new FormControl('', [Validators.required, this.validateAreEqual.bind(this)] )
+      // }),
+      password: new FormControl('', [Validators.required, Validators.minLength(8), PasswordStrengthValidator] ),
+      confirmPassword: new FormControl('', [Validators.required] ),
+      modeofVerification: new FormControl('0'),
+      code: new FormControl('', [Validators.required] ),
+      firstname: new FormControl('', [Validators.required] ),
+      lastname: new FormControl('', [Validators.required] ),
+      orgname: new FormControl('', [Validators.required] ),
+    });
+  
+    
+   }
+
+   validateAreEqual(fieldControl: FormControl) {
+    return fieldControl.value === this.accRegistrationForm.get("password").value ? null : {
+        NotEqual: true
+    };
   }
 
-  ongetVerificationCode(email: any,password: any) {
-    //email.valid ? this.bShowAccRegistration = true : this.bShowAccRegistration = false;
+  
 
-    // send verification code to the email ID
-    this.loginService.getVC(email,password).then(
+  onSendVerificationCode(accRegistrationForm: NgForm) {
+    let userName: string;
+    const password: string = accRegistrationForm.controls.password.value;
+    const modeofVerification: string = accRegistrationForm.controls.modeofVerification.value;
+    const email: string = accRegistrationForm.controls.email.value;
+    const phonenumber: string = accRegistrationForm.controls.phonenum.value; 
+    if(modeofVerification === "0") {
+      userName = accRegistrationForm.controls.email.value;
+    } else {
+      userName = accRegistrationForm.controls.phonenum.value;
+    }
+    this.loginService.verifyUsername(userName, password, email, phonenumber).then(
       (response) => {
         console.log(response);
+
       },
       (error) => {
         console.log(error);
       }
     );
-    //this.loginService.sendVerificationCode(email);
   }
 
   onCancel() {
@@ -58,6 +102,10 @@ export class AccountRegistrationComponent implements OnInit {
     this.loginService.confirmSignUp(accRegistrationForm.value.email,accRegistrationForm.value.Code).then(
       (response) => {
         //console.log(response);
+        // POST call to api gateway with the user data
+        let path;
+        let postData;
+        this.requesterService.addRequest(path, postData);
         // navigate to Login Page
         this.router.navigate(['login']);
       },

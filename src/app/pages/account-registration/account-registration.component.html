@@ -13,7 +13,8 @@
       <h3 *widgsterTitle>
         Account Registration
       </h3>
-      <form #accRegistrationForm="ngForm">
+      
+      <form name="accRegistrationForm" [formGroup]="accRegistrationForm">
         <alert *ngIf="loginService.errorMessage" type="danger alert-sm widget-middle-overflow rounded-0">
           {{loginService.errorMessage}}
         </alert>
@@ -21,87 +22,86 @@
         <div class="form-group mt">
           <label for="email">Email*</label>
           <div class="input-group input-group-transparent">
-            <!-- <div class="input-group-addon">
-              <i class="la la-user text-white"></i>
-            </div> -->
-            <input
-              type="email" 
-              name="email" 
-              class="form-control input-transparent pl-3"
-              ngModel 
-              placeholder="Email"
-              #email="ngModel" 
-              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-              required />
+            <input type="email"  class="form-control input-transparent pl-3" formControlName="email" placeholder="Email"
+              [ngClass]="{'is-invalid':accRegistrationForm.controls.email.touched && accRegistrationForm.controls.email.invalid}" required />
           </div>
-          <div class="errorStyles" *ngIf="email.touched">
-            <p *ngIf="email.errors?.required">
-              This is a required field!
-            </p>
-            <p *ngIf="email.errors?.pattern">
-              This is not a valid Email.
-            </p>
+          <div class="errors" *ngIf="accRegistrationForm.controls.email.invalid && (accRegistrationForm.controls.email.touched || accRegistrationForm.controls.email.dirty)">
+            <small class="form-text text-danger" *ngIf="accRegistrationForm.controls.email.errors.required">Email is required!</small>
+            <small class="form-text text-danger" *ngIf="accRegistrationForm.controls.email.errors.email">Email must be a valid email address!</small>
           </div>
         </div>
-        <!-- Password -->
+        <!-- Phone Number -->
         <div class="form-group mt">
-          <label for="password">Password*</label>
+          <label for="phonenum">Phone Number*</label>
           <div class="input-group input-group-transparent">
-            <!-- <div class="input-group-addon">
-              <i class="la la-lock text-white"></i>
-            </div> -->
-            <input 
-              type="password" 
-              name="password" 
-              class="form-control input-transparent pl-3"
-              ngModel 
-              placeholder="Password"
-              #password="ngModel" 
-              required />
+            <input type="text"  class="form-control input-transparent pl-3" formControlName="phonenum" placeholder="Phone Number"
+              [ngClass]="{'is-invalid':accRegistrationForm.controls.phonenum.touched && accRegistrationForm.controls.phonenum.invalid}" required />
+          </div>
+          <div class="errors" *ngIf="accRegistrationForm.controls.phonenum.invalid && (accRegistrationForm.controls.phonenum.touched || accRegistrationForm.controls.phonenum.dirty)">
+            <small class="form-text text-danger" *ngIf="accRegistrationForm.controls.phonenum.errors.required">Phone Number is required!</small>
           </div>
         </div>
-        <!-- Confirm Password -->
+        
+        <!-- <div class="form-group row" formGroupName="passwords"> -->
+          <!-- Password -->
+          <div class="form-group mt">
+            <label for="password">Password*</label>
+            <div class="input-group input-group-transparent">
+              <input type="password"  class="form-control input-transparent pl-3" formControlName="password" placeholder="Password"
+                [ngClass]="{'is-invalid':accRegistrationForm.controls.password.touched && accRegistrationForm.controls.password.invalid}" required />
+            </div>
+            <div class="errors" *ngIf="accRegistrationForm.controls.password.invalid && 
+                (accRegistrationForm.controls.password.touched || accRegistrationForm.controls.password.dirty)">
+              <small class="form-text text-danger" *ngIf="accRegistrationForm.controls.password.errors.required">Password is required!</small>
+              <small class="form-text text-danger" *ngIf="accRegistrationForm.controls.password.errors.minlength">Password must be at least 8 characters</small>
+              <small class="form-text text-danger" *ngIf="accRegistrationForm.controls.password.hasError('passwordStrength')">
+                {{accRegistrationForm.get('password').errors['passwordStrength']}}
+              </small>
+            </div>
+          </div>
+
+          <!-- Confirm Password -->
         <div class="form-group mt">
           <label for="confirmPassword">Confirm Password*</label>
           <div class="input-group input-group-transparent">
-            <!-- <div class="input-group-addon">
-              <i class="la la-lock text-white"></i>
-            </div> -->
-            <input 
-              type="password" 
-              name="confirmPassword" 
-              class="form-control input-transparent pl-3"
-              ngModel 
-              placeholder="Confirm Password"
-              #confirmPassword="ngModel" 
-              required />
+            <input type="password"  class="form-control input-transparent pl-3" formControlName="confirmPassword" placeholder="Confirm Password" 
+              [ngClass]="{'is-invalid':accRegistrationForm.controls.confirmPassword.touched && accRegistrationForm.controls.confirmPassword.invalid}" required />
           </div>
-          <small class="form-text text-danger" 
-                *ngIf="confirmPassword.touched && confirmPassword.value !== password.value">The Password must match!</small>
+          
+          <div class="errors" *ngIf="(accRegistrationForm.controls.confirmPassword.touched || accRegistrationForm.controls.confirmPassword.dirty)">
+            <small class="form-text text-danger" *ngIf="accRegistrationForm.controls.password.errors.required">Password is required!</small>
+            <small class="form-text text-danger" *ngIf="accRegistrationForm.get('confirmPassword').value != accRegistrationForm.get('password').value">Password must match</small>
+          </div>
+          <!-- <small class="form-text text-danger" 
+                *ngIf="confirmPassword.touched && confirmPassword.value !== password.value">The Password must match!</small> -->
         </div>
+        <!-- </div> -->
         
-        <div class="form-group mt">
-          <label for="confirmPassword">Where would you want us to send the verification code?</label>
+        
+        <div class="form-group mt auth-radio-button">
+          <label>Where would you want us to send the verification code?</label>
           <div class="input-group input-group-transparent">
             <div class="form-check" style="margin-left: 1.5em;">
-              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-              <label class="form-check-label" for="exampleRadios1">
+              <input type="radio"  class="form-check-input" formControlName="modeofVerification" id="emailRadio" value="0"/>
+              <label class="form-check-label" for="emailRadio">
                 Email
               </label>
             </div>
             <div class="form-check" style="margin-left: 1.5em;">
-              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" checked>
-              <label class="form-check-label" for="exampleRadios2">
-                Phone No
+              <input class="form-check-input" type="radio" formControlName="modeofVerification" id="phoneRadio" value="1">
+              <label class="form-check-label" for="phoneRadio">
+                Phone Number
               </label>
             </div>
           </div>
-          <small class="form-text text-danger" 
-                *ngIf="confirmPassword.touched && confirmPassword.value !== password.value">The Password must match!</small>
         </div>
         <!-- Get Verification Code -->
         <div class="form-group mt acc-btn-group">
-          <button (click)="ongetVerificationCode(email,password)" type="submit" class="btn btn-sm btn-primary" [disabled]="email.invalid">
+          <button (click)="onSendVerificationCode(accRegistrationForm,email,password)" type="submit" class="btn btn-sm btn-primary" 
+            [disabled]="accRegistrationForm.controls.email.invalid || 
+                         accRegistrationForm.controls.phonenum.invalid ||
+                         accRegistrationForm.controls.password.invalid ||
+                         accRegistrationForm.controls.confirmPassword.invalid">
             <span class="auth-btn-circle">
               <i class="la la-caret-right"></i>
             </span>
@@ -111,117 +111,69 @@
 
         <div *ngIf="loginService.displayAccRegistration">
           <!-- Enter Verification Code -->
-          <div class="form-group">
+          <div class="form-group mt">
             <label for="Code">Enter Verification Code*</label>
-            <input 
-              type="text" 
-              name="Code" 
-              class="form-control input-transparent pl-3"
-              ngModel 
-              placeholder="Please enter Verification Code"
-              #code="ngModel" 
-              required>
-            <div class="errorStyles" *ngIf="code.touched">
-              <p *ngIf="code.errors?.required">
-                This is a required field!
-              </p>
-            </div>
-          </div>
-
-          <!-- First Name -->
-          <div class="form-group mt">
-            <label for="firstname">First Name*</label>
             <div class="input-group input-group-transparent">
-              <!-- <div class="input-group-addon">
-                <i class="la la-user text-white"></i>
-              </div> -->
-              <input
-                type="text" 
-                name="firstname" 
-                class="form-control input-transparent pl-3"
-                ngModel 
-                placeholder="First Name"
-                #firstname="ngModel" 
-                required />
-              
+              <input type="text"  class="form-control input-transparent pl-3" formControlName="code" placeholder="Please enter Verification Code"
+                [ngClass]="{'is-invalid':accRegistrationForm.controls.code.touched && accRegistrationForm.controls.code.invalid}" required />
             </div>
-            <div class="errorStyles" *ngIf="firstname.touched">
-              <p *ngIf="firstname.errors?.required">
-                This is a required field!
-              </p>
+            <div class="errors" *ngIf="accRegistrationForm.controls.code.invalid && (accRegistrationForm.controls.code.touched || accRegistrationForm.controls.code.dirty)">
+              <small class="form-text text-danger" *ngIf="accRegistrationForm.controls.code.errors.required">Verification Code is required!</small>
             </div>
           </div>
+        
 
-          <!-- Last Name -->
-          <div class="form-group mt">
-            <label for="lastname">Last Name*</label>
-            <div class="input-group input-group-transparent">
-              <!-- <div class="input-group-addon">
-                <i class="la la-user text-white"></i>
-              </div> -->
-              <input
-                type="text" 
-                name="lastname" 
-                class="form-control input-transparent pl-3"
-                ngModel 
-                placeholder="Last Name"
-                #lastname="ngModel" 
-                required />
-            </div>
+        <!-- First Name -->
+        <div class="form-group mt">
+          <label for="firstname">First Name*</label>
+          <div class="input-group input-group-transparent">
+            <input type="text"  class="form-control input-transparent pl-3" formControlName="firstname" placeholder="First Name"
+                [ngClass]="{'is-invalid':accRegistrationForm.controls.firstname.touched && accRegistrationForm.controls.firstname.invalid}" required />
           </div>
-
-          <!-- Org Name -->
-          <div class="form-group mt">
-            <label for="orgname">Organization Name*</label>
-            <div class="input-group input-group-transparent">
-              <!-- <div class="input-group-addon">
-                <i class="la la-user text-white"></i>
-              </div> -->
-              <input
-                type="text" 
-                name="orgname" 
-                class="form-control input-transparent pl-3"
-                ngModel 
-                placeholder="Organization Name"
-                #orgname="ngModel" 
-                required />
-            </div>
-          </div>
-
-          <!-- Phone Number -->
-          <div class="form-group mt">
-            <label for="phonenum">Phone Number*</label>
-            <div class="input-group input-group-transparent">
-              <!-- <div class="input-group-addon">
-                <i class="la la-user text-white"></i>
-              </div> -->
-              <input
-                type="text" 
-                name="phonenum" 
-                class="form-control input-transparent pl-3"
-                ngModel 
-                placeholder="Phone Number"
-                #phonenum="ngModel" 
-                required />
-            </div>
-          </div>
-
-          <!-- Buttons -->
-          <div class="form-group mt acc-btn-group">
-            <button (click)="onSubmit(accRegistrationForm)" type="submit" class="btn btn-sm btn-primary" [disabled]="accRegistrationForm.invalid">
-              <span class="auth-btn-circle">
-                <i class="la la-caret-right"></i>
-              </span>
-              Submit
-            </button>
-            <button (click)="onCancel()" type="submit" class="btn btn-sm">
-              <span class="auth-btn-circle">
-                <i class="la la-caret-right"></i>
-              </span>
-              Cancel
-            </button>
+          <div class="errors" *ngIf="accRegistrationForm.controls.firstname.invalid && (accRegistrationForm.controls.firstname.touched || accRegistrationForm.controls.firstname.dirty)">
+            <small class="form-text text-danger" *ngIf="accRegistrationForm.controls.firstname.errors.required">First Name is required!</small>
           </div>
         </div>
+
+        <!-- Last Name -->
+        <div class="form-group mt">
+          <label for="lastname">Last Name*</label>
+          <div class="input-group input-group-transparent">
+            <input type="text"  class="form-control input-transparent pl-3" formControlName="lastname" placeholder="Last Name"
+                [ngClass]="{'is-invalid':accRegistrationForm.controls.lastname.touched && accRegistrationForm.controls.lastname.invalid}" required />
+          </div>
+          <div class="errors" *ngIf="accRegistrationForm.controls.lastname.invalid && (accRegistrationForm.controls.lastname.touched || accRegistrationForm.controls.lastname.dirty)">
+            <small class="form-text text-danger" *ngIf="accRegistrationForm.controls.lastname.errors.required">Last Name is required!</small>
+          </div>
+        </div>
+
+        <!-- Org Name -->
+        <div class="form-group mt">
+          <label for="orgname">Organization Name*</label>
+          <div class="input-group input-group-transparent">
+            <input type="text"  class="form-control input-transparent pl-3" formControlName="orgname" placeholder="Organization Name"
+                [ngClass]="{'is-invalid':accRegistrationForm.controls.orgname.touched && accRegistrationForm.controls.orgname.invalid}" required />
+          </div>
+          <div class="errors" *ngIf="accRegistrationForm.controls.orgname.invalid && (accRegistrationForm.controls.orgname.touched || accRegistrationForm.controls.orgname.dirty)">
+            <small class="form-text text-danger" *ngIf="accRegistrationForm.controls.orgname.errors.required">Organization Name is required!</small>
+          </div>
+        </div>
+        <!-- Buttons -->
+        <div class="form-group mt acc-btn-group">
+          <button (click)="onSubmit(accRegistrationForm)" type="submit" class="btn btn-sm btn-primary" [disabled]="accRegistrationForm.invalid">
+            <span class="auth-btn-circle">
+              <i class="la la-caret-right"></i>
+            </span>
+            Submit
+          </button>
+          <button (click)="onCancel()" type="submit" class="btn btn-sm">
+            <span class="auth-btn-circle">
+              <i class="la la-caret-right"></i>
+            </span>
+            Cancel
+          </button>
+        </div>
+      </div>
       </form>
     </section>
   </div>

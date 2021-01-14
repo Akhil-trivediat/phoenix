@@ -24,3 +24,7 @@
 alert {
     text-align: center;
 }
+
+.auth-radio-button .form-check-label {
+    padding-left: 0.5em;
+}

@@ -29,7 +29,6 @@ import { UtilsModule } from './utils/utils-module/utils.module';
 import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
 import { AppService } from './app.service';
 import { ToastrModule } from 'ngx-toastr';
-import { RecaptchaModule, RECAPTCHA_SETTINGS, RecaptchaSettings } from 'ng-recaptcha';
 import { ResetPasswordComponent } from './shared/component/reset-password/reset-password.component';
 import { AlertComponent } from './shared/component/alert/alert.component';
 import { ForgotPasswordComponent } from './pages/forgotpassword/forgotpassword.component';
@@ -75,8 +74,7 @@ const APP_PROVIDERS = [
     CarouselModule.forRoot(),
     PaginationModule.forRoot(),
     ToastrModule.forRoot(),
-    UtilsModule,
-    RecaptchaModule
+    UtilsModule
   ],
   providers: [
     APP_PROVIDERS,
@@ -86,12 +84,6 @@ const APP_PROVIDERS = [
     },
     LoginService,
     AppService,
-    {
-      provide: RECAPTCHA_SETTINGS,
-      useValue: {
-        siteKey: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
-      } as RecaptchaSettings,
-    }
   ],
   entryComponents: [
     DialogComponent

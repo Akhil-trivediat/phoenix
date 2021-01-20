@@ -3,8 +3,26 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  cognito: {
+    identityPoolId: 'us-east-2:612bd680-b911-4899-9018-8941de837d7c', 
+    region: 'us-east-2', 
+    userPoolId: 'us-east-2_unrHx3Foh',
+    userPoolWebClientId: '7rh3thtkolmek6rn0d9v4ctpe2', 
+  },
 };
+
+// pheonix
+// identityPoolId: 'us-east-2:612bd680-b911-4899-9018-8941de837d7c', 
+// region: 'us-east-2', 
+// userPoolId: 'us-east-2_unrHx3Foh',
+// userPoolWebClientId: '7rh3thtkolmek6rn0d9v4ctpe2', 
+
+//pheonix amplify
+// identityPoolId: 'us-east-2:beedc56c-b232-4704-9dd2-4281a417950a',
+// region: 'us-east-2',
+// userPoolId: 'us-east-2_NbvaYwLh8',
+// userPoolWebClientId: '2t4kovjiorn54m6jt98c8qoaae',
 
 /*
  * For easier debugging in development mode, you can import the following file

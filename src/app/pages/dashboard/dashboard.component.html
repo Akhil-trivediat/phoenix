@@ -1,0 +1,112 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-12">
+            <section 
+                class="mx-auto"
+                widgster
+                [optionsControl]="false"
+                [reloadControl]="false"
+                [fullscreenControl]="false"
+                [collapseControl]="false"
+                [closeControl]="false"
+                titleClass="mt-0">
+                    <div class="widget-content dashboard-counters-view">
+                        <h3 *widgsterTitle>Infrastructure</h3>
+                        <div class="counters">
+                            <a class="counter navigation-link" routerLink="/app/devices">
+                                <span class="counter-label">Devices</span>
+                                <span class="counter-value">3</span>
+                            </a>
+                            <a class="counter navigation-link" routerLink="/app/devices">
+                                <span class="counter-label">Location</span>
+                                <span class="counter-value">2</span>
+                            </a>
+                        </div>
+                     </div>
+            </section>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-5 col-12">
+            <section 
+                class="mx-auto"
+                widgster
+                [optionsControl]="false"
+                [reloadControl]="false"
+                [fullscreenControl]="false"
+                [collapseControl]="false"
+                [closeControl]="false"
+                titleClass="mt-0">
+                    <div class="widget-content dashboard-counters-view">
+                        <h3 *widgsterTitle>Infrastructure</h3>
+                        <div class="counters">
+                            <a class="counter navigation-link" href="/app/devices">
+                                <span class="counter-label">Devices</span>
+                                <span class="counter-value">3</span>
+                            </a>
+                            <a class="counter navigation-link" href="/app/devices">
+                                <span class="counter-label">Location</span>
+                                <span class="counter-value">2</span>
+                            </a>
+                        </div>
+                     </div>
+            </section>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-12">
+            <section 
+                class="mx-auto text-center"
+                widgster
+                [optionsControl]="false"
+                [reloadControl]="false"
+                [fullscreenControl]="false"
+                [collapseControl]="false"
+                [closeControl]="false"
+                titleClass="mt-0">
+                    <ngx-charts-bar-vertical
+                    [view]="view"
+                    [scheme]="colorScheme"
+                    [results]="single"
+                    [gradient]="gradient"
+                    [xAxis]="showXAxis"
+                    [yAxis]="showYAxis"
+                    [legend]="showLegend"
+                    [showXAxisLabel]="showXAxisLabel"
+                    [showYAxisLabel]="showYAxisLabel"
+                    [xAxisLabel]="xAxisLabel"
+                    [yAxisLabel]="yAxisLabel"
+                    (select)="onSelect($event)">
+                    </ngx-charts-bar-vertical>
+            </section>
+        </div>
+        <div class="col-lg-6 col-12">
+            <section 
+                class="mx-auto text-center"
+                widgster
+                [optionsControl]="false"
+                [reloadControl]="false"
+                [fullscreenControl]="false"
+                [collapseControl]="false"
+                [closeControl]="false"
+                titleClass="mt-0">
+                    <ngx-charts-bar-vertical-2d
+                    [view]="view"
+                    [scheme]="colorScheme"
+                    [results]="multi"
+                    [gradient]="gradient"
+                    [xAxis]="showXAxis"
+                    [yAxis]="showYAxis"
+                    [legend]="showLegend"
+                    [showXAxisLabel]="showXAxisLabel"
+                    [showYAxisLabel]="showYAxisLabel"
+                    [xAxisLabel]="xAxisLabel"
+                    [yAxisLabel]="yAxisLabel"
+                    [legendTitle]="legendTitle"
+                    (select)="onSelect($event)"
+                    (activate)="onActivate($event)"
+                    (deactivate)="onDeactivate($event)">
+                    </ngx-charts-bar-vertical-2d>
+            </section>
+        </div>
+    </div>
+  </div>

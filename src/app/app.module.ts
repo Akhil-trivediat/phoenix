@@ -29,13 +29,13 @@ import { UtilsModule } from './utils/utils-module/utils.module';
 import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
 import { AppService } from './app.service';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ResetPasswordComponent } from './shared/component/reset-password/reset-password.component';
 import { AlertComponent } from './shared/component/alert/alert.component';
 import { ForgotPasswordComponent } from './pages/forgotpassword/forgotpassword.component';
 import { AccountRegistrationComponent } from './pages/account-registration/account-registration.component';
 import { DialogComponent } from './pages/account/users/dialog/dialog.component';
-import { DevicesComponent } from './pages/devices/devices.component';
-import { DeviceRegistrationComponent } from './pages/devices/device-registration/device-registration.component';
+
 //import { TreeviewModule } from 'ngx-treeview';
 
 const APP_PROVIDERS = [
@@ -50,9 +50,7 @@ const APP_PROVIDERS = [
     AppComponent,
     ResetPasswordComponent,
     AlertComponent,
-    ForgotPasswordComponent,
-    DevicesComponent,
-    DeviceRegistrationComponent
+    ForgotPasswordComponent
   ],
   imports: [
     AmplifyAngularModule,
@@ -61,7 +59,7 @@ const APP_PROVIDERS = [
     FormsModule,
     HttpClientModule,
     RouterModule.forRoot(ROUTES, {
-      useHash: true,
+      useHash: false,
       preloadingStrategy: PreloadAllModules
     }),
     ButtonsModule.forRoot(),
@@ -80,7 +78,8 @@ const APP_PROVIDERS = [
     PaginationModule.forRoot(),
     ToastrModule.forRoot(),
     //TreeviewModule.forRoot(),
-    UtilsModule
+    UtilsModule,
+    NgxChartsModule
   ],
   providers: [
     APP_PROVIDERS,

@@ -32,15 +32,18 @@ export class MainComponent implements OnInit {
     }
 
     getUserDetails() {
-        this.authService.getCurrentUserInfo().then(
-            (userDetails) => {
-                this.setUserName(userDetails.username);
-                this.getLocation(userDetails.username);
-            },
-            (error) => {
-                console.log(error);
-            }
-        );
+        this.setUserName(localStorage.getItem('USER_NAME'));
+        this.getLocation(localStorage.getItem('USER_NAME'));
+
+        // this.authService.getCurrentUserInfo().then(
+        //     (userDetails) => {
+        //         this.setUserName(userDetails.username);
+        //         this.getLocation(userDetails.username);
+        //     },
+        //     (error) => {
+        //         console.log(error);
+        //     }
+        // );
     }
 
     getLocation(username: string) {

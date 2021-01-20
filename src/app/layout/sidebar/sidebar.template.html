@@ -2,7 +2,7 @@
   <a href="https://flatlogic.com/templates/light-blue-angular/demo">Light <span class="fw-bold">Blue</span></a>
 </header>
 <ul id="side-nav" class="side-nav">
-  <li class="accordion-group panel" [routerLinkActive]="['active']">
+  <!-- <li class="accordion-group panel" [routerLinkActive]="['active']">
     <a class="accordion-toggle" (click)="sidebarBehavior($event, 'dashboardCollapsed')" aria-controls="main-collapse"
       [class.open]="!sidebarState.dashboardCollapsed">
       <i class="fi flaticon-home"></i>
@@ -14,7 +14,7 @@
       <li [routerLinkActive]="['active']"><a routerLink="main/analytics">Analytics</a></li>
       <li [routerLinkActive]="['active']"><a routerLink="main/widgets">Widgets</a></li>
     </ul>
-  </li>
+  </li> -->
   <!-- keep the below line for reference in case we need it in the future -->
   <!-- <li [routerLinkActive]="['active']">
     <a routerLink="inbox"><i class="fi flaticon-paper-plane"></i> <span class="name">Email</span>
@@ -23,9 +23,26 @@
       </span>
     </a>
   </li> -->
+
+  <!-- <li>
+    <a routerLink="devices"><i class="fi flaticon-paper-plane"></i><span class="name">Devices</span></a>
+  </li> -->
   <li>
-    <a routerLink="inbox"><i class="fi flaticon-paper-plane"></i><span class="name">Devices</span></a>
+    <a routerLink="dashboard"><i class="fi flaticon-paper-plane"></i><span class="name">Dashboard</span></a>
   </li>
+  <li class="accordion-group panel" [routerLinkActive]="['active']">
+    <a class="accordion-toggle" (click)="sidebarBehavior($event, 'devicesCollapsed')" aria-controls="devices-collapse"
+       [class.open]="!sidebarState.devicesCollapsed">
+      <i class="fi flaticon-home"></i>
+      <span class="name">Devices</span>
+    </a>
+    <ul id="devices-collapse" class="accordion-body" [attr.aria-expanded]="sidebarState.devicesCollapsed"
+        [collapse]="sidebarState.devicesCollapsed" [isAnimated]="true">
+      <li><a routerLink="devices" [routerLinkActive]="['active']">View Devices</a></li>
+      <li><a routerLink="registerDevice" [routerLinkActive]="['active']">Device Registration</a></li>
+    </ul>
+  </li>
+
   <li>
     <a routerLink="inbox"><i class="fi flaticon-paper-plane"></i><span class="name">Help</span></a>
   </li>

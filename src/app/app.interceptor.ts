@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import 'rxjs/add/operator/mergeMap';
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpHeaders } from '@angular/common/http';
+import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { AppConfig } from './app.config';
 import { AuthService } from '../app/shared/service/auth.service'
+import { catchError, filter, switchMap, take } from 'rxjs/operators';
 
 @Injectable()
 export class AppInterceptor implements HttpInterceptor {
   config;
+  private isRefreshing = false;
+  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   constructor(
     appConfig: AppConfig,
@@ -16,57 +19,50 @@ export class AppInterceptor implements HttpInterceptor {
     this.config = appConfig.getConfig();
   }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (req.url.startsWith('https://osikxsq11j')) {
-      return next.handle(req);
-    } 
-    //Interceptor for Cognito API
-    else if (req.url.match(/amazonaws.com/)) {
-      return this.authService
-        .getAuthorizationToken()
-        .mergeMap((token: string) => {
-          let authReq = req.clone({
-            headers: new HttpHeaders({
-              'Content-Type': 'application/json',
-              Authorization: token,
-            }),
-          });
-
-          return next.handle(authReq);
-        });
-    } //For all other requests
-    else {
-      return next.handle(req);
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (this.authService.getJwtToken()) {
+      request = this.addToken(request, this.authService.getJwtToken());
     }
 
+    return next.handle(request).pipe(catchError(error => {
+      if (error instanceof HttpErrorResponse && error.status === 401) {
+        return this.handle401Error(request, next);
+      } else {
+        return throwError(error);
+      }
+    }));
+  }
 
+  private addToken(request: HttpRequest<any>, token: string) {
+    return request.clone({
+      setHeaders: {
+        // 'Authorization': `Bearer ${token}`,
+        // 'Content-Type': 'application/json'
+      }
+    });
+  }
 
-
-    const idToken = localStorage.getItem("token");
-
-    this.authService.getAuthorizationToken();
-
-    if(idToken){
-      const cloned = req.clone({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          Authorization: idToken
-        })
-      });
-      return next.handle(cloned);
+  private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
+    if (!this.isRefreshing) {
+      this.isRefreshing = true;
+      this.refreshTokenSubject.next(null);
+      return (this.authService.refreshToken()).pipe(
+        switchMap(
+          (token: any) => {
+            this.isRefreshing = false;
+            this.refreshTokenSubject.next(token.jwt);
+            return next.handle(this.addToken(request, token.jwt));
+          }
+        )
+      );
     } else {
-      return next.handle(req);
+      return this.refreshTokenSubject.pipe(
+        filter(token => token != null),
+        take(1),
+        switchMap(jwt => {
+          return next.handle(this.addToken(request, jwt));
+        })
+      );
     }
-
-    // req = req.clone({ url: this.config.baseURLApi + req.url });
-
-    // const token: string = localStorage.getItem('token');
-    // if (token) {
-    //   req = req.clone({
-    //     headers: req.headers.set('Authorization', 'Bearer ' + token)
-    //   });
-    // }
-
-    //return next.handle(req);
   }
 }

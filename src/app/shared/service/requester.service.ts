@@ -53,7 +53,8 @@ export class RequesterService {
     );
   }
 
-  // changeUserState(path: string, postData: any){
-
-  // }
+  getDashboardUrl(path: string, email: string) {
+    const url = environment.serverUrl + path + `?email=${email}`;
+    return this.http.get(url);
+  }
 }

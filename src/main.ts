@@ -15,6 +15,12 @@ Amplify.configure({
     userPoolId: environment.cognito.userPoolId,
     // OPTIONAL - Amazon Cognito Web Client ID
     userPoolWebClientId: environment.cognito.userPoolWebClientId, 
+    oauth: {
+      //domain: environment.cognito.domain,
+      // scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
+      redirectSignIn: environment.cognito.redirectSignIn,
+      redirectSignOut: environment.cognito.redirectSignOut
+    },
 
     // // REQUIRED - Amazon Cognito Identity Pool ID
     // identityPoolId: 'us-east-2:beedc56c-b232-4704-9dd2-4281a417950a', 

@@ -59,7 +59,7 @@ export class LoginService {
       if (result) {
         this.receiveLogin();
         
-        AppService.setLogin(true);
+       // AppService.setLogin(true);
         
         if(result.challengeName === this.challengeName[9]){
           this.router.navigate(['forgotpassword']);

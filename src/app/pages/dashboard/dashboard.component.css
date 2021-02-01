@@ -1,0 +1,29 @@
+.dashboard-counters-view .counters{
+    display: flex;
+    margin: 3rem 0;
+}
+
+.dashboard-counters-view .counters .counter {
+    flex: 1 1 33.33333%;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.dashboard-counters-view .counters .counter-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.dashboard-counters-view .counters .counter-value {
+    display: block;
+    border-right: solid 1px #e2e2e2;
+    font-weight: 300;
+    font-size: 3rem;
+    line-height: 1;
+}
+
+.dashboard-counters-view .counters .counter:last-child .counter-value {
+    border-right: none;
+}

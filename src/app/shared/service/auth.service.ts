@@ -7,9 +7,10 @@ import {JwtHelperService} from '@auth0/angular-jwt';
 import { Auth } from 'aws-amplify';
 import { NgForm, NgModel } from '@angular/forms';
 import { Observable, from } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import { ChallengeName } from '../../pages/login/login.data';
+import { Tokens } from '../../models/token.model'
 
 const jwt = new JwtHelperService();
 
@@ -20,16 +21,130 @@ export class AuthService {
   config: any;
   _isFetching: boolean = false;
   _errorMessage: string = '';
+  private readonly JWT_TOKEN = 'JWT_TOKEN';
+  private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
+  private readonly USER_NAME = 'USER_NAME';
+  private loggedUser: string;
 
   challengeName:Array<string> = ChallengeName;
 
   constructor(
     appConfig: AppConfig,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private appService: AppService
   ) { 
     this.config = appConfig.getConfig();
   }
+
+  // Login Operations
+  login(username: string, password: string) { // using
+    this.requestLogin();
+    Auth.signIn(username, password).then((result) => {
+      if (result) {
+        this.receiveLogin();
+        this.appService.setLogin(true);
+        if(result.challengeName === this.challengeName[9]){
+          this.router.navigate(['forgotpassword']);
+        } else {
+          //this.appService.storeCurrentSessionData(result);
+          let username: string = result.getUsername();
+          let tokens: Tokens = {
+            jwt: result.getSignInUserSession().getAccessToken().getJwtToken(),
+            refreshToken: result.getSignInUserSession().getRefreshToken().token
+          };
+        //  this.refreshToken();
+          this.doLoginUser(username, tokens);
+          this.router.navigate(['app/main']);
+        }
+        
+      }
+    }).catch(error => {
+      console.log(error);
+      this.loginError(error.message);
+    });
+  }
+
+  // Logout Operations
+  logout() { // using
+    Auth.signOut()
+      .then(() => {
+        this.removeSessionData();
+        this.doLogoutUser();
+        this.appService.setLogin(false);
+        this.router.navigate(['/login']);
+      })
+      .catch((err) => {
+        console.log(err);
+    });
+  }
+
+  private doLoginUser(username: string, tokens: Tokens) {
+    this.loggedUser = username;
+    this.storeTokens(username,tokens);
+  }
+
+  private doLogoutUser() {
+    this.loggedUser = null;
+    this.removeTokens();
+  }
+
+  private storeTokens(username:string, tokens: Tokens) {
+    localStorage.setItem(this.USER_NAME, username);
+    localStorage.setItem(this.JWT_TOKEN, tokens.jwt);
+    localStorage.setItem(this.REFRESH_TOKEN, tokens.refreshToken);
+  }
+
+  private removeTokens() {
+    localStorage.removeItem(this.USER_NAME);
+    localStorage.removeItem(this.JWT_TOKEN);
+    localStorage.removeItem(this.REFRESH_TOKEN);
+  }
+
+  getJwtToken() {
+    return localStorage.getItem(this.JWT_TOKEN);
+  }
+
+  private storeJwtToken(jwt: string) {
+    localStorage.setItem(this.JWT_TOKEN, jwt);
+  }
+
+  refreshToken(): Observable<any> {
+    return from(Auth.currentAuthenticatedUser().then(
+      (cognitoUser) => {
+        const currentSession = cognitoUser.signInUserSession;
+        return cognitoUser.refreshSession(currentSession.refreshToken, (error, session) => {
+          console.log(error);
+          if(!error){
+            this.storeJwtToken(session.getAccessToken().getJwtToken()); 
+            return session.getAccessToken().getJwtToken();
+          }
+        });
+      }
+    ))
+  }
+
+  private getRefreshToken() {
+    return localStorage.getItem(this.REFRESH_TOKEN);
+  }
+
+  isLoggedIn() {
+    return !!this.getJwtToken();
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   get isFetching() {
     return this._isFetching;
@@ -66,29 +181,7 @@ export class AuthService {
     localStorage.removeItem('expDate');
   }
 
-  // Login Operations
-  login(username: string, password: string) { // using
-    this.requestLogin();
-    Auth.signIn(username, password).then((result) => {
-      if (result) {
-        this.receiveLogin();
-        
-        AppService.setLogin(true);
-        
-        if(result.challengeName === this.challengeName[9]){
-          this.router.navigate(['forgotpassword']);
-        } else {
-          AppService.saveToken(result);
-          this.storeSessionData(result);
-          this.router.navigate(['app/main']);
-        }
-        
-      }
-    }).catch(error => {
-      console.log(error);
-      this.loginError(error.message);
-    });
-  }
+  
 
   receiveLogin() { // using
     this.isFetching = false;
@@ -105,17 +198,7 @@ export class AuthService {
     this.errorMessage = errorMessage;
   }
 
-  // Logout Operations
-  logOut() { // using
-    Auth.signOut()
-      .then(() => {
-        this.removeSessionData();
-        this.router.navigate(['/login']);
-      })
-      .catch((err) => {
-        console.log(err);
-    });
-  }
+  
 
   // checks if user is still logged in
   // true - session is valid & false - session invalid
@@ -141,10 +224,26 @@ export class AuthService {
     return jwt.decodeToken(token);
   }
 
-  getAuthorizationToken(){ // used
-    return from(Auth.currentSession()).pipe(
-      map((session) => session.getIdToken().getJwtToken())
+  // check if session is valid
+  isAuthenticated(): Promise<boolean> {  // used
+    return Auth.currentSession().then(
+      (session) => {
+        let exp_date = jwt.getTokenExpirationDate(session.getIdToken().getJwtToken());
+        let now: Date = new Date();
+        return now < exp_date;
+      }
     );
+  }
+
+  getAuthorizationToken(){ // used
+    return from(Auth.currentSession().then(
+      (session) => {
+        let exp_date = jwt.getTokenExpirationDate(session.getIdToken().getJwtToken());
+        let now: Date = new Date();
+        return now < exp_date;
+        //return session;
+      }
+    ));
   }
 
   getCurrentUserInfo(): Promise<any> { // used
@@ -154,6 +253,11 @@ export class AuthService {
       }
     );
   }
+
+  // getJwtToken() {
+  //   return "123";
+  //  // return localStorage.getItem()
+  // }
 
   
 
@@ -215,20 +319,7 @@ export class AuthService {
     });
   }
 
-  isAuthenticated() {
-    const token = localStorage.getItem('token');
-
-    // We check if app runs with backend mode
-    if (!this.config.isBackend && token) {
-      return true;
-    }
-    if (!token) {
-      return;
-    }
-    const date = new Date().getTime() / 1000;
-    const data = jwt.decodeToken(token);
-    return date < data.exp;
-  }
+  
 
   // loginUser(creds) {
   //   // We check if app runs with backend mode

@@ -48,10 +48,6 @@ export class AccountRegistrationComponent implements OnInit {
     this.accRegistrationForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email] ),
       phonenum: new FormControl('', [Validators.required] ),
-      // passwords: new FormGroup({
-      //   password: new FormControl('', [Validators.required, Validators.minLength(8), PasswordStrengthValidator] ),
-      //   confirmPassword: new FormControl('', [Validators.required, this.validateAreEqual.bind(this)] )
-      // }),
       password: new FormControl('', [Validators.required, Validators.minLength(8), PasswordStrengthValidator] ),
       confirmPassword: new FormControl('', [Validators.required] ),
       modeofVerification: new FormControl('0'),
@@ -104,6 +100,7 @@ export class AccountRegistrationComponent implements OnInit {
     this.loginService.confirmSignUp(email,confirmationCode).then(
       (response) => {
         // POST call to api gateway with the user data
+        this.loginService.displayAccRegistration = false;
         let postData;
         this.requesterService.addRequest('/account/user', postData).subscribe(
           (response) => {

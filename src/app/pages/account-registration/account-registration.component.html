@@ -30,37 +30,23 @@
             <small class="form-text text-danger" *ngIf="accRegistrationForm.controls.email.errors.email">Email must be a valid email address!</small>
           </div>
         </div>
-        <!-- Phone Number -->
+        <!-- Password -->
         <div class="form-group mt">
-          <label for="phonenum">Phone Number*</label>
+          <label for="password">Password*</label>
           <div class="input-group input-group-transparent">
-            <input type="text"  class="form-control input-transparent pl-3" formControlName="phonenum" placeholder="Phone Number"
-              [ngClass]="{'is-invalid':accRegistrationForm.controls.phonenum.touched && accRegistrationForm.controls.phonenum.invalid}" required />
+            <input type="password"  class="form-control input-transparent pl-3" formControlName="password" placeholder="Password"
+              [ngClass]="{'is-invalid':accRegistrationForm.controls.password.touched && accRegistrationForm.controls.password.invalid}" required />
           </div>
-          <div class="errors" *ngIf="accRegistrationForm.controls.phonenum.invalid && (accRegistrationForm.controls.phonenum.touched || accRegistrationForm.controls.phonenum.dirty)">
-            <small class="form-text text-danger" *ngIf="accRegistrationForm.controls.phonenum.errors.required">Phone Number is required!</small>
+          <div class="errors" *ngIf="accRegistrationForm.controls.password.invalid && 
+              (accRegistrationForm.controls.password.touched || accRegistrationForm.controls.password.dirty)">
+            <small class="form-text text-danger" *ngIf="accRegistrationForm.controls.password.errors.required">Password is required!</small>
+            <small class="form-text text-danger" *ngIf="accRegistrationForm.controls.password.errors.minlength">Password must be at least 8 characters</small>
+            <small class="form-text text-danger" *ngIf="accRegistrationForm.controls.password.hasError('passwordStrength')">
+              {{accRegistrationForm.get('password').errors['passwordStrength']}}
+            </small>
           </div>
         </div>
-        
-        <!-- <div class="form-group row" formGroupName="passwords"> -->
-          <!-- Password -->
-          <div class="form-group mt">
-            <label for="password">Password*</label>
-            <div class="input-group input-group-transparent">
-              <input type="password"  class="form-control input-transparent pl-3" formControlName="password" placeholder="Password"
-                [ngClass]="{'is-invalid':accRegistrationForm.controls.password.touched && accRegistrationForm.controls.password.invalid}" required />
-            </div>
-            <div class="errors" *ngIf="accRegistrationForm.controls.password.invalid && 
-                (accRegistrationForm.controls.password.touched || accRegistrationForm.controls.password.dirty)">
-              <small class="form-text text-danger" *ngIf="accRegistrationForm.controls.password.errors.required">Password is required!</small>
-              <small class="form-text text-danger" *ngIf="accRegistrationForm.controls.password.errors.minlength">Password must be at least 8 characters</small>
-              <small class="form-text text-danger" *ngIf="accRegistrationForm.controls.password.hasError('passwordStrength')">
-                {{accRegistrationForm.get('password').errors['passwordStrength']}}
-              </small>
-            </div>
-          </div>
-
-          <!-- Confirm Password -->
+        <!-- Confirm Password -->
         <div class="form-group mt">
           <label for="confirmPassword">Confirm Password*</label>
           <div class="input-group input-group-transparent">
@@ -72,12 +58,8 @@
             <!-- <small class="form-text text-danger" *ngIf="accRegistrationForm.controls.confirmPassword.errors.required">Password is required!</small> -->
             <small class="form-text text-danger" *ngIf="accRegistrationForm.get('confirmPassword').value != accRegistrationForm.get('password').value">Password must match</small>
           </div>
-          <!-- <small class="form-text text-danger" 
-                *ngIf="confirmPassword.touched && confirmPassword.value !== password.value">The Password must match!</small> -->
         </div>
-        <!-- </div> -->
-        
-        
+        <!-- Mode of Verification -->
         <div class="form-group mt auth-radio-button">
           <label>Where would you want us to send the verification code?</label>
           <div class="input-group input-group-transparent">
@@ -95,13 +77,24 @@
             </div>
           </div>
         </div>
+        <!-- Phone Number -->
+        <div class="form-group mt" *ngIf="accRegistrationForm.get('modeofVerification').value === '1'">
+          <label for="phonenum">Phone Number*</label>
+          <div class="input-group input-group-transparent">
+            <input type="text"  class="form-control input-transparent pl-3" formControlName="phonenum" placeholder="Phone Number"
+              [ngClass]="{'is-invalid':accRegistrationForm.controls.phonenum.touched && accRegistrationForm.controls.phonenum.invalid}" required />
+          </div>
+          <div class="errors" *ngIf="accRegistrationForm.controls.phonenum.invalid && (accRegistrationForm.controls.phonenum.touched || accRegistrationForm.controls.phonenum.dirty)">
+            <small class="form-text text-danger" *ngIf="accRegistrationForm.controls.phonenum.errors.required">Phone Number is required!</small>
+          </div>
+        </div>
         <!-- Get Verification Code -->
         <div class="form-group mt acc-btn-group">
           <button (click)="onSendVerificationCode(accRegistrationForm)" type="submit" class="btn btn-sm btn-primary" 
-            [disabled]="accRegistrationForm.controls.email.invalid || 
-                         accRegistrationForm.controls.phonenum.invalid ||
+            [disabled]="accRegistrationForm.controls.email.invalid ||
                          accRegistrationForm.controls.password.invalid ||
-                         accRegistrationForm.controls.confirmPassword.invalid">
+                         accRegistrationForm.controls.confirmPassword.invalid || 
+                         ( accRegistrationForm.get('modeofVerification').value === '1' && accRegistrationForm.controls.phonenum.invalid )">
             <span class="auth-btn-circle">
               <i class="la la-caret-right"></i>
             </span>

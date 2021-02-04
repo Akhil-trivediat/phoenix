@@ -21,7 +21,9 @@ export class Sidebar implements OnInit, AfterViewInit {
     mapsCollapsed: true,
     extraCollapsed: true,
     levelsCollapsed: true,
-    devicesCollapsed: true
+    devicesCollapsed: true,
+    sensorCollapsed: true,
+    gatewayCollapsed: true
   };
 
   constructor(
@@ -103,4 +105,6 @@ export interface SidebarState {
   extraCollapsed: boolean;
   levelsCollapsed: boolean;
   devicesCollapsed: boolean;
+  sensorCollapsed: boolean;
+  gatewayCollapsed: boolean;
 }

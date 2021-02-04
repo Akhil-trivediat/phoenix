@@ -1,0 +1,594 @@
+<button class="btn btn-m btn-info float-right" routerLink="..">
+    <span class="d-none d-md-inline-block">Back</span>
+</button>
+<h3>GatewayID : {{gatewayid}}</h3>
+<div>
+    <tabset class="device-details-tabset">
+      <tab heading="Device Information">
+        <form name="deviceInformationForm" [formGroup]="deviceInformationForm">
+            <div class="form-group row mt">
+                <label for="status"  class="col-form-label">Status:</label>
+                <div class="device-input">
+                    <div class="input-group input-group-transparent">
+                        <input type="text"  class="form-control input-transparent pl-3" formControlName="status" placeholder="status"/>
+                      </div>
+                </div>
+            </div>
+
+            <div class="form-group row mt">
+                <label for="interfaceUsed"  class="col-form-label">LAN/WiFi/Cellular:</label>
+                <div class="device-input">
+                    <div class="input-group input-group-transparent">
+                        <input type="text"  class="form-control input-transparent pl-3" formControlName="interfaceUsed" placeholder="LAN/WiFi/Cellular"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mt">
+                <label for="eth_Port_1"  class="col-form-label">Ethernet Port 1:</label>
+                <div class="device-input">
+                    <div class="input-group input-group-transparent">
+                        <input type="text"  class="form-control input-transparent pl-3" formControlName="eth_Port_1" placeholder="Ethernet Port 1"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mt">
+                <label for="eth_Port_2"  class="col-form-label">Ethernet Port 2:</label>
+                <div class="device-input">
+                    <div class="input-group input-group-transparent">
+                        <input type="text"  class="form-control input-transparent pl-3" formControlName="eth_Port_2" placeholder="Ethernet Port 2"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mt">
+                <label for="WLAN_Port_1"  class="col-form-label">WLAN Port 2:</label>
+                <div class="device-input">
+                    <div class="input-group input-group-transparent">
+                        <input type="text"  class="form-control input-transparent pl-3" formControlName="WLAN_Port_1" placeholder="WLAN Port 2"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mt">
+                <label for="MAC_eth_Port_1"  class="col-form-label">MAC Address Ethernet Port 1(Primary):</label>
+                <div class="device-input">
+                    <div class="input-group input-group-transparent">
+                        <input type="text"  class="form-control input-transparent pl-3" formControlName="MAC_eth_Port_1" placeholder="MAC Address Ethernet Port 1"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mt">
+                <label for="MAC_eth_Port_2"  class="col-form-label">MAC Address Ethernet Port 2:</label>
+                <div class="device-input">
+                    <div class="input-group input-group-transparent">
+                        <input type="text"  class="form-control input-transparent pl-3" formControlName="MAC_eth_Port_2" placeholder="MAC Address Ethernet Port 2"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mt">
+                <label for="MAC_WLAN_1"  class="col-form-label">MAC Address WLAN Port 1 :</label>
+                <div class="device-input">
+                    <div class="input-group input-group-transparent">
+                        <input type="text"  class="form-control input-transparent pl-3" formControlName="MAC_WLAN_1" placeholder="MAC Address WLAN Port 1"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mt">
+                <label for="IP_add_eth_Port_2"  class="col-form-label">IP Address Ethernet Port 2(Configuration Port):</label>
+                <div class="device-input">
+                    <div class="input-group input-group-transparent">
+                        <input type="text"  class="form-control input-transparent pl-3" formControlName="IP_add_eth_Port_2" placeholder="IP Address Ethernet Port 2"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mt">
+                <label for="gatewayName"  class="col-form-label">Gateway Name:</label>
+                <div class="device-input">
+                    <div class="input-group input-group-transparent">
+                        <input type="text"  class="form-control input-transparent pl-3" formControlName="gatewayName" placeholder="Gateway Name"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mt">
+                <label for="IPAddressMode"  class="col-form-label">IP Address Mode:</label>
+                <div class="device-input">
+                    <div class="input-group input-group-transparent">
+                        <input type="text"  class="form-control input-transparent pl-3" formControlName="IPAddressMode" placeholder="IP Address Mode"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mt">
+                <label for="DNS_Primary"  class="col-form-label">DNS Primary:</label>
+                <div class="device-input">
+                    <div class="input-group input-group-transparent">
+                        <input type="text"  class="form-control input-transparent pl-3" formControlName="DNS_Primary" placeholder="DNS Primary"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mt">
+                <label for="DNS_Secondary"  class="col-form-label">DNS Secondary:</label>
+                <div class="device-input">
+                    <div class="input-group input-group-transparent">
+                        <input type="text"  class="form-control input-transparent pl-3" formControlName="DNS_Secondary" placeholder="DNS Secondary"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mt">
+                <label for="endpoint"  class="col-form-label">Endpoint:</label>
+                <div class="device-input">
+                    <div class="input-group input-group-transparent">
+                        <input type="text"  class="form-control input-transparent pl-3" formControlName="endpoint" placeholder="Endpoint"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mt">
+                <label for="SSH_State"  class="col-form-label">SSH State:</label>
+                <div class="device-input">
+                    <div class="input-group input-group-transparent">
+                        <input type="text"  class="form-control input-transparent pl-3" formControlName="SSH_State" placeholder="SSH State"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mt">
+                <label for="firmwareVersion"  class="col-form-label">Firmware Version:</label>
+                <div class="device-input">
+                    <div class="input-group input-group-transparent">
+                        <input type="text"  class="form-control input-transparent pl-3" formControlName="firmwareVersion" placeholder="Firmware Version"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+      </tab>
+      <tab heading="Network Configurations">
+        <tabset type="pills">
+            <tab heading="LAN">
+                <form name="LANConfigurationForm" [formGroup]="LANConfigurationForm">
+                    <div class="form-group row mt">
+                        <label for="dhcpRadio" class="col-form-label">IP Address Mode: </label>
+                        <div>
+                            <div class="input-group input-group-transparent">
+                                <div class="form-check" style="margin-left: 1.5em;">
+                                  <input type="radio"  class="form-check-input" formControlName="ipaddressmode" id="dhcpRadio" value="0"/>
+                                  <label class="form-check-label" for="dhcpRadio">
+                                    DHCP
+                                  </label>
+                                </div>
+                                <div class="form-check" style="margin-left: 1.5em;">
+                                  <input class="form-check-input" type="radio" formControlName="ipaddressmode" id="staticRadio" value="1">
+                                  <label class="form-check-label" for="staticRadio">
+                                    Static
+                                  </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mt" *ngIf="LANConfigurationForm.get('ipaddressmode').value === '1'">
+                        <label for="IPAddress"  class="col-form-label">IP Address:</label>
+                        <div>
+                            <div class="input-group input-group-transparent">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="IPAddress" placeholder="IP Address"
+                                    [ngClass]="{'is-invalid':LANConfigurationForm.controls.IPAddress.touched && LANConfigurationForm.controls.IPAddress.invalid}" required />
+                              </div>
+                              <div class="errors" 
+                                  *ngIf="LANConfigurationForm.controls.IPAddress.invalid && 
+                                      (LANConfigurationForm.controls.IPAddress.touched || LANConfigurationForm.controls.IPAddress.dirty)">
+                                  <small class="form-text text-danger" *ngIf="LANConfigurationForm.controls.IPAddress.errors.required">IP Address is required!</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mt" *ngIf="LANConfigurationForm.get('ipaddressmode').value === '1'">
+                        <label for="subnetMask"  class="col-form-label">Subnew Mask:</label>
+                        <div>
+                            <div class="input-group input-group-transparent">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="subnetMask" placeholder="Subnew Mask"
+                                    [ngClass]="{'is-invalid':LANConfigurationForm.controls.subnetMask.touched && LANConfigurationForm.controls.subnetMask.invalid}" required />
+                              </div>
+                              <div class="errors" 
+                                  *ngIf="LANConfigurationForm.controls.subnetMask.invalid && 
+                                      (LANConfigurationForm.controls.subnetMask.touched || LANConfigurationForm.controls.subnetMask.dirty)">
+                                  <small class="form-text text-danger" *ngIf="LANConfigurationForm.controls.subnetMask.errors.required">Subnew Mask is required!</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mt" *ngIf="LANConfigurationForm.get('ipaddressmode').value === '1'">
+                        <label for="gateway"  class="col-form-label">Gateway:</label>
+                        <div>
+                            <div class="input-group input-group-transparent">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="gateway" placeholder="Gateway"
+                                    [ngClass]="{'is-invalid':LANConfigurationForm.controls.gateway.touched && LANConfigurationForm.controls.gateway.invalid}" required />
+                              </div>
+                              <div class="errors" 
+                                  *ngIf="LANConfigurationForm.controls.gateway.invalid && 
+                                      (LANConfigurationForm.controls.gateway.touched || LANConfigurationForm.controls.gateway.dirty)">
+                                  <small class="form-text text-danger" *ngIf="LANConfigurationForm.controls.gateway.errors.required">Gateway is required!</small>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="form-group row mt">
+                        <label for="dnsprimary"  class="col-form-label">DNS Primary:</label>
+                        <div>
+                            <div class="input-group input-group-transparent">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="dnsprimary" placeholder="DNS Primary"
+                                    [ngClass]="{'is-invalid':LANConfigurationForm.controls.dnsprimary.touched && LANConfigurationForm.controls.dnsprimary.invalid}" required />
+                              </div>
+                              <div class="errors" 
+                                  *ngIf="LANConfigurationForm.controls.dnsprimary.invalid && 
+                                      (LANConfigurationForm.controls.dnsprimary.touched || LANConfigurationForm.controls.dnsprimary.dirty)">
+                                  <small class="form-text text-danger" *ngIf="LANConfigurationForm.controls.dnsprimary.errors.required">DNS Primary is required!</small>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="form-group row mt">
+                        <label for="dnssecondary"  class="col-form-label">DNS Secondary:</label>
+                        <div>
+                            <div class="input-group input-group-transparent">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="dnssecondary" placeholder="DNS Secondary"
+                                    [ngClass]="{'is-invalid':LANConfigurationForm.controls.dnssecondary.touched && LANConfigurationForm.controls.dnssecondary.invalid}" required />
+                              </div>
+                              <div class="errors" 
+                                  *ngIf="LANConfigurationForm.controls.dnssecondary.invalid && 
+                                      (LANConfigurationForm.controls.dnssecondary.touched || LANConfigurationForm.controls.dnssecondary.dirty)">
+                                  <small class="form-text text-danger" *ngIf="LANConfigurationForm.controls.dnssecondary.errors.required">DNS Secondary is required!</small>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <button (click)="onLANConfigFormSubmit(LANConfigurationForm)" type="submit" class="btn btn-m btn-primary" 
+                        [disabled]="
+                            LANConfigurationForm.controls.dnsprimary.invalid ||
+                            LANConfigurationForm.controls.dnssecondary.invalid ||
+                            LANConfigurationForm.get('ipaddressmode').value === '1' &&
+                            (
+                                LANConfigurationForm.get('IPAddress').invalid ||
+                                LANConfigurationForm.get('subnetMask').invalid ||
+                                LANConfigurationForm.get('gateway').invalid
+                            )">
+                        Save
+                    </button>
+                </form>
+            </tab>
+            <tab heading="WIFI">
+                <form name="WIFIConfigurationForm" [formGroup]="WIFIConfigurationForm">
+                    <div class="form-group row mt">
+                        <label for="dhcpRadio" class="col-form-label">IP Address Mode: </label>
+                        <div>
+                            <div class="input-group input-group-transparent">
+                                <div class="form-check" style="margin-left: 1.5em;">
+                                  <input type="radio"  class="form-check-input" formControlName="ipaddressmode" id="dhcpRadio" value="0"/>
+                                  <label class="form-check-label" for="dhcpRadio">
+                                    DHCP
+                                  </label>
+                                </div>
+                                <div class="form-check" style="margin-left: 1.5em;">
+                                  <input class="form-check-input" type="radio" formControlName="ipaddressmode" id="staticRadio" value="1">
+                                  <label class="form-check-label" for="staticRadio">
+                                    Static
+                                  </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mt" *ngIf="WIFIConfigurationForm.get('ipaddressmode').value === '1'">
+                        <label for="IPAddress"  class="col-form-label">IP Address:</label>
+                        <div>
+                            <div class="input-group input-group-transparent">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="IPAddress" placeholder="IP Address"
+                                    [ngClass]="{'is-invalid':WIFIConfigurationForm.controls.IPAddress.touched && WIFIConfigurationForm.controls.IPAddress.invalid}" required />
+                              </div>
+                              <div class="errors" 
+                                  *ngIf="WIFIConfigurationForm.controls.IPAddress.invalid && 
+                                      (WIFIConfigurationForm.controls.IPAddress.touched || WIFIConfigurationForm.controls.IPAddress.dirty)">
+                                  <small class="form-text text-danger" *ngIf="WIFIConfigurationForm.controls.IPAddress.errors.required">IP Address is required!</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mt" *ngIf="WIFIConfigurationForm.get('ipaddressmode').value === '1'">
+                        <label for="subnetMask"  class="col-form-label">Subnew Mask:</label>
+                        <div>
+                            <div class="input-group input-group-transparent">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="subnetMask" placeholder="Subnew Mask"
+                                    [ngClass]="{'is-invalid':WIFIConfigurationForm.controls.subnetMask.touched && WIFIConfigurationForm.controls.subnetMask.invalid}" required />
+                              </div>
+                              <div class="errors" 
+                                  *ngIf="WIFIConfigurationForm.controls.subnetMask.invalid && 
+                                      (WIFIConfigurationForm.controls.subnetMask.touched || WIFIConfigurationForm.controls.subnetMask.dirty)">
+                                  <small class="form-text text-danger" *ngIf="WIFIConfigurationForm.controls.subnetMask.errors.required">Subnew Mask is required!</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mt" *ngIf="WIFIConfigurationForm.get('ipaddressmode').value === '1'">
+                        <label for="gateway"  class="col-form-label">Gateway:</label>
+                        <div>
+                            <div class="input-group input-group-transparent">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="gateway" placeholder="Gateway"
+                                    [ngClass]="{'is-invalid':WIFIConfigurationForm.controls.gateway.touched && WIFIConfigurationForm.controls.gateway.invalid}" required />
+                              </div>
+                              <div class="errors" 
+                                  *ngIf="WIFIConfigurationForm.controls.gateway.invalid && 
+                                      (WIFIConfigurationForm.controls.gateway.touched || WIFIConfigurationForm.controls.gateway.dirty)">
+                                  <small class="form-text text-danger" *ngIf="WIFIConfigurationForm.controls.gateway.errors.required">Gateway is required!</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mt">
+                        <label for="dnsprimary"  class="col-form-label">DNS Primary:</label>
+                        <div>
+                            <div class="input-group input-group-transparent">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="dnsprimary" placeholder="DNS Primary"
+                                    [ngClass]="{'is-invalid':WIFIConfigurationForm.controls.dnsprimary.touched && WIFIConfigurationForm.controls.dnsprimary.invalid}" required />
+                              </div>
+                              <div class="errors" 
+                                  *ngIf="WIFIConfigurationForm.controls.dnsprimary.invalid && 
+                                      (WIFIConfigurationForm.controls.dnsprimary.touched || WIFIConfigurationForm.controls.dnsprimary.dirty)">
+                                  <small class="form-text text-danger" *ngIf="WIFIConfigurationForm.controls.dnsprimary.errors.required">DNS Primary is required!</small>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="form-group row mt">
+                        <label for="dnssecondary"  class="col-form-label">DNS Secondary:</label>
+                        <div>
+                            <div class="input-group input-group-transparent">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="dnssecondary" placeholder="DNS Secondary"
+                                    [ngClass]="{'is-invalid':WIFIConfigurationForm.controls.dnssecondary.touched && WIFIConfigurationForm.controls.dnssecondary.invalid}" required />
+                              </div>
+                              <div class="errors" 
+                                  *ngIf="WIFIConfigurationForm.controls.dnssecondary.invalid && 
+                                      (WIFIConfigurationForm.controls.dnssecondary.touched || WIFIConfigurationForm.controls.dnssecondary.dirty)">
+                                  <small class="form-text text-danger" *ngIf="WIFIConfigurationForm.controls.dnssecondary.errors.required">DNS Secondary is required!</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mt">
+                        <label for="ssid"  class="col-form-label">SSID:</label>
+                        <div>
+                            <div class="input-group input-group-transparent">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="ssid" placeholder="SSID"
+                                    [ngClass]="{'is-invalid':WIFIConfigurationForm.controls.ssid.touched && WIFIConfigurationForm.controls.ssid.invalid}" required />
+                              </div>
+                              <div class="errors" 
+                                  *ngIf="WIFIConfigurationForm.controls.ssid.invalid && 
+                                      (WIFIConfigurationForm.controls.ssid.touched || WIFIConfigurationForm.controls.ssid.dirty)">
+                                  <small class="form-text text-danger" *ngIf="WIFIConfigurationForm.controls.ssid.errors.required">DNS Secondary is required!</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mt">
+                        <label for="securityType"  class="col-form-label">Security Type:</label>
+                        <div>
+                            <div class="input-group input-group-transparent">
+                                <select class="form-control input-transparent pl-3" formControlName="securityType">
+                                    <option value="1">WPA-PSK</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mt">
+                        <label for="password"  class="col-form-label">Password:</label>
+                        <div>
+                            <div class="input-group input-group-transparent">
+                                <input type="password"  class="form-control input-transparent pl-3" formControlName="password" placeholder="DNS Secondary"
+                                    [ngClass]="{'is-invalid':WIFIConfigurationForm.controls.password.touched && WIFIConfigurationForm.controls.password.invalid}" required />
+                              </div>
+                              <div class="errors" 
+                                  *ngIf="WIFIConfigurationForm.controls.password.invalid && 
+                                      (WIFIConfigurationForm.controls.password.touched || WIFIConfigurationForm.controls.password.dirty)">
+                                  <small class="form-text text-danger" *ngIf="WIFIConfigurationForm.controls.password.errors.required">Password is required!</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button (click)="onWIFIConfigFormSubmit(WIFIConfigurationForm)" type="submit" class="btn btn-m btn-primary" 
+                        [disabled]="
+                            WIFIConfigurationForm.controls.dnsprimary.invalid ||
+                            WIFIConfigurationForm.controls.dnssecondary.invalid ||
+                            WIFIConfigurationForm.controls.ssid.invalid ||
+                            WIFIConfigurationForm.controls.securityType.invalid ||
+                            WIFIConfigurationForm.controls.password.invalid ||
+                            WIFIConfigurationForm.get('ipaddressmode').value === '1' &&
+                            (
+                                WIFIConfigurationForm.get('IPAddress').invalid ||
+                                WIFIConfigurationForm.get('subnetMask').invalid ||
+                                WIFIConfigurationForm.get('gateway').invalid
+                            )">
+                        Save
+                    </button>
+                </form>
+            </tab>
+            <tab heading="CELLULAR">
+                <form name="CELLULARConfigurationForm" [formGroup]="CELLULARConfigurationForm">
+                    <div class="form-group row mt">
+                        <label for="APN"  class="col-form-label">APN:</label>
+                        <div>
+                            <div class="input-group input-group-transparent">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="APN" placeholder="APN"
+                                    [ngClass]="{'is-invalid':CELLULARConfigurationForm.controls.APN.touched && CELLULARConfigurationForm.controls.APN.invalid}" required />
+                              </div>
+                              <div class="errors" 
+                                  *ngIf="CELLULARConfigurationForm.controls.APN.invalid && 
+                                      (CELLULARConfigurationForm.controls.APN.touched || CELLULARConfigurationForm.controls.APN.dirty)">
+                                  <small class="form-text text-danger" *ngIf="CELLULARConfigurationForm.controls.APN.errors.required">APN is required!</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mt">
+                        <label for="username"  class="col-form-label">Username:</label>
+                        <div>
+                            <div class="input-group input-group-transparent">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="username" placeholder="Username"
+                                    [ngClass]="{'is-invalid':CELLULARConfigurationForm.controls.username.touched && CELLULARConfigurationForm.controls.username.invalid}" required />
+                              </div>
+                              <div class="errors" 
+                                  *ngIf="CELLULARConfigurationForm.controls.username.invalid && 
+                                      (CELLULARConfigurationForm.controls.username.touched || CELLULARConfigurationForm.controls.username.dirty)">
+                                  <small class="form-text text-danger" *ngIf="CELLULARConfigurationForm.controls.username.errors.required">Username is required!</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mt">
+                        <label for="password"  class="col-form-label">Password:</label>
+                        <div>
+                            <div class="input-group input-group-transparent">
+                                <input type="password"  class="form-control input-transparent pl-3" formControlName="password" placeholder="DNS Secondary"
+                                    [ngClass]="{'is-invalid':CELLULARConfigurationForm.controls.password.touched && CELLULARConfigurationForm.controls.password.invalid}" required />
+                              </div>
+                              <div class="errors" 
+                                  *ngIf="CELLULARConfigurationForm.controls.password.invalid && 
+                                      (CELLULARConfigurationForm.controls.password.touched || CELLULARConfigurationForm.controls.password.dirty)">
+                                  <small class="form-text text-danger" *ngIf="CELLULARConfigurationForm.controls.password.errors.required">Password is required!</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button (click)="onCELLULARConfigFormSubmit(CELLULARConfigurationForm)" type="submit" class="btn btn-m btn-primary" 
+                        [disabled]="CELLULARConfigurationForm.invalid">
+                        Save
+                    </button>
+                </form>
+            </tab>
+        </tabset>
+      </tab>
+      <tab heading="Device Management">
+            <h5>Cloud Configuration: </h5>
+            <hr>
+            <form name="cloudConfigurationForm" [formGroup]="cloudConfigurationForm">
+                <div class="form-group row mt">
+                    <label for="endpoint"  class="col-form-label">End Point:</label>
+                    <div class="device-input">
+                        <div class="input-group input-group-transparent">
+                            <input type="text"  class="form-control input-transparent pl-3" formControlName="endpoint" placeholder="End Point"
+                                [ngClass]="{'is-invalid':cloudConfigurationForm.controls.endpoint.touched && cloudConfigurationForm.controls.endpoint.invalid}" required />
+                          </div>
+                          <div class="errors" 
+                              *ngIf="cloudConfigurationForm.controls.endpoint.invalid && 
+                                  (cloudConfigurationForm.controls.endpoint.touched || cloudConfigurationForm.controls.endpoint.dirty)">
+                              <small class="form-text text-danger" *ngIf="cloudConfigurationForm.controls.endpoint.errors.required">End Point is required!</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mt">
+                    <label for="mqttport"  class="col-form-label">MQTT Port:</label>
+                    <div class="device-input">
+                        <div class="input-group input-group-transparent">
+                            <input type="text"  class="form-control input-transparent pl-3" formControlName="mqttport" placeholder="MQTT Port"
+                                [ngClass]="{'is-invalid':cloudConfigurationForm.controls.mqttport.touched && cloudConfigurationForm.controls.mqttport.invalid}" required />
+                          </div>
+                          <div class="errors" 
+                              *ngIf="cloudConfigurationForm.controls.mqttport.invalid && 
+                                  (cloudConfigurationForm.controls.mqttport.touched || cloudConfigurationForm.controls.mqttport.dirty)">
+                              <small class="form-text text-danger" *ngIf="cloudConfigurationForm.controls.mqttport.errors.required">MQTT Port is required!</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mt">
+                    <label for="publishTopic"  class="col-form-label">Publish Topic:</label>
+                    <div class="device-input">
+                        <div class="input-group input-group-transparent">
+                            <input type="text"  class="form-control input-transparent pl-3" formControlName="publishTopic" placeholder="Publish Topic"
+                                [ngClass]="{'is-invalid':cloudConfigurationForm.controls.endpoint.touched && cloudConfigurationForm.controls.publishTopic.invalid}" required />
+                          </div>
+                          <div class="errors" 
+                              *ngIf="cloudConfigurationForm.controls.publishTopic.invalid && 
+                                  (cloudConfigurationForm.controls.publishTopic.touched || cloudConfigurationForm.controls.publishTopic.dirty)">
+                              <small class="form-text text-danger" *ngIf="cloudConfigurationForm.controls.publishTopic.errors.required">Publish Topic is required!</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mt">
+                    <label for="subscribeTopic"  class="col-form-label">Subscribe Topic:</label>
+                    <div class="device-input">
+                        <div class="input-group input-group-transparent">
+                            <input type="text"  class="form-control input-transparent pl-3" formControlName="subscribeTopic" placeholder="Subscribe Topic"
+                                [ngClass]="{'is-invalid':cloudConfigurationForm.controls.subscribeTopic.touched && cloudConfigurationForm.controls.subscribeTopic.invalid}" required />
+                          </div>
+                          <div class="errors" 
+                              *ngIf="cloudConfigurationForm.controls.subscribeTopic.invalid && 
+                                  (cloudConfigurationForm.controls.subscribeTopic.touched || cloudConfigurationForm.controls.subscribeTopic.dirty)">
+                              <small class="form-text text-danger" *ngIf="cloudConfigurationForm.controls.subscribeTopic.errors.required">Subscribe Topic is required!</small>
+                        </div>
+                    </div>
+                </div>
+    
+                <button (click)="onCloudConfigFormSubmit(cloudConfigurationForm)" type="submit" class="btn btn-m btn-primary" [disabled]="cloudConfigurationForm.invalid">
+                    Update
+                </button>
+            </form>
+
+            <h5>Firmware Configuration: </h5>
+            <hr>
+            <form name="firmwareConfigurationForm" [formGroup]="firmwareConfigurationForm">
+                <div class="form-group row mt">
+                    <label for="firmwareFileInput"  class="col-form-label">Firmware:</label>
+                    <div class="device-input">
+                        <div class="input-group input-group-transparent">
+                            <input type="file" class="form-control-file" aria-describedby="fileHelp" formControlName="firmwareFileInput"/>
+                        </div>
+                    </div>
+                </div>
+                <button (click)="onfirmwareConfigFormSubmit(firmwareConfigurationForm)" type="submit" class="btn btn-m btn-primary" [disabled]="firmwareConfigurationForm.invalid">
+                    Update
+                </button>
+            </form>
+
+            <h5>Sensor Configuration: </h5>
+            <hr>
+            <form name="sensorConfigurationForm" [formGroup]="sensorConfigurationForm">
+                <div class="form-group row mt">
+                    <label for="sensorInput"  class="col-form-label">Sensor Input:</label>
+                    <div>
+                        <div class="input-group input-group-transparent">
+                            <select class="form-control input-transparent pl-3" formControlName="sensorInput">
+                                <option value="1">RS232</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mt">
+                    <label for="sensorFileInput"  class="col-form-label">Firmware:</label>
+                    <div class="device-input">
+                        <div class="input-group input-group-transparent">
+                            <input type="file" class="form-control-file" aria-describedby="fileHelp" formControlName="sensorFileInput"/>
+                        </div>
+                    </div>
+                </div>
+                <button (click)="onsensorConfigFormSubmit(sensorConfigurationForm)" type="submit" class="btn btn-m btn-primary" [disabled]="sensorConfigurationForm.invalid">
+                    Update
+                </button>
+            </form>
+      </tab>
+    </tabset>
+  </div>

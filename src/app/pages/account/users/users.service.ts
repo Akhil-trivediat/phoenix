@@ -24,7 +24,7 @@ export class UsersService {
   }
 
   getAllUsers(): Observable<any>{
-    return this.requesterService.getRequest('/account/user').pipe(
+    return this.requesterService.getRequest('/user').pipe(
       catchError((error) => {
         return this.handleExternalRequestException(error);
       })
@@ -32,7 +32,7 @@ export class UsersService {
   }
 
   addUser(postData: any): Observable<any>{
-    return this.requesterService.addRequest('/account/user', postData).pipe(
+    return this.requesterService.addRequest('/user', postData).pipe(
       catchError((error) => {
         return this.handleExternalRequestException(error);
       })
@@ -40,7 +40,7 @@ export class UsersService {
   }
 
   updateUser(postData: any){
-    return this.requesterService.updateRequest('/account/user', postData).pipe(
+    return this.requesterService.updateRequest('/user', postData).pipe(
       catchError((error) => {
         return this.handleExternalRequestException(error);
       })
@@ -48,7 +48,7 @@ export class UsersService {
   }
 
   deleteUser(postData: any){
-    return this.requesterService.deleteRequest('/account/user', postData).pipe(
+    return this.requesterService.deleteRequest('/user', postData).pipe(
       catchError((error) => {
         return this.handleExternalRequestException(error);
       })

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ColumnMode } from "@swimlane/ngx-datatable";
+import { Sensor } from '../../../models/commonmodel.data';
+import { RequesterService } from '../../../shared/service/requester.service';
 
 @Component({
   selector: 'app-sensor-list',
@@ -8,12 +10,10 @@ import { ColumnMode } from "@swimlane/ngx-datatable";
 })
 export class SensorListComponent implements OnInit {
   public columnMode: typeof ColumnMode = ColumnMode;
-  emptyRowObj: any = {
-    name: "",
-    id: "",
-    product: ""
-  };
-  constructor() { }
+
+  constructor(
+    private requesterService: RequesterService
+  ) { }
   sensorsArray = [];
 
   ngOnInit() {
@@ -21,23 +21,25 @@ export class SensorListComponent implements OnInit {
   }
 
   getSensorList() {
-    this.sensorsArray = [
-      {
-        name : "Sensor 1",
-        id : "1000",
-        product : "Product A"
+    let sensorArray = [];
+    this.requesterService.getRequest("/sensor").subscribe(
+      (sensorsList) => {
+        this.sensorsArray = sensorsList;
+        sensorsList.forEach((sensor: Array<Sensor>) => {
+          (sensorArray as Array<Sensor>).push({
+            'sensorName': sensor["sensorName"],
+            'sensorid': sensor["sensorid"],
+            'status': sensor["status"],
+            'gateway': sensor["gateway"],
+            'activationdate': sensor["activationdate"],
+            'lastconnected': sensor["lastconnected"]
+          });
+        });
+        this.sensorsArray = sensorArray;
       },
-      {
-        name : "Sensor 2",
-        id : "2000",
-        product : "Product B"
-      },
-      {
-        name : "Sensor 3",
-        id : "3000",
-        product : "Product C"
+      (error) => {
+        console.log("error");
       }
-    ];
+    );
   }
-
 }

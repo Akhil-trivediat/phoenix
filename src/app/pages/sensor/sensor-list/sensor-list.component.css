@@ -1,0 +1,16 @@
+.header-container {
+    margin-bottom: 30px;
+}
+
+.header-container a:first-child{
+    margin-right: 10px;
+}
+
+.device-status-property .connection-status::before {
+    content: "\2B24";
+    margin-right: 0.5rem;
+}
+
+.device-status-property .connection-status {
+    font-size: 18px;
+}

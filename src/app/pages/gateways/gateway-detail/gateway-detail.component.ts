@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
+import { ColumnMode } from "@swimlane/ngx-datatable";
 import { RequesterService } from '../../../shared/service/requester.service';
 
 @Component({
@@ -12,6 +13,15 @@ export class GatewayDetailComponent implements OnInit {
   radiobtn: any;
   gatewayid: number;
   private subscription: any;
+  isOnline: boolean = false;
+  public columnMode: typeof ColumnMode = ColumnMode;
+  sensorsArray = [
+    {
+      'sensorName' : 'Sensor 1',
+      'sensorid' : '1000',
+      'lastconnected' : '04/02/2021'
+    }
+  ];
 
   constructor(
     private route: ActivatedRoute,
@@ -34,9 +44,10 @@ export class GatewayDetailComponent implements OnInit {
       this.gatewayid = +params['id'];
     });
 
-    this.subscription = this.requesterService.getRequest("/account/user/gateway/details").subscribe(
+    this.subscription = this.requesterService.getRequest("/gateway/details").subscribe(
       (gatewayDetails) => {
         this.gatewayDetails = gatewayDetails;
+        this.setConnectionStatus(this.gatewayDetails.aws_connection_status);
         this.fillFormData(gatewayDetails);
       },
       (error) => {
@@ -45,6 +56,14 @@ export class GatewayDetailComponent implements OnInit {
     );
 
     this.prepareForm();
+  }
+
+  setConnectionStatus(connectionStatus: string) {
+    if(connectionStatus === "connected") {
+      this.isOnline = true;
+    } else {
+      this.isOnline = false;
+    }
   }
 
   prepareForm() {

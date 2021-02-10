@@ -5,18 +5,26 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { SensorListComponent } from './sensor-list/sensor-list.component';
 import { SensorDetailComponent } from './sensor-detail/sensor-detail.component';
+import { SensorRegistrationComponent } from './sensor-registration/sensor-registration.component';
+import { AssignGatewayComponent } from './assign-gateway/assign-gateway.component';
 
 const routes: Routes = [
   {
     path: '', component: SensorListComponent
   },
   {
-    path: ':id', component: SensorDetailComponent
+    path: 'addSensor', component: SensorRegistrationComponent
+  },
+  {
+    path: 'assignGateway', component: AssignGatewayComponent
+  },
+  {
+    path: 'id/:id', component: SensorDetailComponent
   }
 ];
 
 @NgModule({
-  declarations: [SensorListComponent, SensorDetailComponent],
+  declarations: [SensorListComponent, SensorDetailComponent, SensorRegistrationComponent, AssignGatewayComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

@@ -102,7 +102,7 @@ export class AccountRegistrationComponent implements OnInit {
         // POST call to api gateway with the user data
         this.loginService.displayAccRegistration = false;
         let postData;
-        this.requesterService.addRequest('/account/user', postData).subscribe(
+        this.requesterService.addRequest('/user', postData).subscribe(
           (response) => {
             // navigate to Login Page
             this.router.navigate(['login']);

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
-import { User } from '../../../models/userdata.model';
+import { User } from '../../../models/commonmodel.data';
 import { UsersService } from './users.service';
 import { DialogComponent } from './dialog/dialog.component'
 

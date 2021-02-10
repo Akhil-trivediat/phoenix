@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ColumnMode } from "@swimlane/ngx-datatable";
+import { Gateway } from '../../../models/commonmodel.data';
 import { RequesterService } from '../../../shared/service/requester.service';
 
 @Component({
@@ -10,9 +11,12 @@ import { RequesterService } from '../../../shared/service/requester.service';
 export class GatewaysListComponent implements OnInit {
   public columnMode: typeof ColumnMode = ColumnMode;
   emptyRowObj: any = {
-    name: "",
-    id: "",
-    product: ""
+    gatewayName: "",
+    gatewayID: "",
+    status: "",
+    sensor: "",
+    activationDate: "",
+    lastConnected: ""
   };
   gatewaysArray = [];
   constructor(
@@ -24,9 +28,20 @@ export class GatewaysListComponent implements OnInit {
   }
 
   getGatewaysList() {
-    this.requesterService.getRequest("/account/user/gateway").subscribe(
+    let gatewayArray = [];
+    this.requesterService.getRequest("/gateway").subscribe(
       (gatewaysList) => {
-        this.gatewaysArray = gatewaysList;
+        gatewaysList.forEach((gateway: Array<Gateway>) => {
+          (gatewayArray as Array<Gateway>).push({
+            'gatewayName': gateway["gatewayName"],
+            'gatewayid': gateway["gatewayid"],
+            'status': gateway["status"],
+            'sensor': gateway["sensor"],
+            'activationdate': gateway["activationdate"],
+            'lastconnected': gateway["lastconnected"]
+          });
+        });
+        this.gatewaysArray = gatewayArray;
       },
       (error) => {
         console.log("error");

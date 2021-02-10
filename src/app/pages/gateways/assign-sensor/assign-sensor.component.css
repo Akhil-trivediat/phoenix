@@ -1,0 +1,16 @@
+.assign-sensor-page form label.col-form-label {
+    width: 12%;
+    margin-left: 15px;
+}
+
+.assign-sensor-page .device-input {
+    width: 25%;
+}
+
+.button-group{
+    margin-bottom: 1em;
+}
+
+.button-group > .btn:first-child {
+    margin-right: 1em;
+}

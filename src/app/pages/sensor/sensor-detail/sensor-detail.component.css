@@ -1,0 +1,42 @@
+.header-container {
+    margin-bottom: 30px;
+}
+
+.header-container h3,
+.header-container .device-status-property  {
+    display: inline-block;
+}
+
+.header-container h3{
+    margin-right: 15px;
+}
+
+.device-status-property .connection-status::before {
+    content: "\2B24";
+    margin-right: 0.5rem;
+}
+
+.device-status-property .connection-status {
+    font-size: 18px;
+}
+
+.sensorForm form {
+    margin-bottom: 15px;
+}
+
+.sensorForm label.col-form-label {
+    width:27%;
+    margin-left: 15px;
+}
+
+.sensorForm h5 {
+    font-weight: bold;
+}
+
+.sensorForm hr {
+    border-top: 1px solid grey !important;
+}
+
+.sensorForm .device-input {
+    width:30%;
+}

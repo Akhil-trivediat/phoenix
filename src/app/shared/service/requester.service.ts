@@ -29,7 +29,7 @@ export class RequesterService {
   }
 
   addRequest(path: string, postData: any): Observable<any>{
-    return this.http.post<any>(environment.serverUrl + '/account/user', postData).pipe(
+    return this.http.post<any>(environment.serverUrl + path, postData).pipe(
       catchError((error) => {
         return this.handleExternalRequestException(error);
       })

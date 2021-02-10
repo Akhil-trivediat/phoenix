@@ -55,7 +55,7 @@ export class AuthService {
           };
         //  this.refreshToken();
           this.doLoginUser(username, tokens);
-          this.router.navigate(['app/main']);
+          this.router.navigate(['app/dashboard']);
         }
         
       }

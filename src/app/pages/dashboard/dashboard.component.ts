@@ -53,7 +53,7 @@ export class DashboardComponent implements OnInit {
     private requesterService: RequesterService,
     private router: Router
   ) {
-    this.getGraphData();
+   // this.getGraphData();
    // Object.assign(this, { single1 });
     Object.assign(this, { multi });
   }
@@ -87,7 +87,7 @@ export class DashboardComponent implements OnInit {
         response.forEach((data: any) =>{
           if (data.temp) {
             graphData.push({
-              "name": data.sensorid,
+              "name": data.timestamp,
               "value": data.temp
             });
           }
@@ -131,7 +131,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getLocation(username: string) {
-    this.requesterService.getRequest('/location').subscribe(
+    this.requesterService.getRequest('/location' + '?email=' + username).subscribe(
         (response) => {
             this.setLocation(response[0].location);
         },

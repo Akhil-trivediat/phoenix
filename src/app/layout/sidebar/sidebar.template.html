@@ -2,6 +2,35 @@
   <a href="https://flatlogic.com/templates/light-blue-angular/demo">Light <span class="fw-bold">Blue</span></a>
 </header>
 <ul id="side-nav" class="side-nav">
+  <li><a routerLink="dashboard"><i class="fi flaticon-home"></i><span class="name">Dashboard</span></a></li>
+
+  <li><a routerLink="sensor"><i class="fi flaticon-paper-plane"></i>Sensor</a></li>
+
+  <li><a routerLink="gateway"><i class="fi flaticon-paper-plane"></i>Gateway</a></li>
+
+  <li>
+    <a routerLink="inbox"><i class="fi flaticon-paper-plane"></i><span class="name">Help</span></a>
+  </li>
+  
+  <li><a routerLink="inbox"><i class="fi flaticon-paper-plane"></i><span class="name">Notifications</span></a></li>
+  
+  <li class="accordion-group panel" [routerLinkActive]="['active']">
+    <a class="accordion-toggle" (click)="sidebarBehavior($event, 'accountCollapsed')" aria-controls="account-collapse"
+       [class.open]="!sidebarState.accountCollapsed">
+      <i class="fi flaticon-home"></i>
+      <span class="name">Account</span>
+    </a>
+    <ul id="account-collapse" class="accordion-body" [attr.aria-expanded]="sidebarState.accountCollapsed"
+        [collapse]="sidebarState.accountCollapsed" [isAnimated]="true">
+      <li [routerLinkActive]="['active']"><a routerLink="users">Users</a></li>
+    </ul>
+  </li>
+
+  <li>
+    <a routerLink="scrolling"><li class="fi flaticon-paper-plane"></li><span class="name">Infiite Scroller Test</span></a>
+  </li>
+</ul>
+
   <!-- <li class="accordion-group panel" [routerLinkActive]="['active']">
     <a class="accordion-toggle" (click)="sidebarBehavior($event, 'dashboardCollapsed')" aria-controls="main-collapse"
       [class.open]="!sidebarState.dashboardCollapsed">
@@ -27,12 +56,9 @@
   <!-- <li>
     <a routerLink="devices"><i class="fi flaticon-paper-plane"></i><span class="name">Devices</span></a>
   </li> -->
-  <!-- Dashboard -->
-  <li>
-    <a routerLink="dashboard"><i class="fi flaticon-paper-plane"></i><span class="name">Dashboard</span></a>
-  </li>
+  
   <!-- Device -->
-  <li class="accordion-group panel" [routerLinkActive]="['active']">
+  <!-- <li class="accordion-group panel" [routerLinkActive]="['active']">
     <a class="accordion-toggle" (click)="sidebarBehavior($event, 'devicesCollapsed')" aria-controls="devices-collapse"
        [class.open]="!sidebarState.devicesCollapsed">
       <i class="fi flaticon-home"></i>
@@ -43,9 +69,9 @@
       <li><a routerLink="devices" [routerLinkActive]="['active']">View Devices</a></li>
       <li><a routerLink="registerDevice" [routerLinkActive]="['active']">Device Registration</a></li>
     </ul>
-  </li>
+  </li> -->
   <!-- Sensor -->
-  <li class="accordion-group panel" [routerLinkActive]="['active']">
+  <!-- <li class="accordion-group panel" [routerLinkActive]="['active']">
     <a class="accordion-toggle" (click)="sidebarBehavior($event, 'sensorCollapsed')" aria-controls="devices-collapse"
        [class.open]="!sidebarState.sensorCollapsed">
       <i class="fi flaticon-home"></i>
@@ -55,9 +81,10 @@
         [collapse]="sidebarState.sensorCollapsed" [isAnimated]="true">
       <li><a routerLink="sensor" [routerLinkActive]="['active']">Sensor List</a></li>
     </ul>
-  </li>
+  </li> -->
+  <!-- <li><a routerLink="sensor"><i class="fi flaticon-paper-plane"></i>Sensor</a></li> -->
   <!-- Gateway -->
-  <li class="accordion-group panel" [routerLinkActive]="['active']">
+  <!-- <li class="accordion-group panel" [routerLinkActive]="['active']">
     <a class="accordion-toggle" (click)="sidebarBehavior($event, 'gatewayCollapsed')" aria-controls="devices-collapse"
        [class.open]="!sidebarState.gatewayCollapsed">
       <i class="fi flaticon-home"></i>
@@ -67,17 +94,18 @@
         [collapse]="sidebarState.gatewayCollapsed" [isAnimated]="true">
       <li><a routerLink="gateway" [routerLinkActive]="['active']">Gateway List</a></li>
     </ul>
-  </li>
+  </li> -->
+  <!-- <li><a routerLink="gateway"><i class="fi flaticon-paper-plane"></i>Gateway</a></li> -->
   <!-- Help -->
-  <li>
+  <!-- <li>
     <a routerLink="inbox"><i class="fi flaticon-paper-plane"></i><span class="name">Help</span></a>
-  </li>
+  </li> -->
   <!-- Notification -->
-  <li>
+  <!-- <li>
     <a routerLink="inbox"><i class="fi flaticon-paper-plane"></i><span class="name">Notifications</span></a>
-  </li>
+  </li> -->
   <!-- Account -->
-  <li class="accordion-group panel" [routerLinkActive]="['active']">
+  <!-- <li class="accordion-group panel" [routerLinkActive]="['active']">
     <a class="accordion-toggle" (click)="sidebarBehavior($event, 'accountCollapsed')" aria-controls="account-collapse"
        [class.open]="!sidebarState.accountCollapsed">
       <i class="fi flaticon-home"></i>
@@ -87,9 +115,8 @@
         [collapse]="sidebarState.accountCollapsed" [isAnimated]="true">
       <li [routerLinkActive]="['active']"><a routerLink="users">Users</a></li>
     </ul>
-  </li>
+  </li> -->
   <!-- Infiite Scroller Test -->
-  <li>
+  <!-- <li>
     <a routerLink="scrolling"><li class="fi flaticon-paper-plane"></li><span class="name">Infiite Scroller Test</span></a>
-  </li>
-</ul>
+  </li> -->

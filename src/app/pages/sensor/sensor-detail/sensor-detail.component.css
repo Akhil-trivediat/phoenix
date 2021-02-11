@@ -40,3 +40,8 @@
 .sensorForm .device-input {
     width:30%;
 }
+
+.graph {
+    width: 600px;
+    height: 650px;
+}

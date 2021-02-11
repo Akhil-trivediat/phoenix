@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Route } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoaderModule } from '../../../components/loader/loader.module'
 import { ProfileComponent } from './profile.component';
 
 const routes: Route[] = [{
@@ -16,7 +17,8 @@ const routes: Route[] = [{
     RouterModule.forChild(routes),
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    LoaderModule
   ]
 })
 export class ProfileModule { }

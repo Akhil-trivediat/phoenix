@@ -4,7 +4,7 @@
     </div>
     <div class="col">
         <div class="float-right">
-            <a href="#" class="btn btn-primary " routerLink="/app/sensor/assignGateway">Assign a Gateway</a>
+            <a class="btn btn-primary" (click)="onRefresh()">Refresh List</a>
             <a href="#" class="btn btn-primary" routerLink="/app/sensor/addSensor">Add Sensor</a>
         </div>
     </div>
@@ -52,6 +52,12 @@
     <ngx-datatable-column name="lastconnected">
         <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
         {{value}}
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Action">
+        <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+            <a class="btn btn-primary" routerLink="/app/sensor/assignGateway">Assign Gateway</a>
         </ng-template>
     </ngx-datatable-column>
 </ngx-datatable>

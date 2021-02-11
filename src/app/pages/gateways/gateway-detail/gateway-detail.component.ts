@@ -41,7 +41,7 @@ export class GatewayDetailComponent implements OnInit {
 
   ngOnInit() {
     this.subscription = this.route.params.subscribe(params => {
-      this.gatewayid = +params['id'];
+      this.gatewayid = params['id'];
     });
 
     this.subscription = this.requesterService.getRequest("/gateway/details").subscribe(
@@ -237,6 +237,10 @@ export class GatewayDetailComponent implements OnInit {
 
   onsensorConfigFormSubmit(form: NgForm) {
 
+  }
+
+  onfactoryResetFormSubmit() {
+    
   }
 
 }

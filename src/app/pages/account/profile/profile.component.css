@@ -1,0 +1,14 @@
+.profile-page form label.col-form-label {
+    width: 12%;
+    margin-left: 15px;
+}
+
+.profile-page .device-input {
+    width: 25%;
+}
+
+.profile-page .device-input input {
+    background-color: transparent;
+    color: #FFFFFF;
+    border: transparent;
+}

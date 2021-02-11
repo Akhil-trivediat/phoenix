@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { RequesterService } from '../../../shared/service/requester.service';
 
 @Component({
@@ -10,7 +11,8 @@ import { RequesterService } from '../../../shared/service/requester.service';
 export class SensorRegistrationComponent implements OnInit {
   sensorRegistrationForm: any;
   constructor(
-    private requesterService: RequesterService
+    private requesterService: RequesterService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -35,7 +37,8 @@ export class SensorRegistrationComponent implements OnInit {
     };
     this.requesterService.addRequest("/triggerSNS", JSON.stringify(requestBody)).subscribe(
       (response) => {
-        console.log(response); 
+        console.log(response);
+        this.router.navigate(['/app/sensor']);
       },
       (error) => {
         console.log(error);

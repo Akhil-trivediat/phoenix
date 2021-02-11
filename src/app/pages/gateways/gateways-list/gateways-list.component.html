@@ -4,7 +4,7 @@
     </div>
     <div class="col">
         <div class="float-right">
-            <a href="#" class="btn btn-primary " routerLink="/app/gateway/assignSensor">Assign a Sensor</a>
+            <a class="btn btn-primary" (click)="onRefresh()">Refresh List</a>
             <a href="#" class="btn btn-primary" routerLink="/app/gateway/addGateway">Add Gateway</a>
         </div>
     </div>
@@ -26,7 +26,7 @@
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column name="status">
+    <!-- <ngx-datatable-column name="status">
         <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
             <div class="device-status-property" *ngIf="value === '1'">
                 <span class="connection-status connected text-success"></span>
@@ -35,7 +35,7 @@
                 <span class="connection-status connected text-danger"></span>
             </div>
         </ng-template>
-    </ngx-datatable-column>
+    </ngx-datatable-column> 
 
     <ngx-datatable-column name="sensor">
         <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
@@ -52,6 +52,12 @@
     <ngx-datatable-column name="lastconnected">
         <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
             {{value}}
+        </ng-template>
+    </ngx-datatable-column> -->
+
+    <ngx-datatable-column name="Action">
+        <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+            <a class="btn btn-primary" routerLink="/app/gateway/assignSensor">Assign Sensor</a>
         </ng-template>
     </ngx-datatable-column>
 </ngx-datatable>

@@ -31,9 +31,9 @@ export class GatewaysListComponent implements OnInit {
     let gatewayArray = [];
     this.requesterService.getRequest("/gateway").subscribe(
       (gatewaysList) => {
-        gatewaysList.forEach((gateway: Array<Gateway>) => {
-          (gatewayArray as Array<Gateway>).push({
-            'gatewayName': gateway["gatewayName"],
+        gatewaysList.forEach((gateway) => {
+          (gatewayArray).push({
+            'gatewayName': gateway["gatewayname"],
             'gatewayid': gateway["gatewayid"],
             'status': gateway["status"],
             'sensor': gateway["sensor"],
@@ -41,11 +41,29 @@ export class GatewaysListComponent implements OnInit {
             'lastconnected': gateway["lastconnected"]
           });
         });
+        // gatewaysList.forEach((gateway: Array<Gateway>) => {
+        //   (gatewayArray as Array<Gateway>).push({
+        //     'gatewayName': gateway["gatewayName"],
+        //     'gatewayid': gateway["gatewayid"],
+        //     'status': gateway["status"],
+        //     'sensor': gateway["sensor"],
+        //     'activationdate': gateway["activationdate"],
+        //     'lastconnected': gateway["lastconnected"]
+        //   });
+        // });
         this.gatewaysArray = gatewayArray;
       },
       (error) => {
         console.log("error");
       }
     );
+  }
+
+  onRefresh() {
+    this.getGatewaysList();
+  }
+
+  onAssignSensor() {
+    
   }
 }

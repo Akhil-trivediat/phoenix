@@ -53,6 +53,15 @@ export class RequesterService {
     );
   }
 
+  getGraphRequest(path: string, params: any): Observable<any>{
+    let queryParams = params.ID;
+    return this.http.get<any>(environment.serverUrl + path + "?id=" + queryParams).pipe(
+      catchError((error) => {
+        return this.handleExternalRequestException(error);
+      })
+    );
+  }
+
   getDashboardUrl(path: string, email: string) {
     const url = environment.serverUrl + path + `?email=${email}`;
     return this.http.get(url);

@@ -9,8 +9,13 @@
 
 .button-group{
     margin-bottom: 1em;
+    width: 38%;
 }
 
-.button-group > .btn:first-child {
+.button-group > .btn {
+    float: right;
+}
+
+.button-group > .btn:not(:first-child) {
     margin-right: 1em;
 }

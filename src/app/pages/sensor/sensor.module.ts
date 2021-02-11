@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { WidgsterModule } from '../../components/widgster/widgster.module';
 import { SensorListComponent } from './sensor-list/sensor-list.component';
 import { SensorDetailComponent } from './sensor-detail/sensor-detail.component';
 import { SensorRegistrationComponent } from './sensor-registration/sensor-registration.component';
@@ -30,7 +33,10 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     FormsModule,
     ReactiveFormsModule,
-    NgxDatatableModule
+    NgxDatatableModule,
+    TabsModule,
+    NgxChartsModule,
+    WidgsterModule
   ],
   providers: [
   ]

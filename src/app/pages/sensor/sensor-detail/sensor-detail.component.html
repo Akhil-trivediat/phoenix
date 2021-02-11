@@ -1,94 +1,115 @@
-<div class="container">
-    <div class="row header-container">
-        <div class="col">
-            <h3>SensorID : {{sensorid}}</h3>
-            <div class="device-status-property" *ngIf="isOnline">
-                <span class="connection-status connected text-success">Online</span>
-            </div>
-            <div class="device-status-property" *ngIf="!isOnline">
-                <span class="connection-status disconnected text-danger">Offline</span>
-            </div>
+<div class="row header-container">
+    <div class="col">
+        <h3>SensorID : {{sensorid}}</h3>
+        <div class="device-status-property" *ngIf="isOnline">
+            <span class="connection-status connected text-success">Online</span>
         </div>
-        <div class="col">
-            <button class="btn btn-m btn-info float-right" routerLink="../..">
-                <span class="d-none d-md-inline-block">Back</span> 
-            </button>
+        <div class="device-status-property" *ngIf="!isOnline">
+            <span class="connection-status disconnected text-danger">Offline</span>
         </div>
     </div>
-    
-    <form name="sensorDetailsForm" [formGroup]="sensorDetailsForm" class="sensorForm">
-        <div class="form-group row mt">
-            <label for="sensorID"  class="col-form-label">Sensor ID:</label>
-            <div class="device-input">
-                <div class="input-group input-group-transparent">
-                    <input type="text"  class="form-control input-transparent pl-3" formControlName="sensorID"/>
-                  </div>
-            </div>
-        </div>
-        <div class="form-group row mt">
-            <label for="sensorName"  class="col-form-label">Sensor Name:</label>
-            <div class="device-input">
-                <div class="input-group input-group-transparent">
-                    <input type="text"  class="form-control input-transparent pl-3" formControlName="sensorName"/>
-                  </div>
-            </div>
-        </div>
-        <div class="form-group row mt">
-            <label for="readingValue"  class="col-form-label">Reading Value:</label>
-            <div class="device-input">
-                <div class="input-group input-group-transparent">
-                    <input type="text"  class="form-control input-transparent pl-3" formControlName="readingValue"/>
-                  </div>
-            </div>
-        </div>
-        <div class="form-group row mt">
-            <label for="readingUnit"  class="col-form-label">Reading Unit:</label>
-            <div class="device-input">
-                <div class="input-group input-group-transparent">
-                    <input type="text"  class="form-control input-transparent pl-3" formControlName="readingUnit"/>
-                  </div>
-            </div>
-        </div>
-        <div class="form-group row mt">
-            <label for="lastCommDate"  class="col-form-label">Last Communication Date:</label>
-            <div class="device-input">
-                <div class="input-group input-group-transparent">
-                    <input type="text"  class="form-control input-transparent pl-3" formControlName="lastCommDate"/>
-                  </div>
-            </div>
-        </div>
-        <div class="form-group row mt">
-            <label for="networkName"  class="col-form-label">Network Name:</label>
-            <div class="device-input">
-                <div class="input-group input-group-transparent">
-                    <input type="text"  class="form-control input-transparent pl-3" formControlName="networkName"/>
-                  </div>
-            </div>
-        </div>
-        <div class="form-group row mt">
-            <label for="gatewayName"  class="col-form-label">Gateway Name:</label>
-            <div class="device-input">
-                <div class="input-group input-group-transparent">
-                    <input type="text"  class="form-control input-transparent pl-3" formControlName="gatewayName"/>
-                  </div>
-            </div>
-        </div>
-        <div class="form-group row mt">
-            <label for="minThres"  class="col-form-label">Minimum Threshold:</label>
-            <div class="device-input">
-                <div class="input-group input-group-transparent">
-                    <input type="text"  class="form-control input-transparent pl-3" formControlName="minThres"/>
-                  </div>
-            </div>
-        </div>
-        <div class="form-group row mt">
-            <label for="maxThres"  class="col-form-label">Maximum Threshold:</label>
-            <div class="device-input">
-                <div class="input-group input-group-transparent">
-                    <input type="text"  class="form-control input-transparent pl-3" formControlName="maxThres"/>
-                  </div>
-            </div>
-        </div>
-    </form>
+    <div class="col">
+        <button class="btn btn-m btn-info float-right" routerLink="../..">
+            <span class="d-none d-md-inline-block">Back</span> 
+        </button>
+    </div>
+</div>
 
+<div>
+    <tabset class="device-details-tabset">
+        <tab heading="Sensor Graph" class="graph">
+            <ngx-charts-bar-vertical
+            [view]="[900, 400]"
+            [scheme]="{domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']}"
+            [results]="finalGraphData"
+            [gradient]="false"
+            [xAxis]="true"
+            [yAxis]="true"
+            [legend]="false"
+            [animations]="true"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            [xAxisLabel]="'Timestamp'"
+            [yAxisLabel]="'Temperature'"
+            (select)="onSelect($event)"
+            style="fill: #ffffff;">
+            </ngx-charts-bar-vertical> 
+        </tab>
+        <tab heading="Sensor Details">
+            <form name="sensorDetailsForm" [formGroup]="sensorDetailsForm" class="sensorForm">
+                <div class="form-group row mt">
+                    <label for="sensorID"  class="col-form-label">Sensor ID:</label>
+                    <div class="device-input">
+                        <div class="input-group input-group-transparent">
+                            <input type="text"  class="form-control input-transparent pl-3" formControlName="sensorID"/>
+                          </div>
+                    </div>
+                </div>
+                <div class="form-group row mt">
+                    <label for="sensorName"  class="col-form-label">Sensor Name:</label>
+                    <div class="device-input">
+                        <div class="input-group input-group-transparent">
+                            <input type="text"  class="form-control input-transparent pl-3" formControlName="sensorName"/>
+                          </div>
+                    </div>
+                </div>
+                <div class="form-group row mt">
+                    <label for="readingValue"  class="col-form-label">Reading Value:</label>
+                    <div class="device-input">
+                        <div class="input-group input-group-transparent">
+                            <input type="text"  class="form-control input-transparent pl-3" formControlName="readingValue"/>
+                          </div>
+                    </div>
+                </div>
+                <div class="form-group row mt">
+                    <label for="readingUnit"  class="col-form-label">Reading Unit:</label>
+                    <div class="device-input">
+                        <div class="input-group input-group-transparent">
+                            <input type="text"  class="form-control input-transparent pl-3" formControlName="readingUnit"/>
+                          </div>
+                    </div>
+                </div>
+                <div class="form-group row mt">
+                    <label for="lastCommDate"  class="col-form-label">Last Communication Date:</label>
+                    <div class="device-input">
+                        <div class="input-group input-group-transparent">
+                            <input type="text"  class="form-control input-transparent pl-3" formControlName="lastCommDate"/>
+                          </div>
+                    </div>
+                </div>
+                <div class="form-group row mt">
+                    <label for="networkName"  class="col-form-label">Network Name:</label>
+                    <div class="device-input">
+                        <div class="input-group input-group-transparent">
+                            <input type="text"  class="form-control input-transparent pl-3" formControlName="networkName"/>
+                          </div>
+                    </div>
+                </div>
+                <div class="form-group row mt">
+                    <label for="gatewayName"  class="col-form-label">Gateway Name:</label>
+                    <div class="device-input">
+                        <div class="input-group input-group-transparent">
+                            <input type="text"  class="form-control input-transparent pl-3" formControlName="gatewayName"/>
+                          </div>
+                    </div>
+                </div>
+                <div class="form-group row mt">
+                    <label for="minThres"  class="col-form-label">Minimum Threshold:</label>
+                    <div class="device-input">
+                        <div class="input-group input-group-transparent">
+                            <input type="text"  class="form-control input-transparent pl-3" formControlName="minThres"/>
+                          </div>
+                    </div>
+                </div>
+                <div class="form-group row mt">
+                    <label for="maxThres"  class="col-form-label">Maximum Threshold:</label>
+                    <div class="device-input">
+                        <div class="input-group input-group-transparent">
+                            <input type="text"  class="form-control input-transparent pl-3" formControlName="maxThres"/>
+                          </div>
+                    </div>
+                </div>
+            </form>
+        </tab>
+    </tabset>
 </div>

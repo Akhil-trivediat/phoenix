@@ -2,8 +2,12 @@
     margin-bottom: 30px;
 }
 
-.header-container a:first-child{
+.header-container a{
     margin-right: 10px;
+}
+
+.header-container a:last-child{
+    margin-right: 0px;
 }
 
 .device-status-property .connection-status::before {

@@ -1,5 +1,5 @@
 <div class="assign-sensor-page">
-    <h3>Assign Sensor to a Gateway:</h3>
+    <h3>Assign Sensor to Gateway:</h3>
     <form name="assignSensorForm" [formGroup]="assignSensorForm">
         <div class="form-group row mt">
             <label for="sensorID"  class="col-form-label">Sensor ID*:</label>
@@ -47,11 +47,11 @@
         </div>
         
         <div class="button-group mt" role="group">
-            <button routerLink=".." type="button" class="btn btn-m btn-grey">
-                Cancel
-            </button>
             <button (click)="onassignSensorFormSubmit(assignSensorForm)" type="submit" class="btn btn-m btn-primary" [disabled]="assignSensorForm.invalid">
                 Add
+            </button>
+            <button routerLink=".." type="button" class="btn btn-m btn-grey">
+                Cancel
             </button>
         </div>
     </form>

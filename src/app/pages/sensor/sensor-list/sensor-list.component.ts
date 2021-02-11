@@ -42,4 +42,8 @@ export class SensorListComponent implements OnInit {
       }
     );
   }
+
+  onRefresh() {
+    this.getSensorList();
+  }
 }

@@ -1,5 +1,5 @@
 <div class="assign-gateway-page">
-    <h3>Assign Gateway to a Sensor:</h3>
+    <h3>Assign Gateway to Sensor:</h3>
     <form name="assignGatewayForm" [formGroup]="assignGatewayForm">
         <div class="form-group row mt">
             <label for="deviceID"  class="col-form-label">Sensor ID*:</label>
@@ -14,7 +14,7 @@
                       <small class="form-text text-danger" *ngIf="assignGatewayForm.controls.deviceID.errors.required">Sensor ID is required!</small>
                 </div>
             </div>
-        </div>
+        </div> 
 
         <div class="form-group row mt">
             <label for="gatewayID"  class="col-form-label">Gateway ID*:</label>
@@ -32,11 +32,11 @@
         </div>
         
         <div class="button-group mt" role="group">
-            <button routerLink=".." type="button" class="btn btn-m btn-grey">
-                Cancel
-            </button>
             <button (click)="onassignGatewayFormSubmit(assignGatewayForm)" type="submit" class="btn btn-m btn-primary" [disabled]="assignGatewayForm.invalid">
                 Add
+            </button>
+            <button routerLink=".." type="button" class="btn btn-m btn-grey">
+                Cancel
             </button>
         </div>
     </form>

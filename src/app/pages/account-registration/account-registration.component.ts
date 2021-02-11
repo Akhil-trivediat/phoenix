@@ -95,22 +95,24 @@ export class AccountRegistrationComponent implements OnInit {
   }
 
   onSubmit(accRegistrationForm: NgForm) {
+    const formControls: any = accRegistrationForm.controls;
     const email: string = accRegistrationForm.controls.email.value;
     const confirmationCode: string = accRegistrationForm.controls.code.value;
-    this.loginService.confirmSignUp(email,confirmationCode).then(
+    this.loginService.confirmSignUp(email,confirmationCode,formControls).then(
       (response) => {
         // POST call to api gateway with the user data
         this.loginService.displayAccRegistration = false;
         let postData;
-        this.requesterService.addRequest('/user', postData).subscribe(
-          (response) => {
-            // navigate to Login Page
-            this.router.navigate(['login']);
-          },
-          (error) => {
-            this.router.navigate(['login']);
-          }
-        );
+        this.router.navigate(['login']);
+        // this.requesterService.addRequest('/user', postData).subscribe(
+        //   (response) => {
+        //     // navigate to Login Page
+        //     this.router.navigate(['login']);
+        //   },
+        //   (error) => {
+        //     this.router.navigate(['login']);
+        //   }
+        // );
       },
       (error) => {
        // console.log(error);
@@ -118,6 +120,21 @@ export class AccountRegistrationComponent implements OnInit {
       }
     );
     // POST call to api gateway
+  }
+
+  disableSubmitButton(accRegistrationForm: NgForm) {
+    if(accRegistrationForm.controls.email.invalid || 
+      accRegistrationForm.controls.password.invalid ||
+      accRegistrationForm.controls.confirmPassword.invalid || 
+      ( accRegistrationForm.controls.modeofVerification.value === '1' && accRegistrationForm.controls.phonenum.invalid ) ||
+      accRegistrationForm.controls.code.invalid ||
+      accRegistrationForm.controls.firstname.invalid ||
+      accRegistrationForm.controls.lastname.invalid ||
+      accRegistrationForm.controls.orgname.invalid) {
+        return true
+    } else {
+      return false
+    }
   }
 
   

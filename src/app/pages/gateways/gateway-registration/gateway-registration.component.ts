@@ -24,8 +24,7 @@ export class GatewayRegistrationComponent implements OnInit {
     this.gatewayRegistrationForm = new FormGroup({
       deviceID: new FormControl('', [Validators.required]),
       deviceName: new FormControl('', [Validators.required]),
-      location: new FormControl('', [Validators.required]),
-      provisionDate: new FormControl('', [Validators.required])
+      location: new FormControl('', [Validators.required])
     });
   }
 

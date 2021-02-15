@@ -4,15 +4,15 @@
 <ul id="side-nav" class="side-nav">
   <li><a routerLink="dashboard"><i class="fi flaticon-home"></i><span class="name">Dashboard</span></a></li>
 
-  <li><a routerLink="sensor"><i class="fi flaticon-paper-plane"></i>Sensor</a></li>
+  <li><a routerLink="sensor"><i class="fi flaticon-paper-plane"></i>Sensor<span class="count">{{sensorCount}}</span></a></li>
 
-  <li><a routerLink="gateway"><i class="fi flaticon-paper-plane"></i>Gateway</a></li>
+  <li><a routerLink="gateway"><i class="fi flaticon-paper-plane"></i>Gateway<span class="count">{{gatewayCount}}</span></a></li>
 
   <li>
     <a routerLink="inbox"><i class="fi flaticon-paper-plane"></i><span class="name">Help</span></a>
   </li>
   
-  <li><a routerLink="inbox"><i class="fi flaticon-paper-plane"></i><span class="name">Notifications</span></a></li>
+  <li><a routerLink="inbox"><i class="fi flaticon-notification"></i><span class="name">Notifications</span></a></li>
   
   <li class="accordion-group panel" [routerLinkActive]="['active']">
     <a class="accordion-toggle" (click)="sidebarBehavior($event, 'accountCollapsed')" aria-controls="account-collapse"
@@ -25,6 +25,7 @@
       <li [routerLinkActive]="['active']"><a routerLink="users">Users</a></li>
     </ul>
   </li>
+  <!-- <i class="fa fa-users"></i> -->
 
   <li>
     <a routerLink="scrolling"><li class="fi flaticon-paper-plane"></li><span class="name">Infiite Scroller Test</span></a>

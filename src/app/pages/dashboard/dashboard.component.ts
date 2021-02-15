@@ -144,6 +144,7 @@ export class DashboardComponent implements OnInit {
   getAllGateways() {
     this.requesterService.getRequest("/gateway").subscribe(
       (gatewaysList) => {
+        // if any data then show else hide
         this.gatewayCount = gatewaysList.length;
       },
       (error) => {
@@ -155,6 +156,7 @@ export class DashboardComponent implements OnInit {
   getAllSensors() {
     this.requesterService.getRequest("/sensor").subscribe(
       (sensorList) => {
+        // if any data then show else hide
         this.sensorCount = sensorList.length;
       },
       (error) => {
@@ -163,8 +165,8 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  addDeviceNav(){
-    this.router.navigate(["registerDevice"]);
+  addDeviceNav(path: string){
+    this.router.navigate([path]);
   }
 
 

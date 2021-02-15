@@ -12,17 +12,17 @@
 
 <ngx-datatable class="table table-striped table-hover" [rows]="sensorsArray"
     [columnMode]="columnMode.force" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" >
-    <ngx-datatable-column name="sensorName">
+    <ngx-datatable-column name="sensorid">
         <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
             <a [routerLink]="['id/', row.sensorid]">
                 {{value}}
             </a>
         </ng-template>
     </ngx-datatable-column>
-
-    <ngx-datatable-column name="sensorid">
+    
+    <ngx-datatable-column name="sensorName">
         <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
-        {{value}}
+            {{value}}
         </ng-template>
     </ngx-datatable-column>
 

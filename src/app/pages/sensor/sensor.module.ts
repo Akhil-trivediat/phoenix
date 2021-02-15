@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { WidgsterModule } from '../../components/widgster/widgster.module';
 import { SensorListComponent } from './sensor-list/sensor-list.component';
 import { SensorDetailComponent } from './sensor-detail/sensor-detail.component';
@@ -36,7 +37,8 @@ const routes: Routes = [
     NgxDatatableModule,
     TabsModule,
     NgxChartsModule,
-    WidgsterModule
+    WidgsterModule,
+    NgMultiSelectDropDownModule
   ],
   providers: [
   ]

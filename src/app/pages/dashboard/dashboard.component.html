@@ -26,22 +26,22 @@
                         <!-- <h3 *widgsterTitle>Infrastructure</h3>
                         <hr> -->
                         <div class="counters">
-                            <a class="counter navigation-link" routerLink="/app/gateways">
+                            <a class="counter navigation-link" routerLink="/app/gateway">
                                 <span class="counter-label">Gateways</span>
-                                <span class="counter-value">{{gatewayCount}}</span>
+                                <span class="counter-value">{{gatewayCount}}/1</span>
                             </a>
-                            <a class="counter navigation-link" routerLink="/app/sensors">
+                            <a class="counter navigation-link" routerLink="/app/sensor">
                                 <span class="counter-label">Sensors</span>
-                                <span class="counter-value">{{sensorCount}}</span>
+                                <span class="counter-value">{{sensorCount}}/1</span>
                             </a>
-                            <a class="counter navigation-link">
+                            <!-- <a class="counter navigation-link">
                                 <span class="counter-label">Active Devices</span>
                                 <span class="counter-value">3</span>
                             </a>
                             <a class="counter navigation-link">
                                 <span class="counter-label">Inactive Devices</span>
                                 <span class="counter-value">2</span>
-                            </a>
+                            </a> -->
                         </div>
                     </div>
             </section>
@@ -80,7 +80,7 @@
                 <div class="card-body">
                   <h5 class="card-title">Add a Gateway:</h5>
                   <hr>
-                  <a href="#" class="btn btn-primary" routerLink="/app/registerDevice">Add Gateway</a>
+                  <a class="btn btn-primary" (click)="addDeviceNav('app/gateway/addGateway')">Add Gateway</a>
                 </div>
             </div>
         </div>
@@ -89,7 +89,7 @@
                 <div class="card-body">
                   <h5 class="card-title">Add a Sensor:</h5>
                   <hr>
-                  <a href="#" class="btn btn-primary" routerLink="/app/registerDevice">Add Sensor</a>
+                  <a class="btn btn-primary" (click)="addDeviceNav('app/sensor/addSensor')">Add Sensor</a>
                 </div>
             </div>
         </div>

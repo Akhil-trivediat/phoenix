@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, AfterViewInit, Renderer2 } from '@angular/core';
+import { RequesterService } from '../../shared/service/requester.service';
 
 @Component({
   selector: '[sidebar]',
@@ -8,6 +9,8 @@ import { Component, ElementRef, OnInit, AfterViewInit, Renderer2 } from '@angula
 export class Sidebar implements OnInit, AfterViewInit {
   sidebarHeight: number = 0;
   sidebarMenu: any = 0;
+  sensorCount: string;
+  gatewayCount: string;
 
   public sidebarState: SidebarState = {
     dashboardCollapsed: true,
@@ -28,11 +31,36 @@ export class Sidebar implements OnInit, AfterViewInit {
 
   constructor(
     private renderer: Renderer2,
-    private el: ElementRef
+    private el: ElementRef,
+    private requesterService: RequesterService
   ) {
   }
 
-  public ngOnInit(): void {
+  public ngOnInit() {
+    this.getAllGateways();
+    this.getAllSensors();
+  }
+
+  getAllSensors() {
+    this.requesterService.getRequest("/sensor").subscribe(
+      (sensorList) => {
+        this.sensorCount = sensorList.length;
+      },
+      (error) => {
+        console.log("error");
+      }
+    );
+  }
+
+  getAllGateways() {
+    this.requesterService.getRequest("/gateway").subscribe(
+      (gatewaysList) => {
+        this.gatewayCount = gatewaysList.length;
+      },
+      (error) => {
+        console.log("error");
+      }
+    );
   }
 
   ngAfterViewInit() {

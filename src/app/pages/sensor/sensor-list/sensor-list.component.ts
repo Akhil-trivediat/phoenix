@@ -27,10 +27,10 @@ export class SensorListComponent implements OnInit {
         this.sensorsArray = sensorsList;
         sensorsList.forEach((sensor: Array<Sensor>) => {
           (sensorArray as Array<Sensor>).push({
-            'sensorName': sensor["sensorName"],
+            'sensorName': sensor["sensorname"],
             'sensorid': sensor["sensorid"],
             'status': sensor["status"],
-            'gateway': sensor["gateway"],
+            'gateway': sensor["gatewayid"],
             'activationdate': sensor["activationdate"],
             'lastconnected': sensor["lastconnected"]
           });

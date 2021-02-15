@@ -1,0 +1,21 @@
+.assign-gateway-page form label.col-form-label {
+    width: 12%;
+    margin-left: 15px;
+}
+
+.assign-gateway-page .device-input {
+    width: 25%;
+}
+
+.button-group{
+    margin-bottom: 1em;
+    width: 38%;
+}
+
+.button-group > .btn {
+    float: right;
+}
+
+.button-group > .btn:not(:first-child) {
+    margin-right: 1em;
+}

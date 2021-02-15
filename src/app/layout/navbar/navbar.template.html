@@ -133,7 +133,7 @@
       </ul>
     </li>
     <li class="divider"></li>
-    <li dropdown [isOpen]="settings.isOpen" [autoClose]="false" class="nav-item dropdown d-sm-down-none">
+    <!-- <li dropdown [isOpen]="settings.isOpen" [autoClose]="false" class="nav-item dropdown d-sm-down-none">
       <a id="settings" title="Settings" class="nav-link dropdown-toggle" dropdownToggle>
         <i class="glyphicon glyphicon-cog"></i>
       </a>
@@ -141,9 +141,9 @@
         <div class="settings-content">
           <div class="setting clearfix">
             <div>Sidebar on the</div>
-            <div id="sidebar-toggle" class="btn-group">
+            <div id="sidebar-toggle" class="btn-group"> -->
               <!--nRight = sidebar == 'right'-->
-              <button type="button" btnRadio="Left" [(ngModel)]="radioModel" (click)="sidebarPosition('Left')"
+              <!-- <button type="button" btnRadio="Left" [(ngModel)]="radioModel" (click)="sidebarPosition('Left')"
                 class="btn btn-dark">Left</button>
               <button type="button" btnRadio="Right" [(ngModel)]="radioModel" (click)="sidebarPosition('Right')"
                 class="btn btn-dark">Right</button>
@@ -151,9 +151,9 @@
           </div>
           <div class="setting clearfix">
             <div>Sidebar</div>
-            <div id="display-sidebar-toggle" class="btn-group">
+            <div id="display-sidebar-toggle" class="btn-group"> -->
               <!--display = displaySidebar-->
-              <button type="button" btnRadio="Left" [(ngModel)]="display" (click)="sidebarDisplay('Show')"
+              <!-- <button type="button" btnRadio="Left" [(ngModel)]="display" (click)="sidebarDisplay('Show')"
                 class="btn btn-dark">Show</button>
               <button type="button" btnRadio="Right" [(ngModel)]="display" (click)="sidebarDisplay('Hide')"
                 class="btn btn-dark">Hide</button>
@@ -161,10 +161,11 @@
           </div>
         </div>
       </div>
-    </li>
+    </li> -->
     <li class="nav-item dropdown d-sm-down-none" dropdown>
-      <a title="Account" id="account" class="nav-link dropdown-toggle" dropdownToggle>
-        <i class="glyphicon glyphicon-user"></i>
+      <a title="Settings" id="account" class="nav-link dropdown-toggle" dropdownToggle>
+        <!-- <i class="glyphicon glyphicon-user"></i> -->
+        <i class="glyphicon glyphicon-cog"></i>
       </a>
       <ul *dropdownMenu id="account-menu" class="dropdown-menu dropdown-menu-right account" role="menu">
         <li role="presentation" class="account-picture">
@@ -179,7 +180,7 @@
         </li>
         <li role="presentation">
           <a (click)="onResetClick()" class="dropdown-item">
-            <i class="fa fa-user"></i>
+            <i class="la la-lock text-white"></i>
             Reset Password
           </a>
         </li>
@@ -203,7 +204,7 @@
       </a>
     </li>
     <li class="nav-item d-sm-down-none">
-      <a class="nav-link" (click)="logout()"><i class="glyphicon glyphicon-off"></i></a>
+      <a title="Logout" class="nav-link" (click)="logout()"><i class="glyphicon glyphicon-off"></i></a>
     </li>
   </ul>
 </nav>

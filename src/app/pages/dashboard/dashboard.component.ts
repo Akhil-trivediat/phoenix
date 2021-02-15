@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router'
 import { ngxVerticalBarChartData } from '../../utils/data/ngx-charts.data';
 import { single, multi } from './data';
+//import {BrowserDomAdapter} from '@angular/platform/browser'}
 
 import { RequesterService } from '../../shared/service/requester.service';
 import * as QuickSightEmbedding from '../../../../node_modules/amazon-quicksight-embedding-sdk';
@@ -12,32 +14,47 @@ import * as QuickSightEmbedding from '../../../../node_modules/amazon-quicksight
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  @Input() size: number = 51;
   dashboard: any;
 
   single: any[];
   multi: any[];
 
-  view: any[] = [600, 400];
+ //view: any[] = [600, 400];
 
-  // options
-  showXAxis = true;
-  showYAxis = true;
-  gradient = false;
-  showLegend = true;
-  showXAxisLabel = true;
-  xAxisLabel = 'Country';
-  showYAxisLabel = true;
-  yAxisLabel = 'Population';
-  legendTitle: string = 'Years';
+  options;
+//   showXAxis = true;
+//  showYAxis = true;
+//   gradient = false;
+//   showLegend = true;
+//   showXAxisLabel = true;
+//   xAxisLabel = 'Sensor';
+//   showYAxisLabel = true;
+//   yAxisLabel = 'Temperature';
 
-  colorScheme = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
-  };
+  showGraph: boolean = false;
+
+  //myDOM: Object;
+ // legendTitle: string = 'Years';
+
+  // colorScheme = {
+  //   domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+  // };
+
+  username: string;
+  location: string;
+  gatewayCount: string;
+  sensorCount: string;
+
+  
+  finalGraphData: any = [];
 
   constructor(
-    private requesterService: RequesterService
+    private requesterService: RequesterService,
+    private router: Router
   ) {
-    Object.assign(this, { single });
+   // this.getGraphData();
+   // Object.assign(this, { single1 });
     Object.assign(this, { multi });
   }
 
@@ -54,9 +71,105 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadDashboard();
+    
+    this.getUserDetails();
+    this.getAllGateways();
+    this.getAllSensors();
+    //this.loadDashboard();
     //this.getDashboardURL();
   }
+
+  async getGraphData() {
+    let graphData: any =[];
+    await this.requesterService.getRequest('/graphdata').toPromise().then(
+      response => {
+        //console.log(response);
+        response.forEach((data: any) =>{
+          if (data.temp) {
+            graphData.push({
+              "name": data.timestamp,
+              "value": data.temp
+            });
+          }
+        });
+        this.finalGraphData = graphData;
+        this.showGraph = true;
+        //this.myDOM = new BrowserDomAdapter();
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  //   this.requesterService.getRequest('/account/graphdata').subscribe(
+  //     (response) => {
+  //         console.log(response);
+  //         response.forEach((data) =>{
+  //           this.single1.push({
+  //             "name": data.sensorid,
+  //             "value": data.temp
+  //           });
+  //         });
+  //     },
+  //     (error) => {
+  //         console.log(error);
+  //     }
+  // );
+    
+  }
+
+  getUserDetails() {
+    this.setUserName(localStorage.getItem('USER_NAME'));
+    this.getLocation(localStorage.getItem('USER_NAME'));
+  }
+
+  setUserName(username: string): void {
+    this.username = username;
+  }
+
+  setLocation(location: string): void {
+    this.location = location;
+  }
+
+  getLocation(username: string) {
+    this.requesterService.getRequest('/location' + '?email=' + username).subscribe(
+        (response) => {
+            this.setLocation(response[0].location);
+        },
+        (error) => {
+            console.log(error);
+        }
+    );
+  }
+
+  getAllGateways() {
+    this.requesterService.getRequest("/gateway").subscribe(
+      (gatewaysList) => {
+        // if any data then show else hide
+        this.gatewayCount = gatewaysList.length;
+      },
+      (error) => {
+        console.log("error");
+      }
+    );
+  }
+
+  getAllSensors() {
+    this.requesterService.getRequest("/sensor").subscribe(
+      (sensorList) => {
+        // if any data then show else hide
+        this.sensorCount = sensorList.length;
+      },
+      (error) => {
+        console.log("error");
+      }
+    );
+  }
+
+  addDeviceNav(path: string){
+    this.router.navigate([path]);
+  }
+
+
   
   loadDashboard() {
     this.requesterService.getDashboardUrl("/dashboard/getDashboardUrl","suryasnata@trivediat.com").subscribe(

@@ -5,7 +5,12 @@
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-lg-6 col-12">
+        <div class="col-lg-12 col-12">
+            <div class="title-container">
+                <h3>{{ username }} | {{ location }}</h3>
+            </div>
+        </div>
+        <div class="col-lg-12 col-12">
             <section 
                 class="mx-auto"
                 widgster
@@ -16,21 +21,32 @@
                 [closeControl]="false"
                 titleClass="mt-0">
                     <div class="widget-content dashboard-counters-view">
-                        <h3 *widgsterTitle>Infrastructure</h3>
+                        <!-- <loader></loader> -->
+                        
+                        <!-- <h3 *widgsterTitle>Infrastructure</h3>
+                        <hr> -->
                         <div class="counters">
-                            <a class="counter navigation-link" routerLink="/app/devices">
-                                <span class="counter-label">Devices</span>
+                            <a class="counter navigation-link" routerLink="/app/gateway">
+                                <span class="counter-label">Gateways</span>
+                                <span class="counter-value">{{gatewayCount}}/1</span>
+                            </a>
+                            <a class="counter navigation-link" routerLink="/app/sensor">
+                                <span class="counter-label">Sensors</span>
+                                <span class="counter-value">{{sensorCount}}/1</span>
+                            </a>
+                            <!-- <a class="counter navigation-link">
+                                <span class="counter-label">Active Devices</span>
                                 <span class="counter-value">3</span>
                             </a>
-                            <a class="counter navigation-link" routerLink="/app/devices">
-                                <span class="counter-label">Location</span>
+                            <a class="counter navigation-link">
+                                <span class="counter-label">Inactive Devices</span>
                                 <span class="counter-value">2</span>
-                            </a>
+                            </a> -->
                         </div>
-                     </div>
+                    </div>
             </section>
         </div>
-        <div class="col-lg-1"></div>
+        <!-- <div class="col-lg-1"></div>
         <div class="col-lg-5 col-12">
             <section 
                 class="mx-auto"
@@ -55,37 +71,71 @@
                         </div>
                      </div>
             </section>
+        </div> -->
+    </div>
+
+    <div class="row">
+        <div class="col-sm">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                  <h5 class="card-title">Add a Gateway:</h5>
+                  <hr>
+                  <a class="btn btn-primary" (click)="addDeviceNav('app/gateway/addGateway')">Add Gateway</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                  <h5 class="card-title">Add a Sensor:</h5>
+                  <hr>
+                  <a class="btn btn-primary" (click)="addDeviceNav('app/sensor/addSensor')">Add Sensor</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <!-- <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                  <h5 class="card-title">Add a Device:</h5>
+                  <hr>
+                  <a href="#" class="btn btn-primary">Add Device</a>
+                </div>
+            </div> -->
         </div>
     </div>
+
     <div class="row">
         <div class="col-lg-6 col-12">
-            <section 
-                class="mx-auto text-center"
+            <!-- <section *ngIf="showGraph"
+                class="mx-auto text-center graph"
                 widgster
                 [optionsControl]="false"
                 [reloadControl]="false"
                 [fullscreenControl]="false"
                 [collapseControl]="false"
                 [closeControl]="false"
-                titleClass="mt-0">
+                titleClass="mt-0"> 
+                    <h3 *widgsterTitle>Health of the system</h3>
                     <ngx-charts-bar-vertical
-                    [view]="view"
-                    [scheme]="colorScheme"
-                    [results]="single"
-                    [gradient]="gradient"
-                    [xAxis]="showXAxis"
-                    [yAxis]="showYAxis"
-                    [legend]="showLegend"
-                    [showXAxisLabel]="showXAxisLabel"
-                    [showYAxisLabel]="showYAxisLabel"
-                    [xAxisLabel]="xAxisLabel"
-                    [yAxisLabel]="yAxisLabel"
-                    (select)="onSelect($event)">
+                    [view]="[600, 400]"
+                    [scheme]="{domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']}"
+                    [results]="finalGraphData"
+                    [gradient]="false"
+                    [xAxis]="true"
+                    [yAxis]="true"
+                    [legend]="false"
+                    [animations]="true"
+                    [showXAxisLabel]="true"
+                    [showYAxisLabel]="true"
+                    [xAxisLabel]="'Timestamp'"
+                    [yAxisLabel]="'Temperature'"
+                    (select)="onSelect($event)"
+                    style="fill: #ffffff;">
                     </ngx-charts-bar-vertical>
-            </section>
+            </section> -->
         </div>
         <div class="col-lg-6 col-12">
-            <section 
+            <!-- <section 
                 class="mx-auto text-center"
                 widgster
                 [optionsControl]="false"
@@ -111,7 +161,7 @@
                     (activate)="onActivate($event)"
                     (deactivate)="onDeactivate($event)">
                     </ngx-charts-bar-vertical-2d>
-            </section>
+            </section> -->
         </div>
     </div>
   </div>

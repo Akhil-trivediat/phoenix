@@ -143,7 +143,7 @@ export class LoginService {
         username: userName,
         password: password,
         attributes: {
-          email: email,
+          email: email
           //phonenumber: phonenumber
         }
       }
@@ -193,8 +193,20 @@ export class LoginService {
     });
   }
 
-  confirmSignUp(email: string,code: string): Promise<any> {
-    return Auth.confirmSignUp(email,code)
+  confirmSignUp(email: string,code: string,attributes: any): Promise<any> {
+    let userAttributes = {
+      clientMetadata : {
+        address: "Toronto",
+        companyname: attributes.orgname.value,
+        email: email,
+        firstname: attributes.firstname.value,
+        lastname: attributes.lastname.value,
+        password: attributes.password.value,
+        phonenumber: attributes.phonenum.value ? attributes.phonenum.value : "",
+        timezone: "EST"
+      }
+    };
+    return Auth.confirmSignUp(email,code,userAttributes)
     .then((data) => 
       {
         return data;

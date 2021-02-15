@@ -13,6 +13,8 @@ const routes: Routes = [
       { path: 'scrolling', loadChildren: () => import('../pages/scroller/scroller.module').then(module => module.ScrollerModule) },
       { path: 'profile', loadChildren: () => import('../pages/account/profile/profile.module').then(module => module.ProfileModule) },
       { path: 'devices', loadChildren: () => import('../pages/devices/device.module').then(module => module.DevicesComponentModule) },
+      { path: 'sensor', loadChildren: () => import('../pages/sensor/sensor.module').then(module => module.SensorComponentModule) },
+      { path: 'gateway', loadChildren: () => import('../pages/gateways/gateway.module').then(module => module.GatewayComponentModule) },
       { path: 'resetPassword', component: ResetPasswordComponent },
       {
         path: 'registerDevice', component: DeviceRegistrationComponent

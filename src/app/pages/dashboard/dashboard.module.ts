@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WidgsterModule } from '../../components/widgster/widgster.module';
+import { LoaderModule } from '../../components/loader/loader.module'
 import { DashboardComponent } from './dashboard.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
@@ -20,6 +21,7 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     WidgsterModule,
+    LoaderModule,
     NgxChartsModule
   ],
   providers: [

@@ -90,6 +90,12 @@
         </div>
         <!-- Get Verification Code -->
         <div class="form-group mt acc-btn-group">
+          <button (click)="onCancel()" type="submit" class="btn btn-sm" *ngIf="!loginService.displayAccRegistration">
+            <span class="auth-btn-circle">
+              <i class="la la-caret-right"></i>
+            </span>
+            Cancel
+          </button>
           <button (click)="onSendVerificationCode(accRegistrationForm)" type="submit" class="btn btn-sm btn-primary" 
             [disabled]="accRegistrationForm.controls.email.invalid ||
                          accRegistrationForm.controls.password.invalid ||
@@ -153,7 +159,7 @@
         </div>
         <!-- Buttons -->
         <div class="form-group mt acc-btn-group">
-          <button (click)="onSubmit(accRegistrationForm)" type="submit" class="btn btn-sm btn-primary" [disabled]="accRegistrationForm.invalid">
+          <button (click)="onSubmit(accRegistrationForm)" type="submit" class="btn btn-sm btn-primary" [disabled]="disableSubmitButton(accRegistrationForm)">
             <span class="auth-btn-circle">
               <i class="la la-caret-right"></i>
             </span>

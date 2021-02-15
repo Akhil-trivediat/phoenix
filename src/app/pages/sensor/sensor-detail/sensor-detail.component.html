@@ -1,0 +1,122 @@
+<div class="row header-container">
+    <div class="col">
+        <h3>SensorID : {{sensorid}}</h3>
+        <div class="device-status-property" *ngIf="isOnline">
+            <span class="connection-status connected text-success">Online</span>
+        </div>
+        <div class="device-status-property" *ngIf="!isOnline">
+            <span class="connection-status disconnected text-danger">Offline</span>
+        </div>
+    </div>
+    <div class="col">
+        <button class="btn btn-m btn-info float-right" routerLink="../..">
+            <span class="d-none d-md-inline-block">Back</span> 
+        </button>
+    </div>
+</div>
+<div class="sensor-details-page">
+    <div class="sensor-details">
+        <h5>Sensor Detail: </h5>
+        <hr>
+        <form name="sensorDetailsForm" [formGroup]="sensorDetailsForm" class="sensorForm">
+            <div class="form-group row mt">
+                <label for="sensorName"  class="col-form-label">Sensor Name:</label>
+                <div class="device-input">
+                    <div class="input-group input-group-transparent">
+                        <input type="text"  class="form-control input-transparent pl-3" formControlName="sensorName"/>
+                      </div>
+                </div>
+            </div>
+            <div class="form-group row mt">
+                <label for="readingValue"  class="col-form-label">Reading Value:</label>
+                <div class="device-input">
+                    <div class="input-group input-group-transparent">
+                        <input type="text"  class="form-control input-transparent pl-3" formControlName="readingValue"/>
+                      </div>
+                </div>
+            </div>
+            <div class="form-group row mt">
+                <label for="readingUnit"  class="col-form-label">Reading Unit:</label>
+                <div class="device-input">
+                    <div class="input-group input-group-transparent">
+                        <input type="text"  class="form-control input-transparent pl-3" formControlName="readingUnit"/>
+                      </div>
+                </div>
+            </div>
+            <div class="form-group row mt">
+                <label for="lastCommDate"  class="col-form-label">Last Communication Date:</label>
+                <div class="device-input">
+                    <div class="input-group input-group-transparent">
+                        <input type="text"  class="form-control input-transparent pl-3" formControlName="lastCommDate"/>
+                      </div>
+                </div>
+            </div>
+            <div class="form-group row mt">
+                <label for="location"  class="col-form-label">Location:</label>
+                <div class="device-input">
+                    <div class="input-group input-group-transparent">
+                        <input type="text"  class="form-control input-transparent pl-3" formControlName="location"/>
+                      </div>
+                </div>
+            </div>
+            <div class="form-group row mt">
+                <label for="gatewayName"  class="col-form-label">Gateway Name:</label>
+                <div class="device-input">
+                    <div class="input-group input-group-transparent">
+                        <input type="text"  class="form-control input-transparent pl-3" formControlName="gatewayName"/>
+                      </div>
+                </div>
+            </div>
+            <div class="form-group row mt">
+                <label for="minThres"  class="col-form-label">Minimum Threshold:</label>
+                <div class="device-input">
+                    <div class="input-group input-group-transparent">
+                        <input type="text"  class="form-control input-transparent pl-3" formControlName="minThres"/>
+                      </div>
+                </div>
+            </div>
+            <div class="form-group row mt">
+                <label for="maxThres"  class="col-form-label">Maximum Threshold:</label>
+                <div class="device-input">
+                    <div class="input-group input-group-transparent">
+                        <input type="text"  class="form-control input-transparent pl-3" formControlName="maxThres"/>
+                      </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="sensor-graph">
+        <h5>Sensor Graph: </h5>
+        <hr>
+        <!-- <mat-form-field appearance="fill">
+            <mat-label>Toppings</mat-label>
+            <mat-select [formControl]="toppings" multiple>
+              <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+            </mat-select>
+          </mat-form-field> -->
+        <!-- <select class="selectpicker" multiple>
+            <option>Mustard</option>
+            <option>Ketchup</option>
+            <option>Barbecue</option>
+          </select> -->
+        <div id="highChart"></div>
+    </div>
+    <div class="sensor-data-table">
+        <h5>Sensor Data: </h5>
+        <hr>
+        <ngx-datatable class="table table-striped table-hover" [rows]="sensorDetailArray"
+        [columnMode]="columnMode.force" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" >
+            <ngx-datatable-column name="timestamp">
+                <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+                {{value}}
+                </ng-template>
+            </ngx-datatable-column>
+    
+            <ngx-datatable-column name="temperature">
+                <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+                {{value}}
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+</div>

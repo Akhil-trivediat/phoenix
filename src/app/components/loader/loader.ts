@@ -8,5 +8,5 @@ import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
 })
 
 export class LoaderComponent {
-  @Input() size: number = 21;
+  @Input() size: number = 31;
 }

@@ -1,0 +1,8 @@
+.device-registration-page form label.col-form-label {
+    width: 27%;
+    margin-left: 15px;
+}
+
+.device-registration-page .device-input {
+    width:30%;
+}

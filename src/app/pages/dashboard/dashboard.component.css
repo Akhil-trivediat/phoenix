@@ -1,6 +1,15 @@
+
+.title-container {
+    display: block;
+    padding: 15px 17px 15px 0;
+    color: #f8f8f8;
+    margin-bottom: 15px;
+    position: relative;
+}
+
 .dashboard-counters-view .counters{
     display: flex;
-    margin: 3rem 0;
+    margin: 2rem 0;
 }
 
 .dashboard-counters-view .counters .counter {
@@ -20,10 +29,24 @@
     display: block;
     border-right: solid 1px #e2e2e2;
     font-weight: 300;
-    font-size: 3rem;
+    font-size: 2rem;
     line-height: 1;
 }
 
 .dashboard-counters-view .counters .counter:last-child .counter-value {
     border-right: none;
+}
+
+.card{
+    margin-bottom: 30px
+}
+
+hr {
+    border-top: 1px solid grey !important;
+    margin: 5px 0px 15px 0px;
+}
+
+.graph {
+    width: 650px;
+    height: 500px;
 }

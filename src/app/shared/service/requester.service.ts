@@ -29,7 +29,7 @@ export class RequesterService {
   }
 
   addRequest(path: string, postData: any): Observable<any>{
-    return this.http.post<any>(environment.serverUrl + '/account/user', postData).pipe(
+    return this.http.post<any>(environment.serverUrl + path, postData).pipe(
       catchError((error) => {
         return this.handleExternalRequestException(error);
       })
@@ -47,6 +47,15 @@ export class RequesterService {
   deleteRequest(path: string, postData: any){
     postData = {};
     return this.http.delete<any>(environment.serverUrl + '/account/user', postData).pipe(
+      catchError((error) => {
+        return this.handleExternalRequestException(error);
+      })
+    );
+  }
+
+  getGraphRequest(path: string, params: any): Observable<any>{
+    let queryParams = params.ID;
+    return this.http.get<any>(environment.serverUrl + path + "?id=" + queryParams).pipe(
       catchError((error) => {
         return this.handleExternalRequestException(error);
       })

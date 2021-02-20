@@ -66,4 +66,9 @@ export class RequesterService {
     const url = environment.serverUrl + path + `?email=${email}`;
     return this.http.get(url);
   }
+
+  getGraphDataSyncRequest(path: string, params: any) {
+    let queryParams = params.ID;
+    return  this.http.get<any>(environment.serverUrl + path + "?id=" + queryParams).toPromise();
+  }
 }

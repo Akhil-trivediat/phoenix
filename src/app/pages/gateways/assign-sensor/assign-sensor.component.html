@@ -5,8 +5,19 @@
             <label for="sensorID"  class="col-form-label">Sensor ID*:</label>
             <div class="device-input">
                 <div class="input-group">
-                    <input type="text"  class="form-control pl-3" formControlName="sensorID"
-                        [ngClass]="{'is-invalid':assignSensorForm.controls.sensorID.touched && assignSensorForm.controls.sensorID.invalid}" required />
+                    <ng-select
+                        formControlName="sensorID"
+                        class="custom"
+                        [items]="ddSensorsList"
+                        [multiple]="false"
+                        [closeOnSelect]="false"
+                        [searchable]="false"
+                        bindLabel="id"
+                        placeholder="Select sensor"
+                        [(ngModel)]="selectedSensor">
+                    </ng-select>
+                    <!-- <input type="text"  class="form-control pl-3" formControlName="sensorID"
+                        [ngClass]="{'is-invalid':assignSensorForm.controls.sensorID.touched && assignSensorForm.controls.sensorID.invalid}" required /> -->
                   </div>
                   <div class="errors" 
                       *ngIf="assignSensorForm.controls.sensorID.invalid && 

@@ -133,7 +133,7 @@ export class DashboardComponent implements OnInit {
   getLocation(username: string) {
     this.requesterService.getRequest('/location' + '?email=' + username).subscribe(
         (response) => {
-            this.setLocation(response[0].location);
+            this.setLocation(response[0].state);
         },
         (error) => {
             console.log(error);

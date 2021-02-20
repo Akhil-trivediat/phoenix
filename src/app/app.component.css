@@ -1,0 +1,11 @@
+.select2-search { background-color: #00f !important; }
+
+.select2-search input { background-color: #00f !important; }
+
+.select2-results { background-color: #00f !important; }
+
+.select2-choice { background-color: #00f !important; }
+
+.select2-container--default .select2-selection--single {
+  background-color: #00f !important;
+}

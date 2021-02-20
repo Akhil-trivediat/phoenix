@@ -28,11 +28,21 @@ export class GatewayRegistrationComponent implements OnInit {
     });
   }
 
+  getUserDetails() {
+    return localStorage.getItem('USER_NAME');
+  }
+
   onGatewayRegistrationFormSubmit(form: NgForm){
+    let gatewayData = {
+      deviceID: form.value.deviceID,
+      deviceName: form.value.deviceName,
+      location: form.value.location,
+      email: this.getUserDetails()
+    };
     let requestBody = {
       action: "Add",
       type: "Gateway",
-      data: form.value
+      data: gatewayData
     };
     this.requesterService.addRequest("/triggerSNS", JSON.stringify(requestBody)).subscribe(
       (response) => {

@@ -10,6 +10,7 @@ import { RequesterService } from '../../../shared/service/requester.service';
 })
 export class SensorRegistrationComponent implements OnInit {
   sensorRegistrationForm: any;
+
   constructor(
     private requesterService: RequesterService,
     private router: Router
@@ -26,6 +27,16 @@ export class SensorRegistrationComponent implements OnInit {
       gatewayID: new FormControl('', [Validators.required]),
       location: new FormControl('', [Validators.required])
     });
+  }
+
+  disableSubmitButton(sensorRegistrationForm: NgForm) {
+    if(sensorRegistrationForm.controls.deviceID.invalid ||
+      sensorRegistrationForm.controls.deviceName.invalid ||
+      sensorRegistrationForm.controls.location.invalid) {
+        return true
+    } else {
+      return false
+    }
   }
 
   onSensorRegistrationFormSubmit(form: NgForm) {

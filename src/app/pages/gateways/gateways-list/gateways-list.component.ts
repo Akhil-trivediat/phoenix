@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import { Gateway } from '../../../models/commonmodel.data';
+import { Router, NavigationExtras } from '@angular/router';
 import { RequesterService } from '../../../shared/service/requester.service';
 
 @Component({
@@ -19,38 +20,40 @@ export class GatewaysListComponent implements OnInit {
     lastConnected: ""
   };
   gatewaysArray = [];
+
+  navigationExtras: NavigationExtras = {
+    state : {
+      gatewayID : ""
+    }
+  };
   constructor(
-    private requesterService: RequesterService
+    private requesterService: RequesterService,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.getGatewaysList();
   }
 
+  getUserDetails() {
+    return localStorage.getItem('USER_NAME');
+  }
+
   getGatewaysList() {
     let gatewayArray = [];
-    this.requesterService.getRequest("/gateway").subscribe(
+    const email = this.getUserDetails();
+    this.requesterService.getRequest("/gateway" + "?email=" + email).subscribe(
       (gatewaysList) => {
         gatewaysList.forEach((gateway) => {
           (gatewayArray).push({
-            'gatewayName': gateway["gatewayname"],
-            'gatewayid': gateway["gatewayid"],
+            'gatewayName': gateway["productname"],
+            'gatewayid': gateway["id"],
             'status': gateway["status"],
             'sensor': gateway["sensor"],
-            'activationdate': gateway["activationdate"],
+            'activationdate': gateway["createddate"],
             'lastconnected': gateway["lastconnected"]
           });
         });
-        // gatewaysList.forEach((gateway: Array<Gateway>) => {
-        //   (gatewayArray as Array<Gateway>).push({
-        //     'gatewayName': gateway["gatewayName"],
-        //     'gatewayid': gateway["gatewayid"],
-        //     'status': gateway["status"],
-        //     'sensor': gateway["sensor"],
-        //     'activationdate': gateway["activationdate"],
-        //     'lastconnected': gateway["lastconnected"]
-        //   });
-        // });
         this.gatewaysArray = gatewayArray;
       },
       (error) => {
@@ -63,7 +66,12 @@ export class GatewaysListComponent implements OnInit {
     this.getGatewaysList();
   }
 
-  onAssignSensor() {
-    
+  onAssignSensor(gatewayID: any) {
+    this.navigationExtras = {
+      state : {
+        gatewayID : gatewayID
+      }
+    };
+    this.router.navigate(['/app/gateway/assignSensor'], this.navigationExtras);
   }
 }

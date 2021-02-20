@@ -13,7 +13,7 @@
 <ngx-datatable class="table table-striped table-hover" [rows]="gatewaysArray"
     [columnMode]="columnMode.force" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10">
 
-    <ngx-datatable-column name="gatewayid" [width]="100">
+    <ngx-datatable-column name="gatewayid" [width]="200">
         <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
             <a [routerLink]="['id/', row.gatewayid]">
                 {{value}}
@@ -60,7 +60,7 @@
 
     <ngx-datatable-column name="Action">
         <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
-            <a class="btn btn-primary" routerLink="/app/gateway/assignSensor">Assign Sensor</a>
+            <a class="btn btn-primary" (click)="onAssignSensor(row.gatewayid)">Assign Sensor</a>
         </ng-template>
     </ngx-datatable-column>
 </ngx-datatable>

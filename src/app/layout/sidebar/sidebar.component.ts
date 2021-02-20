@@ -41,6 +41,10 @@ export class Sidebar implements OnInit, AfterViewInit {
     this.getAllSensors();
   }
 
+  getUserDetails() {
+    return localStorage.getItem('USER_NAME');
+  }
+
   getAllSensors() {
     this.requesterService.getRequest("/sensor").subscribe(
       (sensorList) => {
@@ -53,7 +57,8 @@ export class Sidebar implements OnInit, AfterViewInit {
   }
 
   getAllGateways() {
-    this.requesterService.getRequest("/gateway").subscribe(
+    const email = this.getUserDetails();
+    this.requesterService.getRequest("/gateway" + "?email=" + email).subscribe(
       (gatewaysList) => {
         this.gatewayCount = gatewaysList.length;
       },

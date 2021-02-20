@@ -19,3 +19,8 @@
 .button-group > .btn:not(:first-child) {
     margin-right: 1em;
 }
+
+.custom {
+    width: 100%;
+    display: inline-block;
+}

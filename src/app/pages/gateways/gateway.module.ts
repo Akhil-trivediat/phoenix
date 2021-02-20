@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { GatewaysListComponent } from './gateways-list/gateways-list.component';
 import { GatewayDetailComponent } from './gateway-detail/gateway-detail.component';
 import { GatewayRegistrationComponent } from './gateway-registration/gateway-registration.component';
@@ -32,7 +33,8 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     NgxDatatableModule,
-    TabsModule
+    TabsModule,
+    NgSelectModule
   ],
   providers: [
   ]

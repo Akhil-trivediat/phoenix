@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
 import { RequesterService } from '../../../shared/service/requester.service';
 import { data, goog, msft, aapl } from './sampleGraphData';
-import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import * as Highcharts from 'highcharts/highstock';
 
@@ -24,25 +23,21 @@ noData(Highcharts);
 })
 export class SensorDetailComponent implements OnInit {
   public columnMode: typeof ColumnMode = ColumnMode;
-  sensorid: number;
   private subscription: any;
+  public options: any;
+  sensorid: number;
   sensorDetailsForm:  any;
   addSensorForm: any;
   isOnline: boolean = false;
-  showGraph: boolean = false;
-
-  finalGraphData: any = [];
-  sensorDetailArray: any = [];
-  public options: any;
-
+  sensorDataTable: any = [];
   graphData: any =[];
-  //seriesOptions: any = []; 
-  seriesCounter: any = 0;
   names: any = ['MSFT', 'AAPL', 'GOOG'];
-
-  dropdownList = [];
-  selectedItems = [];
-  dropdownSettings: IDropdownSettings = {};
+  multipleSeriesOptions: any = [];
+  selectedSensor: any;
+  ddSensorsList: Array<Object>;
+  sensorModel: any;
+  aSensorsSelectedforGraph: any = [];
+  sSensorsSelectedforGraph: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -51,45 +46,214 @@ export class SensorDetailComponent implements OnInit {
     this.subscription = this.route.params.subscribe(params => {
       this.sensorid = +params['id'];
     });
-    //this.getGraphData();
+    //this.prepareStockChartDemo(); 
   }
-
+  
   ngOnInit() {
-    this.getGraphData();
+    this.getSensorList();
+    this.loadGraph();
     this.prepareForm();
-   //this.prepareStockChart();
-
-  //  this.dropdownList = [
-  //   { item_id: 1, item_text: 'Mumbai' },
-  //   { item_id: 2, item_text: 'Bangaluru' },
-  //   { item_id: 3, item_text: 'Pune' },
-  //   { item_id: 4, item_text: 'Navsari' },
-  //   { item_id: 5, item_text: 'New Delhi' }
-  // ];
-  // this.selectedItems = [
-  //   { item_id: 3, item_text: 'Pune' },
-  //   { item_id: 4, item_text: 'Navsari' }
-  // ];
-  // this.dropdownSettings = {
-  //   singleSelection: false,
-  //   idField: 'item_id',
-  //   textField: 'item_text',
-  //   selectAllText: 'Select All',
-  //   unSelectAllText: 'UnSelect All',
-  //   itemsShowLimit: 3,
-  //   allowSearchFilter: true
-  // };
-
+    this.getSensorDetails();
   }
 
-  // onItemSelect(item: any) {
-  //   console.log(item);
-  // }
-  // onSelectAll(items: any) {
-  //   console.log(items);
-  // }
+  clearModel() {
+    this.selectedSensor = [];
+  }
+
+  changeModel() {
+    this.selectedSensor = [{ name: 'New person' }];
+  }
+
+  getSensorList() {
+    let sensorArray = [];
+
+    this.requesterService.getRequest("/sensor").subscribe(
+      (sensorsList) => {
+        sensorsList.forEach((sensor: any) => {
+          (sensorArray).push({
+            id: sensor["id"]
+          });
+        });
+        this.ddSensorsList = sensorArray;
+        this.ddSensorsList = this.ddSensorsList.filter(item => item["id"] != JSON.stringify(this.sensorid));
+        
+      },
+      (error) => {
+        console.log("error");
+      }
+    );
+  }
+
+  sensorModelChange(){
+    this.aSensorsSelectedforGraph.push(this.sensorModel);
+    this.sSensorsSelectedforGraph = this.aSensorsSelectedforGraph.join(' , ');
+    this.ddSensorsList = this.ddSensorsList.filter(item => item["id"] != this.sensorModel);
+    
+  }
+
+  resetSensorsSelectedforGraph() {
+    this.aSensorsSelectedforGraph = [];
+    this.sSensorsSelectedforGraph = "";
+  }
+
+  async addSensortoGraph() {
+    for(var i = 0; i < this.selectedSensor.length; i++ ) {
+      let graphData: any = [];
+      await this.requesterService.getGraphDataSyncRequest('/graphdata',{ ID: this.selectedSensor[i].id }).then(
+        response => {
+          response.forEach((data: any) =>{
+            let timestamp = new Date(data.messagedate);
+            if (data.rawvalue) {
+              graphData.push([
+                timestamp.getTime(),
+                data.rawvalue
+              ]);
+            }
+          });
+          this.multipleSeriesOptions.push(
+            {
+              name: this.selectedSensor[i].id,
+              data: graphData
+            }
+          );
+          if(i === this.selectedSensor.length - 1) {
+            this.resetSensorsSelectedforGraph();
+          }
+          this.prepareStockChart(this.multipleSeriesOptions);
+        },
+        error => {
+          console.log(error);
+          this.resetSensorsSelectedforGraph();
+        }
+      );
+    }
+  } 
 
   prepareStockChart(seriesOptions: any) {
+    this.options = {
+      rangeSelector: {
+        selected: 4
+      },
+      yAxis: {
+        labels: {
+          formatter: function () {
+            return (this.value > 0 ? ' + ' : '') + this.value;
+          }
+        },
+        left: '-96.5%',
+        plotLines: [{
+          value: 0,
+          width: 2,
+          color: 'silver'
+        }]
+      },
+      plotOptions: {
+        series: {
+          // compare: '',
+          showInNavigator: true
+        }
+      },
+      tooltip: {
+        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
+        valueDecimals: 2,
+        changeDecimals: 2,
+        split: true
+      },
+      series: seriesOptions
+    };
+    Highcharts.stockChart('highChart', this.options);
+  }
+
+  prepareForm() {
+    this.sensorDetailsForm = new FormGroup({
+      sensorName: new FormControl({value: '', disabled: true}, [Validators.required]),
+      readingValue: new FormControl({value: '', disabled: true}, [Validators.required]),
+      readingUnit: new FormControl({value: '', disabled: true}, [Validators.required]),
+      lastCommDate: new FormControl({value: '', disabled: true}, [Validators.required]),
+      location: new FormControl({value: '', disabled: true}, [Validators.required]),
+      gatewayName: new FormControl({value: '', disabled: true}, [Validators.required]),
+      minThres: new FormControl({value: '', disabled: true}, [Validators.required]),
+      maxThres: new FormControl({value: '', disabled: true}, [Validators.required])
+    }); 
+
+    this.addSensorForm = new FormGroup({
+      sensorID: new FormControl('')
+    });
+  }
+
+  fillFormData(sensorData: any) {
+    if(sensorData) {
+      let date_ob = new Date(sensorData.lastCommDate);
+      let date = ("0" + date_ob.getDate()).slice(-2);
+      let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+      let year = date_ob.getFullYear();
+      let lastCommDate = month + "-" + date + "-" + year;
+      this.sensorDetailsForm.patchValue({
+        sensorName: sensorData.sensorname,
+        readingValue: parseFloat(sensorData.readingValue).toFixed(2),
+        readingUnit: sensorData.readingUnit,
+        lastCommDate: lastCommDate,
+        location: '',
+        gatewayName: sensorData.gatewayname,
+        minThres: '',
+        maxThres: ''
+      });
+    }
+  }
+
+  getSensorDetails() {
+    this.requesterService.getRequest('/sensor/details' + '?id=' + this.sensorid).subscribe(
+      (response) => {
+        var sensorData = response[0];
+        this.fillFormData(sensorData);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  loadGraph() {
+    let sensorDataTableRows: any = [];
+    this.requesterService.getGraphRequest('/graphdata',{ID: this.sensorid}).subscribe(
+      response => {
+        response.forEach((data: any) =>{
+          let timestamp = new Date(data.messagedate);
+          if (data.rawvalue) {
+            this.graphData.push([
+              timestamp.getTime(),
+              data.rawvalue
+            ]);
+            sensorDataTableRows.push({
+              'timestamp' : timestamp.getTime(),
+              'temperature' : parseFloat(data.rawvalue).toFixed(2)
+            });
+          }
+        });
+        this.setSensorDataTable(sensorDataTableRows);
+        this.multipleSeriesOptions.push(
+          {
+            name: this.sensorid,
+            data: this.graphData
+          }
+        );
+        this.prepareStockChart(this.multipleSeriesOptions);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  setSensorDataTable(data: any) {
+    this.sensorDataTable = data;
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  prepareStockChartDemo() {
     this.options = {
       rangeSelector: {
         selected: 4
@@ -117,137 +281,21 @@ export class SensorDetailComponent implements OnInit {
         valueDecimals: 2,
         split: true
       },
-      series: seriesOptions
-    };
-    Highcharts.stockChart('highChart', this.options);
-  }
-
-  prepareGraph(graphData) {
-    this.options = {
-      chart: {
-        zoomType: 'x'
-      },
-      title: {
-        text: 'Sensor Graph'
-      },
-      subtitle: {
-        text: document.ontouchstart === undefined ?
-          'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
-      },
-      xAxis: {
-        type: 'datetime',
-        title: {
-          text: 'Timestamp'
-        }
-      },
-      yAxis: {
-        title: {
-          text: 'Temperature'
-        }
-      },
-      legend: {
-        enabled: false
-      },
-      plotOptions: {
-        area: {
-          fillColor: {
-            linearGradient: {
-              x1: 0,
-              y1: 0,
-              x2: 0,
-              y2: 1
-            },
-            stops: [
-              [0, Highcharts.getOptions().colors[0]],
-              [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-            ]
-          },
-          marker: {
-            radius: 2
-          },
-          lineWidth: 1,
-          states: {
-            hover: {
-              lineWidth: 1
-            }
-          },
-          threshold: null
-        }
-      },
       series: [
         {
-          type: 'area',
-          name: 'myname',
-          data: graphData
-        } 
-      ],
-      tooltip: {
-        formatter: function() {
-          return 'x: ' + Highcharts.dateFormat('%e %b %y %H:%M:%S', this.x) +
-          ' y: ' + this.y.toFixed(2);
-        }
-      }
+          name: 'goog',
+          data: goog
+        },
+        {
+          name: 'msft',
+          data: msft
+        },
+        {
+          name: 'aapl',
+          data: aapl
+        },
+      ]
     };
-    Highcharts.stockChart('highChart', this.options);
-  }
-
-  prepareForm() {
-    this.sensorDetailsForm = new FormGroup({
-      sensorName: new FormControl({value: '', disabled: true}, [Validators.required]),
-      readingValue: new FormControl({value: '', disabled: true}, [Validators.required]),
-      readingUnit: new FormControl({value: '', disabled: true}, [Validators.required]),
-      lastCommDate: new FormControl({value: '', disabled: true}, [Validators.required]),
-      location: new FormControl({value: '', disabled: true}, [Validators.required]),
-      gatewayName: new FormControl({value: '', disabled: true}, [Validators.required]),
-      minThres: new FormControl({value: '', disabled: true}, [Validators.required]),
-      maxThres: new FormControl({value: '', disabled: true}, [Validators.required])
-    }); 
-
-    this.addSensorForm = new FormGroup({
-      sensorID: new FormControl('')
-    });
-  }
-
-  async getGraphData() {
-    let sensorDetail: any = [];
-    await this.requesterService.getGraphRequest('/graphdata',{ID: this.sensorid}).toPromise().then(
-      response => {
-        response.forEach((data: any) =>{
-          var a = new Date(data.timestamp);
-          if (data.temp) {
-            this.graphData.push([
-              a.getTime(),
-              data.temp
-            ]);
-            sensorDetail.push({
-              'timestamp' : a.getTime(),
-              'temperature' : data.temp
-            });
-          }
-        });
-        this.finalGraphData = this.graphData;
-        this.sensorDetailArray = sensorDetail;
-        //this.prepareGraph(this.finalGraphData);
-        let seriesOptions = [
-          {
-            name: this.sensorid,
-            data: this.graphData
-          }
-        ];
-        this.prepareStockChart(seriesOptions);
-        this.showGraph = true;
-      },
-      error => {
-        console.log(error);
-      }
-    );
-  } 
-
-  onSelect(event) {
-    
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+    Highcharts.stockChart('highChartDemo', this.options);
   }
 }

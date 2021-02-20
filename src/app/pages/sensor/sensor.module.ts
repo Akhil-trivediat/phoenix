@@ -11,6 +11,8 @@ import { SensorListComponent } from './sensor-list/sensor-list.component';
 import { SensorDetailComponent } from './sensor-detail/sensor-detail.component';
 import { SensorRegistrationComponent } from './sensor-registration/sensor-registration.component';
 import { AssignGatewayComponent } from './assign-gateway/assign-gateway.component';
+import { Select2Module } from 'ng2-select2';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 const routes: Routes = [
   {
@@ -38,7 +40,9 @@ const routes: Routes = [
     TabsModule,
     NgxChartsModule,
     WidgsterModule,
-    NgMultiSelectDropDownModule
+    NgMultiSelectDropDownModule,
+    Select2Module,
+    NgSelectModule
   ],
   providers: [
   ]

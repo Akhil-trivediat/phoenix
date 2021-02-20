@@ -15,13 +15,7 @@ export class GatewayDetailComponent implements OnInit {
   private subscription: any;
   isOnline: boolean = false;
   public columnMode: typeof ColumnMode = ColumnMode;
-  sensorsArray = [
-    {
-      'sensorName' : 'Sensor 1',
-      'sensorid' : '1000',
-      'lastconnected' : '04/02/2021'
-    }
-  ];
+  sensorDataTable: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,19 +37,33 @@ export class GatewayDetailComponent implements OnInit {
     this.subscription = this.route.params.subscribe(params => {
       this.gatewayid = params['id'];
     });
+    this.getGatewayDetails();
+    this.prepareForm();
+  }
 
+  getGatewayDetails() {
+    let sensorDataTableRows: any = [];
     this.subscription = this.requesterService.getRequest("/gateway/details").subscribe(
       (gatewayDetails) => {
-        this.gatewayDetails = gatewayDetails;
+        this.gatewayDetails = gatewayDetails[0].gatewayDetails;
         this.setConnectionStatus(this.gatewayDetails.aws_connection_status);
-        this.fillFormData(gatewayDetails);
+        this.fillFormData(this.gatewayDetails);
+        
+        gatewayDetails[1].sensorList.forEach((sensor: any) => {
+          sensorDataTableRows.push({
+            'sensorid' : sensor.id,
+          });
+        });
+        this.setSensorDataTable(sensorDataTableRows);
       },
       (error) => {
         console.log(error);
       }
     );
+  }
 
-    this.prepareForm();
+  setSensorDataTable(data: any) {
+    this.sensorDataTable = data;
   }
 
   setConnectionStatus(connectionStatus: string) {

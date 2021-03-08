@@ -1,0 +1,21 @@
+<div class="container">
+  <h3>{{title}}</h3>
+    <p *ngIf="action === 'Delete';">Are you sure you want to delete this {{type | lowercase}}?</p>
+    <div>
+      <ng-template #deleteButton>
+          <div class="button-group mt" role="group">
+            <button (click)="onCancel()" type="button" class="btn btn-s">Cancel</button>
+            <button (click)="onDelete(form)" type="button" class="btn btn-s btn-danger">{{ action }}</button>
+          </div>
+      </ng-template>
+    </div>
+    <form (ngSubmit)="onSubmit()" [formGroup]="form" name="form" *ngIf="action != 'Delete'; else deleteButton">
+      <div *ngFor="let control of formControls">
+        <app-dynamic-formcontrol [control]="control" [form]="form"></app-dynamic-formcontrol>
+      </div>
+      <div class="button-group mt" role="group">
+        <button type="button" class="btn btn-s" (click)="onCancel()">Cancel</button>
+        <button type="submit" class="btn btn-s btn-primary" [disabled]="!form.valid" (click)="onSave(form)">Save</button>
+      </div>
+    </form>
+</div>

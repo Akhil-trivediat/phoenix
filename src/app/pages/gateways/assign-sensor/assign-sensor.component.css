@@ -24,3 +24,15 @@
     width: 100%;
     display: inline-block;
 }
+
+.ng-select.custom ::ng-deep .ng-select-container {
+    background-color: #fff !important;
+}
+
+.ng-select.custom ::ng-deep .ng-select-container .ng-arrow-wrapper .ng-arrow{
+    border-color: #000 transparent transparent !important;
+}
+
+.ng-select.custom ::ng-deep .ng-value  {
+    color: #000 !important;
+}

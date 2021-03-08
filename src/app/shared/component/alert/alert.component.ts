@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NotificationService } from '../../service/notification.service';
-import { Alert, AlertType } from './alert.model';
+import { Alert } from './alert.model';
 
 @Component({
   selector: 'app-alert',
@@ -13,10 +13,10 @@ export class AlertComponent implements OnInit {
     private notificationService: NotificationService
   ) { }
   
-  alert: Alert;
+  alerts: Alert[];
   dismissible = true;
 
   ngOnInit() {
-    this.alert = this.notificationService.getAlertMsgToDisplay();
+    this.alerts = this.notificationService.getAlertMsgToDisplay();
   }
 }

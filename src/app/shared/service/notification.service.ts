@@ -5,40 +5,51 @@ import { Alert, AlertType } from '../component/alert/alert.model';
   providedIn: 'root'
 })
 export class NotificationService {
-
+  alerts: Alert[] = [
+    {
+      type: "",
+      message: ""
+    }
+  ];
   constructor() { }
   
-  alert: Alert;
-
   success(message: string) {
-    this.alert = {
-      type: AlertType[0],
-      message: message ? message : "Success"
-    };
+    this.alerts.push(
+      {
+        type: AlertType[0],
+        message: message ? message : "Success"
+      }
+    );
   }
 
   info(message: string) {
-    this.alert = {
-      type: AlertType[1],
-      message: message ? message : "Info"
-    };
+    this.alerts.push(
+      {
+        type: AlertType[1],
+        message: message ? message : "Info"
+      }
+    );
   }
 
   warning(message: string) {
-    this.alert = {
-      type: AlertType[2],
-      message: message ? message : "Warning"
-    };
+    this.alerts.push(
+      {
+        type: AlertType[2],
+        message: message ? message : "Warning"
+      }
+    );
   }
 
   error(message: string) {
-     this.alert = {
-       type: AlertType[3],
-       message: message ? message : "Error"
-     };
+     this.alerts.push(
+      {
+        type: AlertType[3],
+        message: message ? message : "Error"
+      }
+     );
   }
 
   getAlertMsgToDisplay() {
-    return this.alert;
+    return this.alerts;
   }
 }

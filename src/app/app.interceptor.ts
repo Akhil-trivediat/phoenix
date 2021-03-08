@@ -23,7 +23,7 @@ export class AppInterceptor implements HttpInterceptor {
     if (this.authService.getJwtToken()) {
       request = this.addToken(request, this.authService.getJwtToken());
     }
-
+    //return next.handle(request);
     return next.handle(request).pipe(catchError(error => {
       if (error instanceof HttpErrorResponse && error.status === 401) {
         return this.handle401Error(request, next);
@@ -36,8 +36,9 @@ export class AppInterceptor implements HttpInterceptor {
   private addToken(request: HttpRequest<any>, token: string) {
     return request.clone({
       setHeaders: {
-        // 'Authorization': `Bearer ${token}`,
-        // 'Content-Type': 'application/json'
+        'Authorization': `Bearer ${token}`,
+        //'Authorization': token,
+        'Content-Type': 'application/json'
       }
     });
   }

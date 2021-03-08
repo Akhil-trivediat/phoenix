@@ -1,0 +1,9 @@
+<div [formGroup]="form" class="form-group row mt">
+    <label [attr.for]="control.key"  class="col-form-label">{{control.label}}</label>
+    <div [ngSwitch]="control.controlType" class="device-input">
+        <div class="input-group">
+            <input *ngSwitchCase="'textbox'" [formControlName]="control.key" 
+            [id]="control.key" type="text" class="form-control pl-3 input-transparent" />
+        </div>
+    </div>
+</div>

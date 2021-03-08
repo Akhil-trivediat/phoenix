@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
 import { ColumnMode } from "@swimlane/ngx-datatable";
+import { HttpParams } from "@angular/common/http";
+import { NgxSpinnerService } from 'ngx-spinner';
 import { RequesterService } from '../../../shared/service/requester.service';
+import { NotificationService } from '../../../shared/service/notification.service';
 
 @Component({
   selector: 'app-gateway-detail',
@@ -11,7 +14,7 @@ import { RequesterService } from '../../../shared/service/requester.service';
 })
 export class GatewayDetailComponent implements OnInit {
   radiobtn: any;
-  gatewayid: number;
+  gatewayid: string;
   private subscription: any;
   isOnline: boolean = false;
   public columnMode: typeof ColumnMode = ColumnMode;
@@ -19,10 +22,10 @@ export class GatewayDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private requesterService: RequesterService
-  ) {
-    
-  }
+    private requesterService: RequesterService,
+    private notificationService: NotificationService,
+    private spinner: NgxSpinnerService
+  ) { }
 
   deviceInformationForm: any;
   LANConfigurationForm: any;
@@ -34,6 +37,7 @@ export class GatewayDetailComponent implements OnInit {
   gatewayDetails: any;
 
   ngOnInit() {
+    this.spinner.show();
     this.subscription = this.route.params.subscribe(params => {
       this.gatewayid = params['id'];
     });
@@ -41,9 +45,17 @@ export class GatewayDetailComponent implements OnInit {
     this.prepareForm();
   }
 
+  getUserDetails() {
+    return localStorage.getItem('USER_NAME');
+  }
+
   getGatewayDetails() {
     let sensorDataTableRows: any = [];
-    this.subscription = this.requesterService.getRequest("/gateway/details").subscribe(
+    let params = new HttpParams();
+    params = params.append('email', this.getUserDetails());
+    params = params.append('gatewayID', this.gatewayid);
+
+    this.subscription = this.requesterService.getRequestParams("/gateway/details",params).subscribe(
       (gatewayDetails) => {
         this.gatewayDetails = gatewayDetails[0].gatewayDetails;
         this.setConnectionStatus(this.gatewayDetails.aws_connection_status);
@@ -58,12 +70,14 @@ export class GatewayDetailComponent implements OnInit {
       },
       (error) => {
         console.log(error);
+        this.notificationService.error(error.error.message);
       }
     );
   }
 
   setSensorDataTable(data: any) {
     this.sensorDataTable = data;
+    this.spinner.hide();
   }
 
   setConnectionStatus(connectionStatus: string) {
@@ -183,56 +197,82 @@ export class GatewayDetailComponent implements OnInit {
     const formValues = form.value;
     let updateFormBody: any;
     if(formValues.ipaddressmode === "0") {
-      if(this.gatewayDetails.interface_used === "eth0") {
-        updateFormBody = {
-          "clientId": this.gatewayDetails.clientId,
-          "command": "ETH0DHCP",
-          "eth0": {
-            "ip_mode": "dhcp"
-          }
-        };
-      } else if(this.gatewayDetails.interface_used === "wlan0") {
-        updateFormBody = {
-          "clientId": this.gatewayDetails.clientId,
-          "command": "WLAN0DHCP",
-          "wlan0": {
-            "ip_mode": "dhcp"
-          }
-        };
-      }
-    } else {
-      if(this.gatewayDetails.interface_used === "eth0") {
-        updateFormBody = {
-          "clientId": this.gatewayDetails.clientId,
-          "command": "ETH0STATIC",
-          "eth0": {
-            "ip_mode": "static",
-            "ip": formValues.IPAddress,
-            "netmask": formValues.subnetMask,
-            "gateway": formValues.gateway
-          }
-        };
-      } else if(this.gatewayDetails.interface_used === "wlan0") {
-        updateFormBody = {
-          "clientId": this.gatewayDetails.clientId,
-          "command": "WLAN0STATIC",
-          "wlan0": {
-            "ip_mode": "static",
-            "ip": formValues.IPAddress,
-            "netmask": formValues.subnetMask,
-            "gateway": formValues.gateway
-          }
-        };
-      }
+      // Update dhcp mode of eth0
+      updateFormBody = {
+        "clientId": this.gatewayDetails.clientId,
+        "command": "ETH0DHCP",
+        "eth0": {
+          "ip_mode": "dhcp"
+        }
+      };
+    }
+    else if(formValues.ipaddressmode === "1") {
+      // Update static mode of eth0
+      updateFormBody = {
+        "clientId": this.gatewayDetails.clientId,
+        "command": "ETH0STATIC",
+        "eth0": {
+          "ip_mode": "static",
+          "ip": formValues.IPAddress,
+          "netmask": formValues.subnetMask,
+          "gateway": formValues.gateway
+        }
+      };
     }
   }
 
   onCloudConfigFormSubmit(form: NgForm) {
-
+    // CONFIRM - data or configuration
+    const formValues = form.value;
+    let updateFormBody: any;
+    updateFormBody = {
+      "clientId": this.gatewayDetails.clientId,
+      "command": "CLOUDCONFIGURATION",
+      "endpoint": formValues.endpoint,
+      "mqttport": formValues.mqttport,
+      "configuration": {
+        "publish_topic": formValues.publishTopic,
+        "subscribe_topic": formValues.subscribeTopic
+      }
+    };
   }
 
   onWIFIConfigFormSubmit(form: NgForm) {
-
+    const formValues = form.value;
+    let updateFormBody: any;
+    
+    if(formValues.ssid && formValues.password) {
+      // Update ssid and password of wlan0
+      updateFormBody = {
+        "clientId": this.gatewayDetails.clientId,
+        "command": "WLAN0CONNECT",
+        "wlan0": {
+            "ssid": formValues.ssid,
+            "ssid_pwd": formValues.password
+        }
+      }
+    } else if(formValues.ipaddressmode === "0") {
+      // Update dhcp mode of wlan0
+      updateFormBody = {
+        "clientId": this.gatewayDetails.clientId,
+        "command": "WLAN0DHCP",
+        "wlan0": {
+          "ip_mode": "dhcp"
+        }
+      }
+    } else if(formValues.ipaddressmode === "1") {
+      // Update static mode of wlan0
+      updateFormBody = {
+        "clientId": this.gatewayDetails.clientId,
+        "command": "WLAN0STATIC",
+        "wlan0": {
+          "ip_mode": "static",
+          "ip": formValues.IPAddress,
+          "netmask": formValues.subnetMask,
+          "gateway": formValues.gateway
+        }
+      }
+    }
   }
 
   onCELLULARConfigFormSubmit(form: NgForm) {

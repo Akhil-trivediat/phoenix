@@ -5,6 +5,8 @@ import { RequesterService } from '../../../shared/service/requester.service';
 import { data, goog, msft, aapl } from './sampleGraphData';
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import * as Highcharts from 'highcharts/highstock';
+import { HttpParams } from "@angular/common/http";
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare var require: any;
 let Boost = require('highcharts/modules/boost');
@@ -25,7 +27,7 @@ export class SensorDetailComponent implements OnInit {
   public columnMode: typeof ColumnMode = ColumnMode;
   private subscription: any;
   public options: any;
-  sensorid: number;
+  sensorid: string;
   sensorDetailsForm:  any;
   addSensorForm: any;
   isOnline: boolean = false;
@@ -41,33 +43,34 @@ export class SensorDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private requesterService: RequesterService
+    private requesterService: RequesterService,
+    private spinner: NgxSpinnerService
   ) { 
     this.subscription = this.route.params.subscribe(params => {
-      this.sensorid = +params['id'];
+      this.sensorid = params['id'];
     });
     //this.prepareStockChartDemo(); 
   }
   
   ngOnInit() {
+    this.spinner.show();
     this.getSensorList();
     this.loadGraph();
     this.prepareForm();
     this.getSensorDetails();
   }
 
-  clearModel() {
-    this.selectedSensor = [];
-  }
-
-  changeModel() {
-    this.selectedSensor = [{ name: 'New person' }];
+  getUserDetails() {
+    return localStorage.getItem('USER_NAME');
   }
 
   getSensorList() {
     let sensorArray = [];
+    let params = new HttpParams();
+    params = params.append('email', this.getUserDetails());
+    params = params.append('gatewayID', 'all');
 
-    this.requesterService.getRequest("/sensor").subscribe(
+    this.requesterService.getRequestParams("/sensor", params).subscribe(
       (sensorsList) => {
         sensorsList.forEach((sensor: any) => {
           (sensorArray).push({
@@ -75,11 +78,12 @@ export class SensorDetailComponent implements OnInit {
           });
         });
         this.ddSensorsList = sensorArray;
-        this.ddSensorsList = this.ddSensorsList.filter(item => item["id"] != JSON.stringify(this.sensorid));
-        
+        this.ddSensorsList = this.ddSensorsList.filter(item => item["id"] != this.sensorid);
+        this.spinner.hide();
       },
       (error) => {
-        console.log("error");
+        console.log(error);
+        this.spinner.hide();
       }
     );
   }
@@ -88,7 +92,6 @@ export class SensorDetailComponent implements OnInit {
     this.aSensorsSelectedforGraph.push(this.sensorModel);
     this.sSensorsSelectedforGraph = this.aSensorsSelectedforGraph.join(' , ');
     this.ddSensorsList = this.ddSensorsList.filter(item => item["id"] != this.sensorModel);
-    
   }
 
   resetSensorsSelectedforGraph() {
@@ -97,6 +100,7 @@ export class SensorDetailComponent implements OnInit {
   }
 
   async addSensortoGraph() {
+    this.spinner.show();
     for(var i = 0; i < this.selectedSensor.length; i++ ) {
       let graphData: any = [];
       await this.requesterService.getGraphDataSyncRequest('/graphdata',{ ID: this.selectedSensor[i].id }).then(
@@ -124,6 +128,7 @@ export class SensorDetailComponent implements OnInit {
         error => {
           console.log(error);
           this.resetSensorsSelectedforGraph();
+          this.spinner.hide();
         }
       );
     }
@@ -162,6 +167,7 @@ export class SensorDetailComponent implements OnInit {
       series: seriesOptions
     };
     Highcharts.stockChart('highChart', this.options);
+    this.spinner.hide();
   }
 
   prepareForm() {
@@ -206,9 +212,11 @@ export class SensorDetailComponent implements OnInit {
       (response) => {
         var sensorData = response[0];
         this.fillFormData(sensorData);
+        this.spinner.hide();
       },
       (error) => {
         console.log(error);
+        this.spinner.hide();
       }
     );
   }
@@ -241,12 +249,14 @@ export class SensorDetailComponent implements OnInit {
       },
       error => {
         console.log(error);
+        this.spinner.hide();
       }
     );
   }
 
   setSensorDataTable(data: any) {
     this.sensorDataTable = data;
+    this.spinner.hide();
   }
 
   ngOnDestroy() {

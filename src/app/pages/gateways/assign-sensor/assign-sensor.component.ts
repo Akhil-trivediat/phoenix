@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
-import { Router} from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpParams } from "@angular/common/http";
 import { RequesterService } from '../../../shared/service/requester.service';
+import { NotificationService } from '../../../shared/service/notification.service';
 
 @Component({
   selector: 'app-assign-sensor',
@@ -15,22 +17,15 @@ export class AssignSensorComponent implements OnInit {
   selectedSensor: any;
 
   constructor(
-    private router: Router,
-    private requesterService: RequesterService
-  ) {
-      const navigation = this.router.getCurrentNavigation();
-      const state = navigation.extras.state as {
-        gatewayID: string
-      };
-      this.gatewayID = state.gatewayID;
-   }
+    private route: ActivatedRoute,
+    private requesterService: RequesterService,
+    private notificationService: NotificationService,
+  ) { }
 
   ngOnInit() {
-    this.ddSensorsList = [
-      { id : "1" },
-      { id : "2" },
-      { id : "3" }
-    ];
+    this.route.params.subscribe(params => {
+      this.gatewayID = params['id'];
+    });
     this.prepareForm();
     this.getSensorList();
   }
@@ -40,15 +35,23 @@ export class AssignSensorComponent implements OnInit {
   }
 
   getSensorList() {
-    let email = this.getUserDetails();
-    let gatewayID = "null";
-    let params = "?email=" + email + "&gatewayID=" + gatewayID
-    this.requesterService.getRequest("/sensor" + params).subscribe(
+    let params = new HttpParams();
+    params = params.append('email', this.getUserDetails());
+    params = params.append('gatewayID', 'no');
+
+    this.requesterService.getRequestParams("/sensor", params).subscribe(
       (response) => {
-        console.log(response); 
+        let sensorArray = [];
+        response.forEach((sensor: any) => {
+          sensorArray.push({
+            id: sensor.id
+          });
+        });
+        this.ddSensorsList = sensorArray;
       },
       (error) => {
         console.log(error);
+        this.notificationService.error(error.error.message);
       }
     );
   }
@@ -56,7 +59,7 @@ export class AssignSensorComponent implements OnInit {
   prepareForm() {
     this.assignSensorForm = new FormGroup({
       sensorID: new FormControl('', [Validators.required]),
-      gatewayID: new FormControl(this.gatewayID, [Validators.required]),
+      gatewayID: new FormControl({value: this.gatewayID, disabled: true}, [Validators.required]),
       location: new FormControl('', [Validators.required])
     });
   }
@@ -68,18 +71,26 @@ export class AssignSensorComponent implements OnInit {
       "transmitterids": [form.value.sensorID.id]
     }
 
+    let payload = {
+      topicName: "/cmd/dcc/"+ form.value.gatewayID +"/addtransmitter/req",
+      eventName: "",
+      sensorDetails: sensorData
+    }
+
     let requestBody = {
-      action: "Update",
-      type: "Gateway",
-      data: form.value
+      action: "Assign",
+      type: "Sensor",
+      data: payload
     };
     
     this.requesterService.addRequest("/triggerSNS", JSON.stringify(requestBody)).subscribe(
       (response) => {
         console.log(response); 
+        this.notificationService.success("Sensor is assigned successfully to the gateway.");
       },
       (error) => {
         console.log(error);
+        this.notificationService.error(error.error.message);
       }
     );
   }

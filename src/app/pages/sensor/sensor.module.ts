@@ -5,14 +5,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { WidgsterModule } from '../../components/widgster/widgster.module';
 import { SensorListComponent } from './sensor-list/sensor-list.component';
 import { SensorDetailComponent } from './sensor-detail/sensor-detail.component';
 import { SensorRegistrationComponent } from './sensor-registration/sensor-registration.component';
 import { AssignGatewayComponent } from './assign-gateway/assign-gateway.component';
-import { Select2Module } from 'ng2-select2';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { SharedModule } from '../../shared/component/shared.module';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 const routes: Routes = [
   {
@@ -22,7 +22,7 @@ const routes: Routes = [
     path: 'addSensor', component: SensorRegistrationComponent
   },
   {
-    path: 'assignGateway', component: AssignGatewayComponent
+    path: ':id/assignGateway', component: AssignGatewayComponent
   },
   {
     path: 'id/:id', component: SensorDetailComponent
@@ -40,9 +40,9 @@ const routes: Routes = [
     TabsModule,
     NgxChartsModule,
     WidgsterModule,
-    NgMultiSelectDropDownModule,
-    Select2Module,
-    NgSelectModule
+    NgSelectModule,
+    SharedModule,
+    ModalModule
   ],
   providers: [
   ]

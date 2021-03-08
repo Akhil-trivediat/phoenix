@@ -31,12 +31,10 @@ import { AppService } from './app.service';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ResetPasswordComponent } from './shared/component/reset-password/reset-password.component';
-import { AlertComponent } from './shared/component/alert/alert.component';
 import { ForgotPasswordComponent } from './pages/forgotpassword/forgotpassword.component';
-import { AccountRegistrationComponent } from './pages/account-registration/account-registration.component';
 import { DialogComponent } from './pages/account/users/dialog/dialog.component';
-
-//import { TreeviewModule } from 'ngx-treeview';
+import { NgxDialogComponent } from './shared/component/ngx-dialog/ngx-dialog.component';
+import { AlertComponentModule } from './shared/component/alert/alert.module';
 
 const APP_PROVIDERS = [
   CheckAllService,
@@ -49,7 +47,6 @@ const APP_PROVIDERS = [
   declarations: [
     AppComponent,
     ResetPasswordComponent,
-    AlertComponent,
     ForgotPasswordComponent
   ],
   imports: [
@@ -77,9 +74,9 @@ const APP_PROVIDERS = [
     CarouselModule.forRoot(),
     PaginationModule.forRoot(),
     ToastrModule.forRoot(),
-    //TreeviewModule.forRoot(),
     UtilsModule,
-    NgxChartsModule
+    NgxChartsModule,
+    AlertComponentModule
   ],
   providers: [
     APP_PROVIDERS,
@@ -91,7 +88,8 @@ const APP_PROVIDERS = [
     AppService,
   ],
   entryComponents: [
-    DialogComponent
+    DialogComponent,
+    NgxDialogComponent
   ]
 })
 export class AppModule { }

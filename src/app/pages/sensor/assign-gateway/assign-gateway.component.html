@@ -2,16 +2,16 @@
     <h3>Assign Gateway to Sensor:</h3>
     <form name="assignGatewayForm" [formGroup]="assignGatewayForm">
         <div class="form-group row mt">
-            <label for="deviceID"  class="col-form-label">Sensor ID*:</label>
+            <label for="sensorID"  class="col-form-label">Sensor ID*:</label>
             <div class="device-input">
                 <div class="input-group">
-                    <input type="text"  class="form-control pl-3" formControlName="deviceID"
-                        [ngClass]="{'is-invalid':assignGatewayForm.controls.deviceID.touched && assignGatewayForm.controls.deviceID.invalid}" required />
+                    <input type="text"  class="form-control pl-3" formControlName="sensorID"
+                        [ngClass]="{'is-invalid':assignGatewayForm.controls.sensorID.touched && assignGatewayForm.controls.sensorID.invalid}" required />
                   </div>
                   <div class="errors" 
-                      *ngIf="assignGatewayForm.controls.deviceID.invalid && 
-                          (assignGatewayForm.controls.deviceID.touched || assignGatewayForm.controls.deviceID.dirty)">
-                      <small class="form-text text-danger" *ngIf="assignGatewayForm.controls.deviceID.errors.required">Sensor ID is required!</small>
+                      *ngIf="assignGatewayForm.controls.sensorID.invalid && 
+                          (assignGatewayForm.controls.sensorID.touched || assignGatewayForm.controls.sensorID.dirty)">
+                      <small class="form-text text-danger" *ngIf="assignGatewayForm.controls.sensorID.errors.required">Sensor ID is required!</small>
                 </div>
             </div>
         </div> 
@@ -20,13 +20,22 @@
             <label for="gatewayID"  class="col-form-label">Gateway ID*:</label>
             <div class="device-input">
                 <div class="input-group">
-                    <input type="text"  class="form-control pl-3" formControlName="gatewayID"
-                        [ngClass]="{'is-invalid':assignGatewayForm.controls.gatewayID.touched && assignGatewayForm.controls.gatewayID.invalid}" required />
-                  </div>
-                  <div class="errors" 
-                      *ngIf="assignGatewayForm.controls.gatewayID.invalid && 
-                          (assignGatewayForm.controls.gatewayID.touched || assignGatewayForm.controls.gatewayID.dirty)">
-                      <small class="form-text text-danger" *ngIf="assignGatewayForm.controls.gatewayID.errors.required">Gateway ID is required!</small>
+                    <ng-select
+                        formControlName="gatewayID"
+                        class="custom"
+                        [items]="ddGatewaysList"
+                        [multiple]="false"
+                        [closeOnSelect]="false"
+                        [searchable]="false"
+                        bindLabel="id"
+                        placeholder="Select Gateway"
+                        [(ngModel)]="selectedGateway">
+                    </ng-select>
+                </div>
+                <div class="errors" 
+                    *ngIf="assignGatewayForm.controls.gatewayID.invalid && 
+                        (assignGatewayForm.controls.gatewayID.touched || assignGatewayForm.controls.gatewayID.dirty)">
+                    <small class="form-text text-danger" *ngIf="assignGatewayForm.controls.gatewayID.errors.required">Gateway ID is required!</small>
                 </div>
             </div>
         </div>
@@ -35,7 +44,7 @@
             <button (click)="onassignGatewayFormSubmit(assignGatewayForm)" type="submit" class="btn btn-m btn-primary" [disabled]="assignGatewayForm.invalid">
                 Add
             </button>
-            <button routerLink=".." type="button" class="btn btn-m btn-grey">
+            <button routerLink="../.." type="button" class="btn btn-m btn-grey">
                 Cancel
             </button>
         </div>

@@ -7,7 +7,7 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import {PopoverModule} from "ngx-bootstrap";
 import { DialogComponent } from './dialog/dialog.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
-
+import { SharedModule } from '../../../shared/component/shared.module';
 
 const routes: Route[] = [{
   path: '',
@@ -21,7 +21,8 @@ const routes: Route[] = [{
     NgxDatatableModule,
     PopoverModule,
     ModalModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class UsersModule { }

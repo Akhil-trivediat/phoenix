@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { HttpParams } from "@angular/common/http";
 
 import { environment } from '../../../environments/environment.local';
 
@@ -11,7 +12,7 @@ import { environment } from '../../../environments/environment.local';
   providedIn: 'root'
 })
 export class RequesterService {
-
+  
   constructor(
     private http: HttpClient
   ) { }
@@ -21,7 +22,21 @@ export class RequesterService {
   }
 
   getRequest(path: string): Observable<any>{
+    // let serverurl = "https://2xk12fwbk8.execute-api.us-east-2.amazonaws.com/develop";
+    // return this.http.get<any>(serverurl + path).pipe(
+    //   catchError((error) => {
+    //     return this.handleExternalRequestException(error);
+    //   })
+    // );
     return this.http.get<any>(environment.serverUrl + path).pipe(
+      catchError((error) => {
+        return this.handleExternalRequestException(error);
+      })
+    );
+  }
+
+  getRequestParams(path: string, paramsData: HttpParams): Observable<any>{
+    return this.http.get<any>(environment.serverUrl + path, {params: paramsData}).pipe(
       catchError((error) => {
         return this.handleExternalRequestException(error);
       })
@@ -36,17 +51,24 @@ export class RequesterService {
     );
   }
 
-  updateRequest(path: string, postData: any){
-    return this.http.put<any>(environment.serverUrl + '/account/user', postData).pipe(
+  updateRequest(path: string, paramsData: HttpParams): Observable<any>{
+    return this.http.put<any>(environment.serverUrl + path, {params: paramsData}).pipe(
       catchError((error) => {
         return this.handleExternalRequestException(error);
       })
     );
   }
 
-  deleteRequest(path: string, postData: any){
-    postData = {};
-    return this.http.delete<any>(environment.serverUrl + '/account/user', postData).pipe(
+  updateRequest1(path: string, postData: any): Observable<any>{
+    return this.http.put<any>(environment.serverUrl + path, postData).pipe(
+      catchError((error) => {
+        return this.handleExternalRequestException(error);
+      })
+    );
+  }
+
+  deleteRequest(path: string, paramsData: HttpParams): Observable<any>{
+    return this.http.delete<any>(environment.serverUrl + path, {params: paramsData}).pipe(
       catchError((error) => {
         return this.handleExternalRequestException(error);
       })

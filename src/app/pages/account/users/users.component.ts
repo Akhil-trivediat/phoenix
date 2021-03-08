@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { HttpParams } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 import { User } from '../../../models/commonmodel.data';
 import { UsersService } from './users.service';
-import { DialogComponent } from './dialog/dialog.component'
+import { RequesterService } from '../../../shared/service/requester.service';
+import { NgxDialogComponent } from 'src/app/shared/component/ngx-dialog/ngx-dialog.component';
 
 @Component({
   selector: 'app-users',
@@ -24,10 +28,14 @@ export class UsersComponent implements OnInit {
 
   constructor(
     private usersService: UsersService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private spinner: NgxSpinnerService,
+    private requesterService: RequesterService,
+    private router: Router
   ) { }
   usersArray = [];
   ngOnInit() {
+    this.spinner.show();
     this.getAllUsers();
     this.usersService.events$.forEach(
       (result) => {
@@ -58,9 +66,11 @@ export class UsersComponent implements OnInit {
           });
         });
         this.usersArray = users;
+        this.spinner.hide();
       },
       (error) => {
         console.log(error);
+        this.spinner.hide();
       }
     );
   }
@@ -88,14 +98,80 @@ export class UsersComponent implements OnInit {
   }
 
   openDialog(action: string, userObject: object){
+    let formControls: any;
+    if(action === "Add") {
+      formControls = this.prepareFormControl(userObject,false);
+    } else {
+      formControls = this.prepareFormControl(userObject,true);
+    }
     const initialState = {
       dialogObj : {
         action: action,
-        userObject: userObject
+        type: "User",
+        formControls: formControls
       }
     }
-    this.bsModalRef = this.modalService.show(DialogComponent, {initialState});
-    this.bsModalRef.content.closeBtnName = 'Close';
+    this.bsModalRef = this.modalService.show(NgxDialogComponent, {initialState});
+    this.bsModalRef.content.onClose.subscribe(
+      (response: any) => {
+        console.log(response);
+        let formValue = response.data.getRawValue();
+        if(response.action === "Delete") {
+          this.deleteRequest(formValue);
+        } else if(response.action === "Edit") {
+          this.updateRequest(formValue);
+        } else if(response.action === "Add") {
+         // this.addRequest(formValue);
+        }
+      }
+    );
+  }
+
+  addRequest(formValue: any) {
+    let userData: any = {
+      email: formValue.email,
+      firstname: formValue.firstname,
+      lastname: formValue.lastname,
+      orgname: formValue.orgname,
+      phoneno: formValue.phoneno
+    };
+    let requestBody = {
+      action: "Add",
+      type: "User",
+      data: userData
+    };
+    this.requesterService.addRequest("/triggerSNS", JSON.stringify(requestBody)).subscribe(
+      (response) => {
+        console.log(response);
+        this.getAllUsers();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  updateRequest(formValue: any) {
+    let postData: any = {
+      email: formValue.email,
+      firstname: formValue.firstname,
+      lastname: formValue.lastname,
+      orgname: formValue.orgname,
+      phoneno: formValue.phoneno
+    };
+    this.requesterService.updateRequest1("/user", postData).subscribe(
+      (response) => {
+        console.log(response);
+        this.getAllUsers();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  deleteRequest(formValue: any) {
+    
   }
 
   onCheckBoxSelected(rowCheckedDetails: object){
@@ -103,6 +179,63 @@ export class UsersComponent implements OnInit {
       console.log('User Updated');
       this.getAllUsers();
     });
+  }
+
+  prepareFormControl(userObject: any, disabledState: boolean) {
+    const formControls: any = [
+      {
+        key: 'email',
+        label: 'Email*: ',
+        value: userObject.email,
+        required: false,
+        disabled: disabledState,
+        order: 1,
+        controlType: 'textbox',
+        type: 'text'
+      },
+      {
+        key: 'firstname',
+        label: 'First Name*: ',
+        value: userObject.firstname,
+        required: true,
+        disabled: false,
+        order: 2,
+        controlType: 'textbox',
+        type: 'text'
+      },
+      {
+        key: 'lastname',
+        label: 'Last Name*: ',
+        value: userObject.lastname,
+        required: false,
+        disabled: false,
+        order: 3,
+        controlType: 'textbox',
+        type: 'text'
+      },
+      {
+        key: 'orgname',
+        label: 'Organization Name*: ',
+        value: userObject.orgname,
+        required: false,
+        disabled: false,
+        order: 4,
+        controlType: 'textbox',
+        type: 'text'
+      },
+      {
+        key: 'phoneno',
+        label: 'Phone Number*: ',
+        value: userObject.phoneno,
+        required: false,
+        disabled: false,
+        order: 5,
+        controlType: 'textbox',
+        type: 'text'
+      }
+    ];
+
+    return formControls;
   }
   
 }

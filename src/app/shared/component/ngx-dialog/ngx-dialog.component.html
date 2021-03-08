@@ -1,0 +1,9 @@
+<app-dynamic-form 
+    [formControls]="formControls$ | async" 
+    [title]="formTitle"
+    [action]="action"
+    [type]="type"
+    (cancelBtnClickEvent)="onCancel()"
+    (saveBtnClickEvent)="onSave($event)"
+    (deleteBtnClickEvent)="onDelete($event)"
+></app-dynamic-form>

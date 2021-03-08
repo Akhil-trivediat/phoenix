@@ -39,11 +39,22 @@ export class SensorRegistrationComponent implements OnInit {
     }
   }
 
+  getUserDetails() {
+    return localStorage.getItem('USER_NAME');
+  }
+
   onSensorRegistrationFormSubmit(form: NgForm) {
+    let sensorData = {
+      sensorID: form.value.deviceID,
+      sensorName: form.value.deviceName,
+      gatewayID: form.value.gatewayID,
+      location: form.value.location,
+      email: this.getUserDetails()
+    };
     let requestBody = {
       action: "Add",
       type: "Sensor",
-      data: form.value
+      data: sensorData
     };
     this.requesterService.addRequest("/triggerSNS", JSON.stringify(requestBody)).subscribe(
       (response) => {

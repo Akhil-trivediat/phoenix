@@ -1,4 +1,3 @@
-<!-- <amplify-authenticator></amplify-authenticator> -->
 <div class="container">
   <section
     class="widget-auth mx-auto"
@@ -16,13 +15,6 @@
     <p class="widget-auth-info">
       Use your username to sign in.
     </p>
-    <!-- <alert type="secondary alert-sm text-center mt-2 widget-middle-overflow rounded-0" *ngIf="bShowErrorMessage">
-      This is a real app with Node.js backend - use
-      <br/>
-      <span class="font-weight-bold">{{err</span>
-      <br/>
-      to login!
-    </alert> -->
     <form [formGroup]="formGroup">
       <alert *ngIf="loginService.errorMessage" type="danger alert-sm widget-middle-overflow rounded-0">
         {{loginService.errorMessage}}
@@ -56,25 +48,16 @@
           </span>
           {{loginService.isFetching ? 'Loading...' : 'Login'}}
         </button>
-        <!--<p class="widget-auth-info mt-4">
-          Don't have an account? Sign up now!
-        </p>-->
-        <a routerLink="/changepassword" class="d-block text-center mb-4">Forgot Password</a>
-        <a routerLink="/accountRegistration" class="d-block text-center mb-4" style="color: #9dcdff;">Account Registration</a>
-        <!-- <div class="social-buttons">
-          <button (click)="googleLogin()" class="btn btn-primary social-button">
-            <i class="social-icon social-google"></i>
-            <p class="social-text">GOOGLE</p>
-          </button>
-          <button (click)="microsoftLogin()" class="btn btn-success social-button">
-            <i class="social-icon social-microsoft"></i>
-            <p class="social-text">MICROSOFT</p>
-          </button>
-        </div> -->
+        <div class="btn-acc">
+          <a routerLink="/changepassword" class="d-block text-center mb-4 forgot-pwd">Forgot Password?</a>
+          <a routerLink="/accountRegistration" class="d-block text-center mb-4 acc-reg">Account Registration</a>
+        </div>
       </div>
     </form>
   </section>
 </div>
+
+
 <!-- <footer class="auth-footer">
   2019 &copy; Sing App - React Admin Dashboard Template.
 </footer> -->

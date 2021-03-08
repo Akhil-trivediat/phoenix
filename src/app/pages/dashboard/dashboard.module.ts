@@ -6,6 +6,7 @@ import { WidgsterModule } from '../../components/widgster/widgster.module';
 import { LoaderModule } from '../../components/loader/loader.module'
 import { DashboardComponent } from './dashboard.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { SharedModule } from '../../shared/component/shared.module';
 
 const routes: Routes = [
   {
@@ -22,7 +23,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     WidgsterModule,
     LoaderModule,
-    NgxChartsModule
+    NgxChartsModule,
+    SharedModule
   ],
   providers: [
   ]

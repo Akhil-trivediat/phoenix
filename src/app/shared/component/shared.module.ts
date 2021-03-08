@@ -1,18 +1,24 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { AlertComponent } from './alert/alert.component';
-
-// const routes: Routes = [{
-//   path: '',
-//   component: ResetPasswordComponent
-// }];
+import { SpinnerComponent } from './spinner/spinner.component'
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { NgxDialogComponent } from './ngx-dialog/ngx-dialog.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
+import { DynamicFormcontrolComponent } from './dynamic-form/dynamic-formcontrol/dynamic-formcontrol.component';
 
 @NgModule({
-  declarations: [AlertComponent, ResetPasswordComponent],
+  declarations: [ SpinnerComponent, NgxDialogComponent, DynamicFormComponent, DynamicFormcontrolComponent ],
   imports: [
-    CommonModule
+    CommonModule,
+    NgxSpinnerModule,
+    ModalModule,
+    ReactiveFormsModule
+  ],
+  exports: [
+    SpinnerComponent,
+    NgxDialogComponent
   ]
 })
 export class SharedModule { }

@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ColumnMode } from "@swimlane/ngx-datatable";
+import { Router } from '@angular/router';
+import { HttpParams } from "@angular/common/http";
+import { NgxSpinnerService } from 'ngx-spinner';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Gateway } from '../../../models/commonmodel.data';
-import { Router, NavigationExtras } from '@angular/router';
 import { RequesterService } from '../../../shared/service/requester.service';
+import { NotificationService } from '../../../shared/service/notification.service';
+import { NgxDialogComponent } from 'src/app/shared/component/ngx-dialog/ngx-dialog.component';
 
 @Component({
   selector: 'app-gateways-list',
@@ -11,6 +16,8 @@ import { RequesterService } from '../../../shared/service/requester.service';
 })
 export class GatewaysListComponent implements OnInit {
   public columnMode: typeof ColumnMode = ColumnMode;
+  bsModalRef: BsModalRef;
+
   emptyRowObj: any = {
     gatewayName: "",
     gatewayID: "",
@@ -21,17 +28,16 @@ export class GatewaysListComponent implements OnInit {
   };
   gatewaysArray = [];
 
-  navigationExtras: NavigationExtras = {
-    state : {
-      gatewayID : ""
-    }
-  };
   constructor(
     private requesterService: RequesterService,
-    private router: Router
+    private notificationService: NotificationService,
+    private spinner: NgxSpinnerService,
+    private router: Router,
+    private modalService: BsModalService,
   ) { }
 
   ngOnInit() {
+    this.spinner.show();
     this.getGatewaysList();
   }
 
@@ -55,23 +61,55 @@ export class GatewaysListComponent implements OnInit {
           });
         });
         this.gatewaysArray = gatewayArray;
+        this.spinner.hide();
       },
       (error) => {
         console.log("error");
+        this.notificationService.error(error.error.message);
+        this.spinner.hide();
       }
     );
   }
 
   onRefresh() {
+    this.spinner.show();
     this.getGatewaysList();
   }
 
   onAssignSensor(gatewayID: any) {
-    this.navigationExtras = {
-      state : {
-        gatewayID : gatewayID
-      }
-    };
-    this.router.navigate(['/app/gateway/assignSensor'], this.navigationExtras);
+    const path = "/app/gateway/" + gatewayID + "/assignSensor";
+    this.router.navigate([path]);
   }
+
+  openDialog(action: string, rowObject: any) {
+    const initialState = {
+      dialogObj : {
+        action: action,
+        type: "Gateway",
+        formControls: ""
+      }
+    }
+
+    this.bsModalRef = this.modalService.show(NgxDialogComponent, {initialState});
+    this.bsModalRef.content.onClose.subscribe(
+      (response: any) => {
+        this.deleteGateway(rowObject.gatewayid);
+      }
+    )
+  }
+
+  deleteGateway(gatewayID: string) {
+    let params = new HttpParams();
+    params = params.append('gatewayID', gatewayID);
+
+    this.requesterService.deleteRequest("/gateway", params).subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
 }

@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { WidgsterModule } from '../../components/widgster/widgster.module';
 import { AlertModule } from 'ngx-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AlertComponentModule } from '../../shared/component/alert/alert.module';
 //import { AlertComponent } from '../../shared/component/alert/alert.component';
 
 const routes: Routes = [{
@@ -20,7 +21,8 @@ const routes: Routes = [{
     WidgsterModule,
     AlertModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AlertComponentModule
   ]
 })
 export class ForgotPasswordModule { }

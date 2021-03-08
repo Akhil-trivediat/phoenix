@@ -24,10 +24,14 @@
               "src/assets"
             ],
             "styles": [
+              "src/app/app.component.css",
               "src/app/styles/application.scss",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/select2/dist/js/select2.full.min.js"
+            ]
           },
           "configurations": {
             "production": {

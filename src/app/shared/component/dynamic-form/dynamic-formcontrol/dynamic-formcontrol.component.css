@@ -1,0 +1,9 @@
+label.col-form-label {
+    width: 25%;
+    margin-left: 15px;
+}
+
+.device-input {
+    width: 60%;
+    margin-right: 30px;
+}

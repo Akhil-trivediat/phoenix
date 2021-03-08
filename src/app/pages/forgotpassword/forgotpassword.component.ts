@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import { Location } from '@angular/common';
 import { LoginService } from '../login/login.service';
 import { NotificationService } from '../../shared/service/notification.service';
+import { AlertComponent } from '../../shared/component/alert/alert.component';
 
 const fb = new FormBuilder();
 @Component({

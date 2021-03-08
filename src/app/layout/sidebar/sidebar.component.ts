@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, AfterViewInit, Renderer2 } from '@angular/core';
+import { HttpParams } from "@angular/common/http";
 import { RequesterService } from '../../shared/service/requester.service';
 
 @Component({
@@ -41,8 +42,16 @@ export class Sidebar implements OnInit, AfterViewInit {
     this.getAllSensors();
   }
 
+  getUserDetails() {
+    return localStorage.getItem('USER_NAME');
+  }
+
   getAllSensors() {
-    this.requesterService.getRequest("/sensor").subscribe(
+    const email = this.getUserDetails();
+    let params = new HttpParams();
+    params = params.append('email', email);
+    params = params.append('gatewayID', 'all');
+    this.requesterService.getRequestParams("/sensor", params).subscribe(
       (sensorList) => {
         this.sensorCount = sensorList.length;
       },
@@ -50,10 +59,22 @@ export class Sidebar implements OnInit, AfterViewInit {
         console.log("error");
       }
     );
+    // let params = new HttpParams();
+    // params = params.append('email', this.getUserDetails());
+    // params = params.append('gatewayID', 'all');
+    // this.requesterService.getRequestParams("/sensor", params).subscribe(
+    //   (sensorList) => {
+    //     this.sensorCount = sensorList.length;
+    //   },
+    //   (error) => {
+    //     console.log("error");
+    //   }
+    // );
   }
 
   getAllGateways() {
-    this.requesterService.getRequest("/gateway").subscribe(
+    const email = this.getUserDetails();
+    this.requesterService.getRequest("/gateway" + "?email=" + email).subscribe(
       (gatewaysList) => {
         this.gatewayCount = gatewaysList.length;
       },

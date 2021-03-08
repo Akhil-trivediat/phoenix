@@ -10,6 +10,7 @@ import { RequesterService } from '../../../shared/service/requester.service';
 })
 export class SensorRegistrationComponent implements OnInit {
   sensorRegistrationForm: any;
+
   constructor(
     private requesterService: RequesterService,
     private router: Router
@@ -28,11 +29,32 @@ export class SensorRegistrationComponent implements OnInit {
     });
   }
 
+  disableSubmitButton(sensorRegistrationForm: NgForm) {
+    if(sensorRegistrationForm.controls.deviceID.invalid ||
+      sensorRegistrationForm.controls.deviceName.invalid ||
+      sensorRegistrationForm.controls.location.invalid) {
+        return true
+    } else {
+      return false
+    }
+  }
+
+  getUserDetails() {
+    return localStorage.getItem('USER_NAME');
+  }
+
   onSensorRegistrationFormSubmit(form: NgForm) {
+    let sensorData = {
+      sensorID: form.value.deviceID,
+      sensorName: form.value.deviceName,
+      gatewayID: form.value.gatewayID,
+      location: form.value.location,
+      email: this.getUserDetails()
+    };
     let requestBody = {
       action: "Add",
       type: "Sensor",
-      data: form.value
+      data: sensorData
     };
     this.requesterService.addRequest("/triggerSNS", JSON.stringify(requestBody)).subscribe(
       (response) => {

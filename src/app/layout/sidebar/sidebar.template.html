@@ -1,23 +1,25 @@
 <header class="logo">
-  <a href="https://flatlogic.com/templates/light-blue-angular/demo">Light <span class="fw-bold">Blue</span></a>
+  <img src="assets/img/trivedilogo.jpg" alt="">
+  <!-- <a href="https://flatlogic.com/templates/light-blue-angular/demo">Light <span class="fw-bold">Blue</span></a> -->
 </header>
 <ul id="side-nav" class="side-nav">
-  <li><a routerLink="dashboard"><i class="fi flaticon-home"></i><span class="name">Dashboard</span></a></li>
+  <li><a routerLink="dashboard"><img src="assets/img/phoenix/home.svg" alt=""><span class="name">Dashboard</span></a></li>
+  <!-- <i class="fi flaticon-home"></i> <i class="fi flaticon-paper-plane"></i><i class="fi flaticon-notification"></i> -->
+  <!-- <img src="assets/img/sensor.svg" alt=""> assets/img/phoenix/temp-sensor.svg -->
+  <li><a routerLink="sensor"><img src="assets/img/phoenix/humidity.svg" alt="">Sensor<span class="count">{{sensorCount}}</span></a></li>
 
-  <li><a routerLink="sensor"><i class="fi flaticon-paper-plane"></i>Sensor<span class="count">{{sensorCount}}</span></a></li>
-
-  <li><a routerLink="gateway"><i class="fi flaticon-paper-plane"></i>Gateway<span class="count">{{gatewayCount}}</span></a></li>
-
-  <li>
-    <a routerLink="inbox"><i class="fi flaticon-paper-plane"></i><span class="name">Help</span></a>
-  </li>
+  <li><a routerLink="gateway"><img src="assets/img/phoenix/router.svg" alt="">Gateway<span class="count">{{gatewayCount}}</span></a></li>
   
-  <li><a routerLink="inbox"><i class="fi flaticon-notification"></i><span class="name">Notifications</span></a></li>
+  <!-- <li>   
+    <a routerLink="inbox"><span class="name">Help</span></a> 
+  </li> -->
+  
+  <!-- <li><a routerLink="inbox"><span class="name">Notifications</span></a></li> -->
   
   <li class="accordion-group panel" [routerLinkActive]="['active']">
     <a class="accordion-toggle" (click)="sidebarBehavior($event, 'accountCollapsed')" aria-controls="account-collapse"
        [class.open]="!sidebarState.accountCollapsed">
-      <i class="fi flaticon-home"></i>
+      <img src="assets/img/phoenix/user.svg" alt="">
       <span class="name">Account</span>
     </a>
     <ul id="account-collapse" class="accordion-body" [attr.aria-expanded]="sidebarState.accountCollapsed"
@@ -27,9 +29,9 @@
   </li>
   <!-- <i class="fa fa-users"></i> -->
 
-  <li>
+  <!-- <li>
     <a routerLink="scrolling"><li class="fi flaticon-paper-plane"></li><span class="name">Infiite Scroller Test</span></a>
-  </li>
+  </li> -->
 </ul>
 
   <!-- <li class="accordion-group panel" [routerLinkActive]="['active']">

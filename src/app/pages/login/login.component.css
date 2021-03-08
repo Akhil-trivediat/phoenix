@@ -10,3 +10,17 @@
 alert {
     text-align: center;
 }
+
+.btn-acc {
+    color: #9dcdff;
+}
+
+.forgot-pwd {
+    float: right;
+    margin-top: 0.5em;
+    font-size: 0.92rem;
+}
+
+.acc-reg {
+    clear: both;
+}

@@ -5,13 +5,22 @@
             <label for="sensorID"  class="col-form-label">Sensor ID*:</label>
             <div class="device-input">
                 <div class="input-group">
-                    <input type="text"  class="form-control pl-3" formControlName="sensorID"
-                        [ngClass]="{'is-invalid':assignSensorForm.controls.sensorID.touched && assignSensorForm.controls.sensorID.invalid}" required />
-                  </div>
-                  <div class="errors" 
-                      *ngIf="assignSensorForm.controls.sensorID.invalid && 
-                          (assignSensorForm.controls.sensorID.touched || assignSensorForm.controls.sensorID.dirty)">
-                      <small class="form-text text-danger" *ngIf="assignSensorForm.controls.sensorID.errors.required">Sensor ID is required!</small>
+                    <ng-select
+                        formControlName="sensorID"
+                        class="custom"
+                        [items]="ddSensorsList"
+                        [multiple]="false"
+                        [closeOnSelect]="false"
+                        [searchable]="false"
+                        bindLabel="id"
+                        placeholder="Select sensor"
+                        [(ngModel)]="selectedSensor">
+                    </ng-select>
+                </div>
+                <div class="errors" 
+                    *ngIf="assignSensorForm.controls.sensorID.invalid && 
+                        (assignSensorForm.controls.sensorID.touched || assignSensorForm.controls.sensorID.dirty)">
+                    <small class="form-text text-danger" *ngIf="assignSensorForm.controls.sensorID.errors.required">Sensor ID is required!</small>
                 </div>
             </div>
         </div>
@@ -50,9 +59,10 @@
             <button (click)="onassignSensorFormSubmit(assignSensorForm)" type="submit" class="btn btn-m btn-primary" [disabled]="assignSensorForm.invalid">
                 Add
             </button>
-            <button routerLink=".." type="button" class="btn btn-m btn-grey">
+            <button routerLink="../.." type="button" class="btn btn-m btn-grey">
                 Cancel
             </button>
         </div>
     </form>
+    <app-alert></app-alert>
 </div>

@@ -42,8 +42,8 @@ export class DashboardComponent implements OnInit {
   }
 
   getLocation(username: string) {
-    //let a = "suryasnata@trivediat.com";
-    this.requesterService.getRequest("/location" + "?email=" + username).subscribe(
+    const email = this.username;
+    this.requesterService.getRequest("/location" + "?email=" + email).subscribe(
         (response) => {
             this.setLocation(response[0].state);
             this.spinner.hide();
@@ -76,7 +76,7 @@ export class DashboardComponent implements OnInit {
     let params = new HttpParams();
     params = params.append('email', this.username);
     params = params.append('gatewayID', 'all');
-    this.requesterService.getRequestParams("/sensor", params).subscribe(
+    this.requesterService.getRequest("/sensor" + "?email=" + email + "&gatewayID=all").subscribe(
       (sensorList) => {
         // if any data then show else hide
         this.sensorCount = sensorList.length;
@@ -87,6 +87,17 @@ export class DashboardComponent implements OnInit {
         this.spinner.hide();
       }
     );
+    // this.requesterService.getRequestParams("/sensor", params).subscribe(
+    //   (sensorList) => {
+    //     // if any data then show else hide
+    //     this.sensorCount = sensorList.length;
+    //     this.spinner.hide();
+    //   },
+    //   (error) => {
+    //     console.log(error);
+    //     this.spinner.hide();
+    //   }
+    // );
   }
 
   addDeviceNav(path: string){

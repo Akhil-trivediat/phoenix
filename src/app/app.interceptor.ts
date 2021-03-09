@@ -36,8 +36,8 @@ export class AppInterceptor implements HttpInterceptor {
   private addToken(request: HttpRequest<any>, token: string) {
     return request.clone({
       setHeaders: {
-        'Authorization': `Bearer ${token}`,
-        //'Authorization': token,
+        //'Authorization': `Bearer ${token}`,
+        'Authorization': token,
         'Content-Type': 'application/json'
       }
     });

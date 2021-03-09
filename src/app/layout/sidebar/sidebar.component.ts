@@ -51,7 +51,7 @@ export class Sidebar implements OnInit, AfterViewInit {
     let params = new HttpParams();
     params = params.append('email', email);
     params = params.append('gatewayID', 'all');
-    this.requesterService.getRequestParams("/sensor", params).subscribe(
+    this.requesterService.getRequest("/sensor" + "?email=" + email + "&gatewayID=all").subscribe(
       (sensorList) => {
         this.sensorCount = sensorList.length;
       },

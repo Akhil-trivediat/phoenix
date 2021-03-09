@@ -50,8 +50,8 @@ export class AuthService {
           //this.appService.storeCurrentSessionData(result);
           let username: string = result.getUsername();
           let tokens: Tokens = {
-            //jwt: result.getSignInUserSession().getAccessToken().getJwtToken(),
-            jwt: result.getSignInUserSession().getIdToken().getJwtToken(),
+            jwt: result.getSignInUserSession().getAccessToken().getJwtToken(),
+            //jwt: result.getSignInUserSession().getIdToken().getJwtToken(),
             refreshToken: result.getSignInUserSession().getRefreshToken().token
           };
         //  this.refreshToken();

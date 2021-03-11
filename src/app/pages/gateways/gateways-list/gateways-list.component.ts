@@ -105,6 +105,7 @@ export class GatewaysListComponent implements OnInit {
     this.requesterService.deleteRequest("/gateway", params).subscribe(
       (response) => {
         console.log(response);
+        this.getGatewaysList();
       },
       (error) => {
         console.log(error);

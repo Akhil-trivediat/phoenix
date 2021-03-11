@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
     const email = this.username;
     this.requesterService.getRequest("/location" + "?email=" + email).subscribe(
         (response) => {
-            this.setLocation(response[0].state);
+            this.setLocation(response[0] ? response[0].state : "");
             this.spinner.hide();
         },
         (error) => {

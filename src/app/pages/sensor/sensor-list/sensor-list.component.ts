@@ -182,9 +182,16 @@ export class SensorListComponent implements OnInit {
     let params = new HttpParams();
     params = params.append('sensorID', sensorID);
     params = params.append('sensorName', sensorName);
-    this.requesterService.updateRequest("/sensor", params).subscribe(
+    params = params.append('updateField', 'sensorname');
+    let postData = {
+      'sensorID': sensorID,
+      'sensorName': sensorName,
+      'updateField': 'sensorname'
+    };
+    this.requesterService.updateRequest("/sensor", postData).subscribe(
       (response) => {
         console.log(response);
+        this.getSensorList();
       },
       (error) => {
         console.log(error);
@@ -203,19 +210,11 @@ export class SensorListComponent implements OnInit {
     this.requesterService.deleteRequest("/sensor", params).subscribe(
       (response) => {
         console.log(response);
+        this.getSensorList();
       },
       (error) => {
         console.log(error);
       }
     );
-
-    // this.deleteRequesthttp("/sensor", params).subscribe(
-    //   (response) => {
-    //     console.log(response);
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //   }
-    // );
   }
 }

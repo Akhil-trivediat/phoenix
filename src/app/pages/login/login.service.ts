@@ -143,8 +143,8 @@ export class LoginService {
         username: userName,
         password: password,
         attributes: {
-          email: email
-          //phonenumber: phonenumber
+          email: email,
+          //phone_number: phonenumber
         }
       }
     )

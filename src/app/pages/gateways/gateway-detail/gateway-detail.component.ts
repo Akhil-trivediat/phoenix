@@ -291,4 +291,36 @@ export class GatewayDetailComponent implements OnInit {
     
   }
 
+  ongetDeviceConfig() {
+    let deviceConfigJSON = {
+      "clientId": this.gatewayid,
+      "command": "INFO"
+    }
+
+    this.requesterService.addRequest("/iotdevice", JSON.stringify(deviceConfigJSON)).subscribe(
+      response => {
+        console.log(response);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
+
+    // let requestBody = {
+    //   action: "Assign",
+    //   type: "Sensor",
+    //   data: deviceConfigJSON
+    // };
+    // this.requesterService.addRequest("/triggerSNS", JSON.stringify(requestBody)).subscribe(
+    //   (response) => {
+    //     //this.notificationService.success("Gateway added successfully.");
+    //   },
+    //   (error) => {
+    //     console.log(error);
+    //     this.notificationService.error(error.error.message);
+    //   }
+    // );
+  }
+
 }

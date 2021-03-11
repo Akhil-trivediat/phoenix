@@ -85,12 +85,35 @@ export class AssignSensorComponent implements OnInit {
     
     this.requesterService.addRequest("/triggerSNS", JSON.stringify(requestBody)).subscribe(
       (response) => {
-        console.log(response); 
+        console.log(response);
+        let sensorID = form.value.sensorID.id;
+        let gatewayID = form.value.gatewayID;
         this.notificationService.success("Sensor is assigned successfully to the gateway.");
+        this.updateSensor(sensorID,gatewayID);
       },
       (error) => {
         console.log(error);
         this.notificationService.error(error.error.message);
+      }
+    );
+  }
+
+  updateSensor(sensorID: string, gatewayID: string) {
+    let params = new HttpParams();
+    params = params.append('sensorID', sensorID);
+    params = params.append('gatewayname', gatewayID);
+    params = params.append('updateField', 'gatewayname');
+    let postData = {
+      'sensorID': sensorID,
+      'gatewayname': gatewayID,
+      'updateField': 'gatewayname'
+    };
+    this.requesterService.updateRequest("/sensor", postData).subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
       }
     );
   }

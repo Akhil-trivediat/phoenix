@@ -22,12 +22,6 @@ export class RequesterService {
   }
 
   getRequest(path: string): Observable<any>{
-    // let serverurl = "https://2xk12fwbk8.execute-api.us-east-2.amazonaws.com/develop";
-    // return this.http.get<any>(serverurl + path).pipe(
-    //   catchError((error) => {
-    //     return this.handleExternalRequestException(error);
-    //   })
-    // );
     return this.http.get<any>(environment.serverUrl + path).pipe(
       catchError((error) => {
         return this.handleExternalRequestException(error);
@@ -51,15 +45,7 @@ export class RequesterService {
     );
   }
 
-  updateRequest(path: string, paramsData: HttpParams): Observable<any>{
-    return this.http.put<any>(environment.serverUrl + path, {params: paramsData}).pipe(
-      catchError((error) => {
-        return this.handleExternalRequestException(error);
-      })
-    );
-  }
-
-  updateRequest1(path: string, postData: any): Observable<any>{
+  updateRequest(path: string, postData: any): Observable<any>{
     return this.http.put<any>(environment.serverUrl + path, postData).pipe(
       catchError((error) => {
         return this.handleExternalRequestException(error);

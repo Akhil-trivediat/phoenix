@@ -159,7 +159,7 @@ export class UsersComponent implements OnInit {
       orgname: formValue.orgname,
       phoneno: formValue.phoneno
     };
-    this.requesterService.updateRequest1("/user", postData).subscribe(
+    this.requesterService.updateRequest("/user", postData).subscribe(
       (response) => {
         console.log(response);
         this.getAllUsers();

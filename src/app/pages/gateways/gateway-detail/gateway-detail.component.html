@@ -507,6 +507,14 @@
         </tabset>
       </tab>
       <tab heading="Device Management">
+            <h5>Get Device Config: </h5>
+            <hr>
+            <div class="margin-bottom">
+                <button (click)="ongetDeviceConfig()" type="button" class="btn btn-m btn-primary">
+                    Get Device Config
+                </button>
+            </div>
+            
             <h5>Cloud Configuration: </h5>
             <hr>
             <form name="cloudConfigurationForm" [formGroup]="cloudConfigurationForm">

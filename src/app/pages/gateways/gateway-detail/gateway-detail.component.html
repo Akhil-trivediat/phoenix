@@ -509,12 +509,17 @@
       <tab heading="Device Management">
             <h5>Get Device Config: </h5>
             <hr>
-            <div class="margin-bottom">
-                <button (click)="ongetDeviceConfig()" type="button" class="btn btn-m btn-primary">
-                    Get Device Config
-                </button>
+            <div class="row mb device-cmd-dispaly">
+                <div class="device-cmd-btn">
+                    <button (click)="ongetDeviceConfig()" type="button" class="btn btn-m btn-primary">
+                        Get Device Config
+                    </button>
+                </div>
+                
+                <div class="device-info">
+                    <p>{{devicecmdResponse}}</p>
+                </div>
             </div>
-            
             <h5>Cloud Configuration: </h5>
             <hr>
             <form name="cloudConfigurationForm" [formGroup]="cloudConfigurationForm">

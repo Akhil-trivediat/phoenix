@@ -9,6 +9,11 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
+  "browser": {
+    "fs": false,
+    "tls": false,
+    "path": false
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~8.2.0",
@@ -43,6 +48,7 @@
     "awesome-bootstrap-checkbox": "1.0.1",
     "aws-amplify": "^3.0.23",
     "aws-amplify-angular": "^5.0.23",
+    "aws-iot-device-sdk": "^2.2.6",
     "axios": "^0.21.0",
     "bootstrap": "4.0.0-beta",
     "bootstrap-select": "^1.13.18",

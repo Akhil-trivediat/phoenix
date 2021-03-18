@@ -143,8 +143,9 @@ export class LoginService {
         username: userName,
         password: password,
         attributes: {
-          email: email,
-          //phone_number: phonenumber
+          phone_number: phonenumber ? phonenumber : '',
+          email: email
+          // 'custom:phone': phonenumber
         }
       }
     )

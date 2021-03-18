@@ -79,7 +79,7 @@ export class AccountRegistrationComponent implements OnInit {
     } else {
       userName = accRegistrationForm.controls.phonenum.value;
     }
-    this.loginService.verifyUsername(userName, password, email, phonenumber).then(
+    this.loginService.verifyUsername(accRegistrationForm.controls.email.value, password, email, phonenumber).then(
       (response) => {
         console.log(response);
 

@@ -22,6 +22,7 @@ export class AuthService {
   _isFetching: boolean = false;
   _errorMessage: string = '';
   private readonly JWT_TOKEN = 'JWT_TOKEN';
+  private readonly ID_TOKEN = 'ID_TOKEN';
   private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
   private readonly USER_NAME = 'USER_NAME';
   private loggedUser: string;
@@ -51,7 +52,7 @@ export class AuthService {
           let username: string = result.getUsername();
           let tokens: Tokens = {
             jwt: result.getSignInUserSession().getAccessToken().getJwtToken(),
-            //jwt: result.getSignInUserSession().getIdToken().getJwtToken(),
+            idtoken: result.getSignInUserSession().getIdToken().getJwtToken(),
             refreshToken: result.getSignInUserSession().getRefreshToken().token
           };
         //  this.refreshToken();
@@ -93,6 +94,7 @@ export class AuthService {
   private storeTokens(username:string, tokens: Tokens) {
     localStorage.setItem(this.USER_NAME, username);
     localStorage.setItem(this.JWT_TOKEN, tokens.jwt);
+    localStorage.setItem(this.ID_TOKEN, tokens.idtoken);
     localStorage.setItem(this.REFRESH_TOKEN, tokens.refreshToken);
   }
 
@@ -104,6 +106,10 @@ export class AuthService {
 
   getJwtToken() {
     return localStorage.getItem(this.JWT_TOKEN);
+  }
+
+  getIDToken() {
+    return localStorage.getItem(this.ID_TOKEN);
   }
 
   private storeJwtToken(jwt: string) {

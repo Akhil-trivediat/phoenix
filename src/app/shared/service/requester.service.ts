@@ -6,7 +6,7 @@ import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { HttpParams } from "@angular/common/http";
 
-import { environment } from '../../../environments/environment.local';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'

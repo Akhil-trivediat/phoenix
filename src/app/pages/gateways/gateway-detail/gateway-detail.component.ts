@@ -6,6 +6,13 @@ import { HttpParams } from "@angular/common/http";
 import { NgxSpinnerService } from 'ngx-spinner';
 import { RequesterService } from '../../../shared/service/requester.service';
 import { NotificationService } from '../../../shared/service/notification.service';
+import * as AWSIoTData from "aws-iot-device-sdk";
+import * as AWS from 'aws-sdk';
+import { AuthService } from '../../../../app/shared/service/auth.service';
+import { Auth, Amplify, PubSub } from 'aws-amplify';
+import { AWSIoTProvider } from '@aws-amplify/pubsub';
+
+import { PubsubService } from '../../../shared/service/pubsub.service';
 
 @Component({
   selector: 'app-gateway-detail',
@@ -19,13 +26,18 @@ export class GatewayDetailComponent implements OnInit {
   isOnline: boolean = false;
   public columnMode: typeof ColumnMode = ColumnMode;
   sensorDataTable: any;
+  devicecmdResponse: string = "";
 
   constructor(
     private route: ActivatedRoute,
     private requesterService: RequesterService,
     private notificationService: NotificationService,
-    private spinner: NgxSpinnerService
-  ) { }
+    private spinner: NgxSpinnerService,
+    private authService: AuthService,
+    private pubsubService: PubsubService
+  ) { 
+    
+  }
 
   deviceInformationForm: any;
   LANConfigurationForm: any;
@@ -43,6 +55,41 @@ export class GatewayDetailComponent implements OnInit {
     });
     this.getGatewayDetails();
     this.prepareForm();
+    this.connecttoMQTT();
+    //this.subscribeMQTT();
+  }
+
+  subscribeMQTT() {
+    this.pubsubService.subscribetoMQTT();
+  }
+
+  async connecttoMQTT() {
+    const credentials = await Auth.currentCredentials();
+    const iot = new AWS.Iot({
+      region: 'us-east-1',
+      credentials: Auth.essentialCredentials(credentials)
+    });
+    const policyName = 'phx_myIoTPolicy';
+    const target = credentials.identityId;
+    const { policies } = await iot.listAttachedPolicies({ target }).promise();
+    if (!policies.find(policy => policy.policyName === policyName)) {
+      await iot.attachPolicy({ policyName, target }).promise();
+    }
+    
+    Amplify.addPluggable(new AWSIoTProvider({
+      aws_pubsub_region: 'us-east-1',
+      aws_pubsub_endpoint: 'wss://a229t6it5tss-ats.iot.us-east-1.amazonaws.com/mqtt',
+    }));
+
+    PubSub.subscribe('device/+/data').subscribe({
+      next: data => { 
+        console.log('Message received', data);
+        this.devicecmdResponse = data.value.message;
+      },
+      error: error => {
+        console.log(error);
+      }
+    });
   }
 
   getUserDetails() {
@@ -219,22 +266,39 @@ export class GatewayDetailComponent implements OnInit {
         }
       };
     }
+
+    this.publishtoMQTT(updateFormBody);
   }
 
   onCloudConfigFormSubmit(form: NgForm) {
     // CONFIRM - data or configuration
     const formValues = form.value;
     let updateFormBody: any;
-    updateFormBody = {
-      "clientId": this.gatewayDetails.clientId,
-      "command": "CLOUDCONFIGURATION",
-      "endpoint": formValues.endpoint,
-      "mqttport": formValues.mqttport,
-      "configuration": {
-        "publish_topic": formValues.publishTopic,
-        "subscribe_topic": formValues.subscribeTopic
-      }
-    };
+    if(formValues.publishTopic === "pub_tt_message" && formValues.publishTopic === "sub_tt_message") {
+      updateFormBody = {
+        "clientId": this.gatewayDetails.clientId,
+        "command": "CLOUDDATA",
+        "endpoint": formValues.endpoint,
+        "mqttport": formValues.mqttport,
+        "configuration": {
+          "publish_topic": formValues.publishTopic,
+          "subscribe_topic": formValues.subscribeTopic
+        }
+      };
+    } else {
+      updateFormBody = {
+        "clientId": this.gatewayDetails.clientId,
+        "command": "CLOUDCONFIGURATION",
+        "endpoint": formValues.endpoint,
+        "mqttport": formValues.mqttport,
+        "configuration": {
+          "publish_topic": formValues.publishTopic,
+          "subscribe_topic": formValues.subscribeTopic
+        }
+      };
+    }
+
+    this.publishtoMQTT(updateFormBody);
   }
 
   onWIFIConfigFormSubmit(form: NgForm) {
@@ -273,6 +337,8 @@ export class GatewayDetailComponent implements OnInit {
         }
       }
     }
+
+    this.publishtoMQTT(updateFormBody);
   }
 
   onCELLULARConfigFormSubmit(form: NgForm) {
@@ -297,7 +363,16 @@ export class GatewayDetailComponent implements OnInit {
       "command": "INFO"
     }
 
-    this.requesterService.addRequest("/iotdevice", JSON.stringify(deviceConfigJSON)).subscribe(
+    let IOTParams = {
+      topic: "config_sub_tt_message",
+      payload: deviceConfigJSON
+    }
+
+    this.publishtoMQTT(IOTParams);
+  }
+
+  publishtoMQTT(requestBody: any) {
+    this.requesterService.addRequest("/iotdevice", JSON.stringify(requestBody)).subscribe(
       response => {
         console.log(response);
       },
@@ -305,22 +380,5 @@ export class GatewayDetailComponent implements OnInit {
         console.log(error);
       }
     );
-
-
-    // let requestBody = {
-    //   action: "Assign",
-    //   type: "Sensor",
-    //   data: deviceConfigJSON
-    // };
-    // this.requesterService.addRequest("/triggerSNS", JSON.stringify(requestBody)).subscribe(
-    //   (response) => {
-    //     //this.notificationService.success("Gateway added successfully.");
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //     this.notificationService.error(error.error.message);
-    //   }
-    // );
   }
-
 }

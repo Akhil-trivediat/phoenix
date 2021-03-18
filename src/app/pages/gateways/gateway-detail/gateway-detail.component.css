@@ -51,6 +51,11 @@
     margin-right: 10px;
 }
 
-.margin-bottom {
-    margin-bottom: 15px;
+.device-cmd-btn {
+    width: 27%;
+    margin-left: 15px;
+}
+
+.device-info {
+    width: auto;
 }

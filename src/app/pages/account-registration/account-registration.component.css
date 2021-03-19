@@ -1,3 +1,37 @@
+.iti__flag {background-image: url("~intl-tel-input/build/img/flags.png");}
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .iti__flag {background-image: url("~intl-tel-input/build/img/flags@2x.png");}
+}
+
+.iti__selected-flag {
+    background-color: transparent !important;
+}
+
+:host ::ng-deep .iti {
+    width: 100% !important;
+}
+
+:host ::ng-deep .iti__flag-container {
+    border-radius: 0.25rem;
+    padding: 0;
+    background-color: #222D3C;
+}
+
+:host ::ng-deep .iti__selected-flag {
+    border: 1px solid transparent;
+}
+
+:host ::ng-deep .iti_custom_input {
+    left: 68px;
+    width: 80%;
+}
+
+:host ::ng-deep ul.iti__country-list {
+    background-color: #222D3C;
+    border: 1px solid #222D3C;
+}
+
 ::ng-deep .amplify-component{
     margin: 0;
     position: absolute;

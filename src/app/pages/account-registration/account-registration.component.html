@@ -13,6 +13,8 @@
       <h3 *widgsterTitle>
         Account Registration
       </h3>
+
+      <!-- <input #phoneCode type="tel" id="phone" class="form-control input-transparent pl-3" /> -->
       
       <form name="accRegistrationForm" [formGroup]="accRegistrationForm">
         <alert *ngIf="loginService.errorMessage" type="danger alert-sm widget-middle-overflow rounded-0">
@@ -81,7 +83,7 @@
         <div class="form-group mt" *ngIf="accRegistrationForm.get('modeofVerification').value === '1'">
           <label for="phonenum">Phone Number*</label>
           <div class="input-group input-group-transparent">
-            <input type="text"  class="form-control input-transparent pl-3" formControlName="phonenum" placeholder="Phone Number"
+            <input #phoneCode type="tel" id="phone" class="form-control input-transparent pl-3 iti_custom_input" formControlName="phonenum" placeholder="Phone Number"
               [ngClass]="{'is-invalid':accRegistrationForm.controls.phonenum.touched && accRegistrationForm.controls.phonenum.invalid}" required />
           </div>
           <div class="errors" *ngIf="accRegistrationForm.controls.phonenum.invalid && (accRegistrationForm.controls.phonenum.touched || accRegistrationForm.controls.phonenum.dirty)">

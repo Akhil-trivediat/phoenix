@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import 'jquery';
+import * as intlTelInput from 'intl-tel-input';
+import "../../../../node_modules/intl-tel-input/build/js/utils.js";
 
 //import { LoginService } from '../login/login.service';
 import { LoginService } from '../login/login.service';
@@ -19,9 +22,15 @@ const fb = new FormBuilder();
   styleUrls: ['./account-registration.component.css']
 })
 export class AccountRegistrationComponent implements OnInit {
+  inputTel: any;
+  iti: any;
+
+  @ViewChild('phoneCode', {static:false})
+    set ele(element: ElementRef) {
+      this.inputTel = element;
+      this.inputTel ? this.initIntTelInput() : "";
+  }
   
-
-
   public formGroup: FormGroup = fb.group({
     firstname: '',
     lastname: '',
@@ -34,7 +43,9 @@ export class AccountRegistrationComponent implements OnInit {
   })
 
   radiobtn: any;
- 
+  
+  
+  
   constructor(
     public loginService: LoginService,
     private location: Location,
@@ -43,7 +54,27 @@ export class AccountRegistrationComponent implements OnInit {
   ) {
     this.radiobtn = "0";
    }
-   accRegistrationForm: any;
+   accRegistrationForm: any; 
+
+  private initIntTelInput(): void {
+    var countryData;
+    if(this.iti) {
+      countryData = this.iti.getSelectedCountryData();
+      this.iti.destroy();
+    }
+    this.iti = intlTelInput(this.inputTel.nativeElement, {
+      utilsScript: "../../../../node_modules/intl-tel-input/build/js/utils.js",
+      allowDropdown: true,
+      separateDialCode: true,
+      formatOnDisplay:true,
+      initialCountry: "us",
+      preferredCountries: ["us","ca"]
+    });
+    if(countryData) {
+      this.iti.setCountry(countryData.iso2);
+    }
+  } 
+
   ngOnInit() {
     this.accRegistrationForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email] ),
@@ -56,8 +87,6 @@ export class AccountRegistrationComponent implements OnInit {
       lastname: new FormControl('', [Validators.required] ),
       orgname: new FormControl('', [Validators.required] ),
     });
-  
-    
    }
 
    validateAreEqual(fieldControl: FormControl) {
@@ -66,23 +95,16 @@ export class AccountRegistrationComponent implements OnInit {
     };
   }
 
-  
-
   onSendVerificationCode(accRegistrationForm: NgForm) {
-    let userName: string;
+    let phonenumber: string = "";
+    this.iti ? phonenumber = this.iti.getNumber() : "";
     const password: string = accRegistrationForm.controls.password.value;
-    const modeofVerification: string = accRegistrationForm.controls.modeofVerification.value;
     const email: string = accRegistrationForm.controls.email.value;
-    const phonenumber: string = accRegistrationForm.controls.phonenum.value; 
-    if(modeofVerification === "0") {
-      userName = accRegistrationForm.controls.email.value;
-    } else {
-      userName = accRegistrationForm.controls.phonenum.value;
-    }
-    this.loginService.verifyUsername(accRegistrationForm.controls.email.value, password, email, phonenumber).then(
+    const userName = accRegistrationForm.controls.email.value;
+    
+    this.loginService.verifyUsername(userName, password, email, phonenumber).then(
       (response) => {
-        console.log(response);
-
+        //console.log(response);
       },
       (error) => {
         console.log(error);

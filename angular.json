@@ -24,6 +24,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/intl-tel-input/build/css/intlTelInput.css",
               "src/app/app.component.css",
               "src/app/styles/application.scss",
               "src/styles.css"

@@ -509,17 +509,34 @@
       <tab heading="Device Management">
             <h5>Get Device Config: </h5>
             <hr>
-            <div class="row mb device-cmd-dispaly">
-                <div class="device-cmd-btn">
-                    <button (click)="ongetDeviceConfig()" type="button" class="btn btn-m btn-primary">
-                        Get Device Config
+            <div class="mb row">
+                <div class="mb device-cmd-display"> 
+                    <label class="col-form-label">Select command:</label>
+                    <ng-select
+                        class="custom"
+                        [items]="ddCmdList"
+                        [multiple]="false"
+                        [closeOnSelect]="true"
+                        [searchable]="false"
+                        bindLabel="id"
+                        bindValue="id"
+                        placeholder="Select command"
+                        [(ngModel)]="selectedCommand">
+                    </ng-select>
+                    <button (click)="ongetDeviceConfig()" type="button" class="btn btn-m btn-primary float-right">
+                        Publish
                     </button>
                 </div>
-                
-                <div class="device-info">
-                    <p>{{devicecmdResponse}}</p>
+                <div class="mb device-cmd-response">
+                    <p>{{devicecmdResponse | json}}</p>
                 </div>
-            </div>
+                <!-- <div *ngFor="let cric of jsonRes | keyvalue">{{cric.key}}:
+                    <div *ngFor="let subItem of cric.value | keyvalue">
+                      {{subItem.key}}: {{subItem.value}}
+                    </div>
+                </div> -->
+            </div> 
+            
             <h5>Cloud Configuration: </h5>
             <hr>
             <form name="cloudConfigurationForm" [formGroup]="cloudConfigurationForm">
@@ -632,6 +649,19 @@
                     Update
                 </button>
             </form>
+            <h5>AutoSSH: </h5>
+            <hr>
+            <div class="row mb device-cmd-dispaly">
+                <div class="device-cmd-btn">
+                    <div class="display-inline-block checkbox-ios">
+                        <label for="checkbox-ios1" class="switch form-check-label"> 
+                            <input class="form-check-input" type="checkbox" class="ios" checked name="checkbox-ios1" id="checkbox-ios1" 
+                            (click)="onAutoSSHToggle($event)" #switchInput><i></i>
+                            <span class="switch-status">{{ switchInput.checked ? 'On' : 'Off'}}</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
 
             <h5>Factory Reset: </h5>
             <hr>

@@ -2,17 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
 import { ColumnMode } from "@swimlane/ngx-datatable";
-import { HttpParams } from "@angular/common/http";
 import { NgxSpinnerService } from 'ngx-spinner';
 import { RequesterService } from '../../../shared/service/requester.service';
 import { NotificationService } from '../../../shared/service/notification.service';
-import * as AWSIoTData from "aws-iot-device-sdk";
-import * as AWS from 'aws-sdk';
-import { AuthService } from '../../../../app/shared/service/auth.service';
-import { Auth, Amplify, PubSub } from 'aws-amplify';
-import { AWSIoTProvider } from '@aws-amplify/pubsub';
-
 import { PubsubService } from '../../../shared/service/pubsub.service';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-gateway-detail',
@@ -22,23 +16,11 @@ import { PubsubService } from '../../../shared/service/pubsub.service';
 export class GatewayDetailComponent implements OnInit {
   radiobtn: any;
   gatewayid: string;
+  selectedCommand: any = null;
   private subscription: any;
   isOnline: boolean = false;
-  public columnMode: typeof ColumnMode = ColumnMode;
   sensorDataTable: any;
-  devicecmdResponse: string = "";
-
-  constructor(
-    private route: ActivatedRoute,
-    private requesterService: RequesterService,
-    private notificationService: NotificationService,
-    private spinner: NgxSpinnerService,
-    private authService: AuthService,
-    private pubsubService: PubsubService
-  ) { 
-    
-  }
-
+  devicecmdResponse: string = null;
   deviceInformationForm: any;
   LANConfigurationForm: any;
   WIFIConfigurationForm: any;
@@ -47,6 +29,21 @@ export class GatewayDetailComponent implements OnInit {
   firmwareConfigurationForm: any;
   sensorConfigurationForm: any;
   gatewayDetails: any;
+  mqttcommand: string = "";
+  ddCmdList: Array<Object> = this.getCommandsList();
+  public columnMode: typeof ColumnMode = ColumnMode;
+  jsonArray = { "firmware_version": "1.0.0", "network": { "eth0": { "ip_mode": "dhcp", "mac": "0001c02a195c", "ip": "192.168.1.36", "netmask": "255.255.255.0", "gateway": "null" }, "eth1": { "ip_mode": "static", "ip": "169.254.0.10", "netmask": "255.255.255.0", "gateway": null, "mac": "0001c02b9009" }, "wlan0": { "ip_mode": "dhcp", "ssid": "emerson test", "ssid_pwd": "1265e93cc45ee8ba7c04921f47ee4c5fbac0eee0b4cce47567d92da17b27f1b1", "mac": "ac1203a0d999", "ip": "null", "netmask": "null", "gateway": "null" }, "dnspri": "8.8.8.8", "dnssec": "8.8.4.4" }, "cloud": { "data": { "publish_topic": "topic/bufferd/data", "subscribe_topic": "sub_tt_message" }, "configuration": { "publish_topic": "config_pub_tt_message", "subscribe_topic": "config_sub_tt_message" }, "endpoint": "a229t6it5tss-ats.iot.us-east-1.amazonaws.com", "mqttport": "8883" }, "gateway_name": "m500-195c", "clientId": "m500{0001c02a195c}", "ssh_state": "on", "transmitterids": [ 35154096, 24091097, 34100113, 30221140, 209170063, 209003025, 33243002, 201070226, 34092214, 23067245, 30079120, 209239176, 31069062, 34069207, 26060198035154096, 24091097, 34100113, 30221140, 209170063, 209003025, 33243002, 201070226, 34092214, 23067245, 30079120, 209239176, 31069062, 34069207, 26060198 ], "aws_connection_status": "Connected", "interface_used": "eth0" };
+    
+  
+  constructor(
+    private route: ActivatedRoute,
+    private spinner: NgxSpinnerService,
+    private pubsubService: PubsubService,
+    private requesterService: RequesterService,
+    private notificationService: NotificationService
+  ) { 
+    this.subscribetoMQTT();
+  }
 
   ngOnInit() {
     this.spinner.show();
@@ -55,48 +52,75 @@ export class GatewayDetailComponent implements OnInit {
     });
     this.getGatewayDetails();
     this.prepareForm();
-    this.connecttoMQTT();
-    //this.subscribeMQTT();
+    this.formatJSON(this.jsonArray);
   }
 
-  subscribeMQTT() {
-    this.pubsubService.subscribetoMQTT();
+  formatJSON(jsonArray) {
+    for ( var key in jsonArray ) { // works for objects and arrays 
+      var item = jsonArray[key]; 
+      if ( typeof item === "object" ) 
+      this.formatJSON(item); 
+      else 
+        console.log(key + " : " + item);
+    } 
   }
 
-  async connecttoMQTT() {
-    const credentials = await Auth.currentCredentials();
-    const iot = new AWS.Iot({
-      region: 'us-east-1',
-      credentials: Auth.essentialCredentials(credentials)
-    });
-    const policyName = 'phx_myIoTPolicy';
-    const target = credentials.identityId;
-    const { policies } = await iot.listAttachedPolicies({ target }).promise();
-    if (!policies.find(policy => policy.policyName === policyName)) {
-      await iot.attachPolicy({ policyName, target }).promise();
-    }
-    
-    Amplify.addPluggable(new AWSIoTProvider({
-      aws_pubsub_region: 'us-east-1',
-      aws_pubsub_endpoint: 'wss://a229t6it5tss-ats.iot.us-east-1.amazonaws.com/mqtt',
-    }));
-
-    PubSub.subscribe('device/+/data').subscribe({
-      next: data => { 
-        console.log('Message received', data);
-        this.devicecmdResponse = data.value.message;
+  getCommandsList() {
+    let ddCmdList = [
+      {
+        id: "CMD_INFO"
       },
-      error: error => {
-        console.log(error);
+      {
+        id: "ADDTRANSMITTER"
       }
-    });
+    ];
+    return ddCmdList;
   }
 
   getUserDetails() {
     return localStorage.getItem('USER_NAME');
   }
 
+  subscribetoMQTT() {
+    this.pubsubService.subscribetoMQTT().subscribe(
+      data => {
+        console.log(data);
+        this.storeMQTTresponse(data.value);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
   getGatewayDetails() {
+    this.getDeviceData();
+    this.getSensorList();
+  }
+
+  getDeviceData() {
+    this.mqttcommand = "CMD_INFO";
+    let deviceConfigJSON = {
+      "clientId": this.gatewayid,
+      "command": "CMD_INFO"
+    }
+
+    let IOTParams = {
+      topic: "config_sub_tt_message",
+      payload: deviceConfigJSON
+    }
+
+    this.pubsubService.publishtoMQTT(IOTParams).subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  getSensorList() {
     let sensorDataTableRows: any = [];
     let params = new HttpParams();
     params = params.append('email', this.getUserDetails());
@@ -104,10 +128,6 @@ export class GatewayDetailComponent implements OnInit {
 
     this.subscription = this.requesterService.getRequestParams("/gateway/details",params).subscribe(
       (gatewayDetails) => {
-        this.gatewayDetails = gatewayDetails[0].gatewayDetails;
-        this.setConnectionStatus(this.gatewayDetails.aws_connection_status);
-        this.fillFormData(this.gatewayDetails);
-        
         gatewayDetails[1].sensorList.forEach((sensor: any) => {
           sensorDataTableRows.push({
             'sensorid' : sensor.id,
@@ -122,13 +142,69 @@ export class GatewayDetailComponent implements OnInit {
     );
   }
 
+  storeMQTTresponse(response: any) {
+    let mqttcommand: string = this.mqttcommand;
+    switch(mqttcommand) {
+      case "CMD_INFO":
+        this.displayGatewayDetails(response);
+        break;
+      case "CMD_INFO_BTN":
+        this.devicecmdResponse = response;
+        break;
+      case "ETH0STATIC":
+        console.log(response);
+        break;
+      case "ETH0DHCP":
+        console.log(response);
+        break;
+      case "WLAN0STATIC":
+        console.log(response);
+        break;
+      case "WLAN0DHCP":
+        console.log(response);
+        break;
+      case "WLAN0CONNECT":
+        console.log(response);
+        break;
+      case "AUTOSSHON":
+        console.log(response);
+        break;
+      case "AUTOSSHOFF":
+        console.log(response);
+        break;
+      case "REBOOT":
+        console.log(response);
+        break;
+      case "CLOUDDATA":
+        console.log(response);
+        break;
+      case "CLOUDCONFIGURATION":
+        console.log(response);
+        break;
+      case "SETDNS":
+        console.log(response);
+        break;
+      case "ADDTRANSMITTER":
+        console.log(response);
+        break;
+    }
+  }
+
+  displayGatewayDetails(gatewayDetailsObject: any) {
+    if(gatewayDetailsObject.clientId === this.gatewayid) {
+      this.setConnectionStatus(gatewayDetailsObject.aws_connection_status);
+      this.fillFormData(gatewayDetailsObject);
+    }
+    
+  }
+
   setSensorDataTable(data: any) {
     this.sensorDataTable = data;
     this.spinner.hide();
   }
 
   setConnectionStatus(connectionStatus: string) {
-    if(connectionStatus === "connected") {
+    if(connectionStatus.toLocaleLowerCase() === "connected") {
       this.isOnline = true;
     } else {
       this.isOnline = false;
@@ -244,6 +320,7 @@ export class GatewayDetailComponent implements OnInit {
     const formValues = form.value;
     let updateFormBody: any;
     if(formValues.ipaddressmode === "0") {
+      this.mqttcommand = "ETH0DHCP";
       // Update dhcp mode of eth0
       updateFormBody = {
         "clientId": this.gatewayDetails.clientId,
@@ -254,6 +331,7 @@ export class GatewayDetailComponent implements OnInit {
       };
     }
     else if(formValues.ipaddressmode === "1") {
+      this.mqttcommand = "ETH0STATIC";
       // Update static mode of eth0
       updateFormBody = {
         "clientId": this.gatewayDetails.clientId,
@@ -267,7 +345,14 @@ export class GatewayDetailComponent implements OnInit {
       };
     }
 
-    this.publishtoMQTT(updateFormBody);
+    this.pubsubService.publishtoMQTT(updateFormBody).subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   onCloudConfigFormSubmit(form: NgForm) {
@@ -275,6 +360,7 @@ export class GatewayDetailComponent implements OnInit {
     const formValues = form.value;
     let updateFormBody: any;
     if(formValues.publishTopic === "pub_tt_message" && formValues.publishTopic === "sub_tt_message") {
+      this.mqttcommand = "CLOUDDATA";
       updateFormBody = {
         "clientId": this.gatewayDetails.clientId,
         "command": "CLOUDDATA",
@@ -286,6 +372,7 @@ export class GatewayDetailComponent implements OnInit {
         }
       };
     } else {
+      this.mqttcommand = "CLOUDCONFIGURATION";
       updateFormBody = {
         "clientId": this.gatewayDetails.clientId,
         "command": "CLOUDCONFIGURATION",
@@ -298,7 +385,14 @@ export class GatewayDetailComponent implements OnInit {
       };
     }
 
-    this.publishtoMQTT(updateFormBody);
+    this.pubsubService.publishtoMQTT(updateFormBody).subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   onWIFIConfigFormSubmit(form: NgForm) {
@@ -306,6 +400,7 @@ export class GatewayDetailComponent implements OnInit {
     let updateFormBody: any;
     
     if(formValues.ssid && formValues.password) {
+      this.mqttcommand = "WLAN0CONNECT";
       // Update ssid and password of wlan0
       updateFormBody = {
         "clientId": this.gatewayDetails.clientId,
@@ -316,6 +411,7 @@ export class GatewayDetailComponent implements OnInit {
         }
       }
     } else if(formValues.ipaddressmode === "0") {
+      this.mqttcommand = "WLAN0DHCP";
       // Update dhcp mode of wlan0
       updateFormBody = {
         "clientId": this.gatewayDetails.clientId,
@@ -325,6 +421,7 @@ export class GatewayDetailComponent implements OnInit {
         }
       }
     } else if(formValues.ipaddressmode === "1") {
+      this.mqttcommand = "WLAN0STATIC";
       // Update static mode of wlan0
       updateFormBody = {
         "clientId": this.gatewayDetails.clientId,
@@ -338,7 +435,14 @@ export class GatewayDetailComponent implements OnInit {
       }
     }
 
-    this.publishtoMQTT(updateFormBody);
+    this.pubsubService.publishtoMQTT(updateFormBody).subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   onCELLULARConfigFormSubmit(form: NgForm) {
@@ -357,10 +461,25 @@ export class GatewayDetailComponent implements OnInit {
     
   }
 
-  ongetDeviceConfig() {
-    let deviceConfigJSON = {
-      "clientId": this.gatewayid,
-      "command": "INFO"
+  onAutoSSHToggle(event: any) {
+    let deviceConfigJSON: any;
+    if(event.target.checked) {
+      this.mqttcommand = "AUTOSSHON";
+      deviceConfigJSON = {
+        "clientId": this.gatewayDetails.clientId,
+        "command": "AUTOSSHON",
+        "autossh": {
+          "monitor_port": 31030,
+          "remote_port": 10030,
+          "user_at_server": "ubuntu@ec2-3-84-170-7.compute-1.amazonaws.com"
+        }
+      }
+    } else {
+      this.mqttcommand = "AUTOSSHOFF";
+      deviceConfigJSON = {
+        "clientId": this.gatewayDetails.clientId,
+        "command": "AUTOSSHOFF"
+      }
     }
 
     let IOTParams = {
@@ -368,15 +487,33 @@ export class GatewayDetailComponent implements OnInit {
       payload: deviceConfigJSON
     }
 
-    this.publishtoMQTT(IOTParams);
-  }
-
-  publishtoMQTT(requestBody: any) {
-    this.requesterService.addRequest("/iotdevice", JSON.stringify(requestBody)).subscribe(
-      response => {
+    this.pubsubService.publishtoMQTT(IOTParams).subscribe(
+      (response) => {
         console.log(response);
       },
-      error => {
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  ongetDeviceConfig() {
+    this.mqttcommand = "CMD_INFO_BTN";
+    let deviceConfigJSON = {
+      "clientId": this.gatewayid,
+      "command": "CMD_INFO"
+    }
+
+    let IOTParams = {
+      topic: "config_sub_tt_message",
+      payload: deviceConfigJSON
+    }
+
+    this.pubsubService.publishtoMQTT(IOTParams).subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
         console.log(error);
       }
     );

@@ -59,7 +59,15 @@ export class Navbar {
 
   logout() {
     localStorage.removeItem('com.pheonix.token');
-    this.authService.logout();
+    this.authService.logout().then(
+      response => {
+
+      }
+    ).catch(
+      error => {
+        
+      }
+    );
   }
 
   get loginDetails() {

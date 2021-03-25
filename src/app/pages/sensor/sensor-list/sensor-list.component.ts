@@ -209,7 +209,6 @@ export class SensorListComponent implements OnInit {
 
     this.requesterService.deleteRequest("/sensor", params).subscribe(
       (response) => {
-        console.log(response);
         this.getSensorList();
       },
       (error) => {

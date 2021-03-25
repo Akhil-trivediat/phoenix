@@ -4,6 +4,8 @@ export const environment = {
   production: false,
   isDebugMode: true,
   serverUrl: 'https://pwpfhd9bla.execute-api.us-east-2.amazonaws.com/dev',
+  iotEndpoint: 'wss://a229t6it5tss-ats.iot.us-east-1.amazonaws.com/mqtt',
+  iotPolicy: 'phx_myIoTPolicy',
   cognito: {
     region: 'us-east-1', 
     identityPoolId: 'us-east-1:c2185d3f-009f-466b-bf4f-a98b935b391e',

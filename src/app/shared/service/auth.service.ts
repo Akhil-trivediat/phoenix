@@ -7,7 +7,6 @@ import {JwtHelperService} from '@auth0/angular-jwt';
 import { Auth } from 'aws-amplify';
 import { NgForm, NgModel } from '@angular/forms';
 import { Observable, from } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
 
 import { ChallengeName } from '../../pages/login/login.data';
 import { Tokens } from '../../models/token.model'
@@ -18,15 +17,16 @@ const jwt = new JwtHelperService();
   providedIn: 'root'
 })
 export class AuthService {
+  // _isFetching: boolean = false; // copied to login comp
+  // _errorMessage: string = ''; // copied to login n acc reg comp 
+
   config: any;
-  _isFetching: boolean = false;
-  _errorMessage: string = '';
   private readonly JWT_TOKEN = 'JWT_TOKEN';
   private readonly ID_TOKEN = 'ID_TOKEN';
   private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
   private readonly USER_NAME = 'USER_NAME';
   private loggedUser: string;
-
+  bHideAccRegistration: boolean = false;
   challengeName:Array<string> = ChallengeName;
 
   constructor(
@@ -38,47 +38,101 @@ export class AuthService {
     this.config = appConfig.getConfig();
   }
 
-  // Login Operations
-  login(username: string, password: string) { // using
-    this.requestLogin();
-    Auth.signIn(username, password).then((result) => {
+  // get isFetching() { // copied to login comp
+  //   return this._isFetching;
+  // }
+
+  // set isFetching(val: boolean) { // copied to login comp
+  //   this._isFetching = val;
+  // }
+
+  // get errorMessage() { // copied to login n acc reg comp 
+  //   return this._errorMessage;
+  // }
+
+  // set errorMessage(val: string) { // copied to login n acc reg comp 
+  //   this._errorMessage = val;
+  // }
+
+  // get displayAccRegistration() { // copied to login n acc reg comp 
+  //   return this.bHideAccRegistration;
+  // }
+
+  // set displayAccRegistration(val: boolean) { // copied to login n acc reg comp 
+  //   this.bHideAccRegistration = val;
+  // }
+
+  login(username: string, password: string): Promise<any> {
+    return Auth.signIn(username, password).then((result) => {
       if (result) {
-        this.receiveLogin();
         this.appService.setLogin(true);
         if(result.challengeName === this.challengeName[9]){
           this.router.navigate(['forgotpassword']);
         } else {
-          //this.appService.storeCurrentSessionData(result);
           let username: string = result.getUsername();
           let tokens: Tokens = {
             jwt: result.getSignInUserSession().getAccessToken().getJwtToken(),
             idtoken: result.getSignInUserSession().getIdToken().getJwtToken(),
             refreshToken: result.getSignInUserSession().getRefreshToken().token
           };
-        //  this.refreshToken();
           this.doLoginUser(username, tokens);
           this.router.navigate(['app/dashboard']);
         }
-        
       }
-    }).catch(error => {
-      console.log(error);
-      this.loginError(error.message);
+      return result;
     });
   }
 
-  // Logout Operations
-  logout() { // using
-    Auth.signOut()
-      .then(() => {
+  logout(): Promise<any> {
+    return Auth.signOut().then(
+      response => 
+      {
         this.removeSessionData();
         this.doLogoutUser();
         this.appService.setLogin(false);
         this.router.navigate(['/login']);
-      })
-      .catch((err) => {
-        console.log(err);
-    });
+        return response;
+      }
+    );
+  }
+
+  signup(userName: string,password: string,email: string, phonenumber: string): Promise<any> {
+    return Auth.signUp(
+      {
+        username: userName,
+        password: password,
+        attributes: {
+          phone_number: phonenumber ? phonenumber : '',
+          email: email
+        }
+      }
+    ).then(
+      response => {
+        return response;
+      }
+    );
+  }
+
+  confirmSignUp(email: string,code: string,attributes: any): Promise<any> {
+    let userAttributes = {
+      clientMetadata : {
+        address: "Toronto",
+        companyname: attributes.orgname.value,
+        email: email,
+        firstname: attributes.firstname.value,
+        lastname: attributes.lastname.value,
+        password: attributes.password.value,
+        phonenumber: attributes.phonenum.value ? attributes.phonenum.value : "",
+        timezone: "EST"
+      }
+    };
+    return Auth.confirmSignUp(email,code,userAttributes)
+    .then(
+    response => 
+      {
+        return response;
+      }
+    );
   }
 
   private doLoginUser(username: string, tokens: Tokens) {
@@ -121,7 +175,6 @@ export class AuthService {
       (cognitoUser) => {
         const currentSession = cognitoUser.signInUserSession;
         return cognitoUser.refreshSession(currentSession.refreshToken, (error, session) => {
-          console.log(error);
           if(!error){
             this.storeJwtToken(session.getAccessToken().getJwtToken()); 
             return session.getAccessToken().getJwtToken();
@@ -153,21 +206,7 @@ export class AuthService {
 
 
 
-  get isFetching() {
-    return this._isFetching;
-  }
-
-  set isFetching(val: boolean) {
-    this._isFetching = val;
-  }
-
-  get errorMessage() {
-    return this._errorMessage;
-  }
-
-  set errorMessage(val: string) {
-    this._errorMessage = val;
-  }
+ 
 
   private storeSessionData(sessionData: any){ //using
     let user: any = {};
@@ -190,20 +229,20 @@ export class AuthService {
 
   
 
-  receiveLogin() { // using
-    this.isFetching = false;
-    this.errorMessage = '';
-    //this.router.navigate(['/app/main/visits']);
-  }
+  // receiveLogin() { // using
+  //   this.isFetching = false;
+  //   this.errorMessage = '';
+  //   //this.router.navigate(['/app/main/visits']);
+  // }
 
-  requestLogin() { //using
-    this.isFetching = true;
-  }
+  // requestLogin() { //using
+  //   this.isFetching = true;
+  // }
 
-  loginError(errorMessage: string) { // using
-    this.isFetching = false;
-    this.errorMessage = errorMessage;
-  }
+  // loginError(errorMessage: string) { // copied
+  //   this.isFetching = false;
+  //   this.errorMessage = errorMessage;
+  // }
 
   
 
@@ -213,14 +252,12 @@ export class AuthService {
     let isValid: boolean = false;
     this.getAuthorizationToken().subscribe(
       (response) => {
-        //console.log(response);
 
         let exp_date = this.getExpirationDate(response);
         let now: Date = new Date();
         isValid = now < exp_date;
       },
       (error) => {
-        console.log(error);
         isValid = false;
       }
     );

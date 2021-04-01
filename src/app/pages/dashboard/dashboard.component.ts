@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpParams } from "@angular/common/http";
 import { NgxSpinnerService } from 'ngx-spinner';
+import { PubsubService } from '../../shared/service/pubsub.service';
 import { RequesterService } from '../../shared/service/requester.service';
 
 @Component({
@@ -12,14 +13,19 @@ import { RequesterService } from '../../shared/service/requester.service';
 export class DashboardComponent implements OnInit {
   username: string;
   location: string;
-  gatewayCount: string;
-  sensorCount: string;
+  totalGatewayCount: string;
+  activeGatewayCount: string;
+  totalSensorCount: string;
+  activeSensorCount: string;
 
   constructor(
-    private requesterService: RequesterService,
     private router: Router,
-    private spinner: NgxSpinnerService
-  ) { }
+    private spinner: NgxSpinnerService,
+    private pubsubService: PubsubService,
+    private requesterService: RequesterService,
+  ) {
+    this.subscribetoMQTT();
+   }
 
   ngOnInit() {
     this.spinner.show();
@@ -60,8 +66,8 @@ export class DashboardComponent implements OnInit {
     //const email = "suryasnata@trivediat.com";
     this.requesterService.getRequest("/gateway" + "?email=" + email).subscribe(
       (gatewaysList) => {
-        // if any data then show else hide
-        this.gatewayCount = gatewaysList.length;
+        this.publishtoMQTTforGateway(gatewaysList);
+        this.totalGatewayCount = gatewaysList.length;
         this.spinner.hide();
       },
       (error) => {
@@ -69,6 +75,21 @@ export class DashboardComponent implements OnInit {
         this.spinner.hide();
       }
     );
+  }
+
+  publishtoMQTTforGateway(gatewayList: any) {
+    gatewayList.forEach((gateway: any) => {
+      this.publishtoMQTT(gateway.id);
+    });
+  }
+
+  getActiveGatewayCount(data: any) {
+    let activeGatewayCount: number = 0;
+    if(data.value.aws_connection_status.toLocaleLowerCase() === "connected") {
+      activeGatewayCount++;
+    }
+    this.activeGatewayCount = activeGatewayCount.toString();
+    //console.log("count of active gateways", this.activeGatewayCount);
   }
 
   getAllSensors() {
@@ -78,8 +99,8 @@ export class DashboardComponent implements OnInit {
     params = params.append('gatewayID', 'all');
     this.requesterService.getRequest("/sensor" + "?email=" + email + "&gatewayID=all").subscribe(
       (sensorList) => {
-        // if any data then show else hide
-        this.sensorCount = sensorList.length;
+        this.totalSensorCount = sensorList.length;
+        this.getActiveSensorCount(sensorList);
         this.spinner.hide();
       },
       (error) => {
@@ -87,20 +108,50 @@ export class DashboardComponent implements OnInit {
         this.spinner.hide();
       }
     );
-    // this.requesterService.getRequestParams("/sensor", params).subscribe(
-    //   (sensorList) => {
-    //     // if any data then show else hide
-    //     this.sensorCount = sensorList.length;
-    //     this.spinner.hide();
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //     this.spinner.hide();
-    //   }
-    // );
+  }
+
+  getActiveSensorCount(sensorList: any) {
+    let activeSensorCount: number = 0;
+    sensorList.forEach((sensor: any) => {
+      if(sensor.status === "Online"){
+        activeSensorCount++;
+      }
+    });
+    this.activeSensorCount = activeSensorCount.toString();
   }
 
   addDeviceNav(path: string){
     this.router.navigate([path]);
+  }
+
+  subscribetoMQTT() {
+    this.pubsubService.subscribetoMQTT().subscribe(
+      data => {
+        this.getActiveGatewayCount(data);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  publishtoMQTT(gatewayID: string) {
+    let deviceConfigJSON = {
+      "clientId": gatewayID,
+      "command": "CMD_INFO"
+    }
+
+    let IOTParams = {
+      topic: "config_sub_tt_message",
+      payload: deviceConfigJSON
+    }
+
+    this.pubsubService.publishtoMQTT(IOTParams).subscribe(
+      (response) => {
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 }

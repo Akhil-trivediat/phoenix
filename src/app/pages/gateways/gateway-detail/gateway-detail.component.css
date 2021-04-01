@@ -37,6 +37,7 @@
 
 .device-details-tabset h5 {
     font-weight: bold;
+    clear: both;
 }
 
 .device-details-tabset hr {
@@ -118,21 +119,34 @@
 }
 
 .device-cmd-display .ng-select {
-    width: 60%;
+    width: 53%;
     float: right;
 }
 
 .device-cmd-display {
-    width: 40%;
+    width: 59%;
     padding: 0 15px;
 }
 
 .device-cmd-response {
-    width: 60%;
+    width: 41%;
     padding: 0 15px;
 }
 
 .device-cmd-display button {
     clear: both;
     margin-top: 1em;
+}
+
+.button-group{
+    margin-bottom: 1em;
+    width: 58.5%;
+}
+
+.button-group > .btn {
+    float: right;
+}
+
+.button-group > .btn:not(:first-child) {
+    margin-right: 1em;
 }

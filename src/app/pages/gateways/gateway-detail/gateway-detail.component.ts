@@ -7,6 +7,7 @@ import { RequesterService } from '../../../shared/service/requester.service';
 import { NotificationService } from '../../../shared/service/notification.service';
 import { PubsubService } from '../../../shared/service/pubsub.service';
 import { HttpParams } from '@angular/common/http';
+import { TreeviewItem, TreeviewConfig } from 'ngx-treeview';
 
 @Component({
   selector: 'app-gateway-detail',
@@ -20,7 +21,7 @@ export class GatewayDetailComponent implements OnInit {
   private subscription: any;
   isOnline: boolean = false;
   sensorDataTable: any;
-  devicecmdResponse: string = null;
+  //devicecmdResponse: string = null;
   deviceInformationForm: any;
   LANConfigurationForm: any;
   WIFIConfigurationForm: any;
@@ -32,9 +33,11 @@ export class GatewayDetailComponent implements OnInit {
   mqttcommand: string = "";
   ddCmdList: Array<Object> = this.getCommandsList();
   public columnMode: typeof ColumnMode = ColumnMode;
+
   jsonArray = { "firmware_version": "1.0.0", "network": { "eth0": { "ip_mode": "dhcp", "mac": "0001c02a195c", "ip": "192.168.1.36", "netmask": "255.255.255.0", "gateway": "null" }, "eth1": { "ip_mode": "static", "ip": "169.254.0.10", "netmask": "255.255.255.0", "gateway": null, "mac": "0001c02b9009" }, "wlan0": { "ip_mode": "dhcp", "ssid": "emerson test", "ssid_pwd": "1265e93cc45ee8ba7c04921f47ee4c5fbac0eee0b4cce47567d92da17b27f1b1", "mac": "ac1203a0d999", "ip": "null", "netmask": "null", "gateway": "null" }, "dnspri": "8.8.8.8", "dnssec": "8.8.4.4" }, "cloud": { "data": { "publish_topic": "topic/bufferd/data", "subscribe_topic": "sub_tt_message" }, "configuration": { "publish_topic": "config_pub_tt_message", "subscribe_topic": "config_sub_tt_message" }, "endpoint": "a229t6it5tss-ats.iot.us-east-1.amazonaws.com", "mqttport": "8883" }, "gateway_name": "m500-195c", "clientId": "m500{0001c02a195c}", "ssh_state": "on", "transmitterids": [ 35154096, 24091097, 34100113, 30221140, 209170063, 209003025, 33243002, 201070226, 34092214, 23067245, 30079120, 209239176, 31069062, 34069207, 26060198035154096, 24091097, 34100113, 30221140, 209170063, 209003025, 33243002, 201070226, 34092214, 23067245, 30079120, 209239176, 31069062, 34069207, 26060198 ], "aws_connection_status": "Connected", "interface_used": "eth0" };
-    
   
+  devicecmdResponse: any = [];
+
   constructor(
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
@@ -52,17 +55,21 @@ export class GatewayDetailComponent implements OnInit {
     });
     this.getGatewayDetails();
     this.prepareForm();
-    this.formatJSON(this.jsonArray);
+    this.getSensorStatus();
+    //this.formatJSONtoFlatList(this.jsonArray);
   }
 
-  formatJSON(jsonArray) {
-    for ( var key in jsonArray ) { // works for objects and arrays 
+  formatJSONtoFlatList(jsonArray) {
+    for ( var key in jsonArray ) {
       var item = jsonArray[key]; 
-      if ( typeof item === "object" ) 
-      this.formatJSON(item); 
-      else 
-        console.log(key + " : " + item);
-    } 
+      if ( typeof item === "object" ){
+        this.devicecmdResponse.push(key + " : ");
+        this.formatJSONtoFlatList(item); 
+      }
+      else{
+        this.devicecmdResponse.push(key + " : " + item);
+      }
+    }
   }
 
   getCommandsList() {
@@ -72,6 +79,39 @@ export class GatewayDetailComponent implements OnInit {
       },
       {
         id: "ADDTRANSMITTER"
+      },
+      {
+        id: "ETH0STATIC"
+      },
+      {
+        id: "ETH0DHCP"
+      },
+      {
+        id: "WLAN0STATIC"
+      },
+      {
+        id: "WLAN0DHCP"
+      },
+      {
+        id: "WLAN0CONNECT"
+      },
+      {
+        id: "AUTOSSHON"
+      },
+      {
+        id: "AUTOSSHOFF"
+      },
+      {
+        id: "REBOOT"
+      },
+      {
+        id: "CLOUDDATA"
+      },
+      {
+        id: "CLOUDCONFIGURATION"
+      },
+      {
+        id: "SETDNS"
       }
     ];
     return ddCmdList;
@@ -121,16 +161,18 @@ export class GatewayDetailComponent implements OnInit {
   }
 
   getSensorList() {
+    // take the list from sub topic
     let sensorDataTableRows: any = [];
     let params = new HttpParams();
     params = params.append('email', this.getUserDetails());
     params = params.append('gatewayID', this.gatewayid);
 
-    this.subscription = this.requesterService.getRequestParams("/gateway/details",params).subscribe(
-      (gatewayDetails) => {
-        gatewayDetails[1].sensorList.forEach((sensor: any) => {
+    this.subscription = this.requesterService.getRequestParams("/sensor",params).subscribe(
+      (sensors) => {
+        sensors.forEach((sensor: any) => {
           sensorDataTableRows.push({
             'sensorid' : sensor.id,
+            'status': sensor.status
           });
         });
         this.setSensorDataTable(sensorDataTableRows);
@@ -153,6 +195,7 @@ export class GatewayDetailComponent implements OnInit {
         break;
       case "ETH0STATIC":
         console.log(response);
+        this.displayNotificationStrip(response);
         break;
       case "ETH0DHCP":
         console.log(response);
@@ -195,12 +238,34 @@ export class GatewayDetailComponent implements OnInit {
       this.setConnectionStatus(gatewayDetailsObject.aws_connection_status);
       this.fillFormData(gatewayDetailsObject);
     }
-    
+  }
+
+  displayNotificationStrip(message: string) {
+    if("Success") {
+      this.notificationService.success(message);
+    } else {
+      this.notificationService.error(message);
+    }
   }
 
   setSensorDataTable(data: any) {
     this.sensorDataTable = data;
     this.spinner.hide();
+  }
+
+  getSensorStatus() {
+    // http call to datamessage table to get the last communicated date for sensor.
+    // async / await call
+    // return status
+    this.requesterService.getGraphRequest('/graphdata',{ID: '034100113'}).subscribe(
+      response => {
+        //console.log(response);
+        // sensor status -> true
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   setConnectionStatus(connectionStatus: string) {
@@ -497,8 +562,38 @@ export class GatewayDetailComponent implements OnInit {
     );
   }
 
-  ongetDeviceConfig() {
+  ongetDeviceConfig(cmd: string) {
     this.mqttcommand = "CMD_INFO_BTN";
+
+    let IOTParams = this.getIOTParams(cmd);
+
+    this.pubsubService.publishtoMQTT(IOTParams).subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  getIOTParams(command: string) {
+    const selectedCommand = command;
+    
+    let deviceConfigJSON = {
+      "clientId": this.gatewayid,
+      "command": selectedCommand
+    }
+
+    let IOTParams = {
+      topic: "config_sub_tt_message",
+      payload: deviceConfigJSON
+    }
+
+    return IOTParams;
+  }
+
+  onCheckStatus() {
     let deviceConfigJSON = {
       "clientId": this.gatewayid,
       "command": "CMD_INFO"

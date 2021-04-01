@@ -31,10 +31,10 @@
     
     <ngx-datatable-column name="status" prop="status">
         <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
-            <div class="device-status-property" *ngIf="value === '1'">
+            <div class="device-status-property" *ngIf="value === 'Online'">
                 <span class="connection-status connected text-success"></span>
             </div>
-            <div class="device-status-property" *ngIf="value === '0'">
+            <div class="device-status-property" *ngIf="value === 'Offline'">
                 <span class="connection-status connected text-danger"></span>
             </div>
         </ng-template>

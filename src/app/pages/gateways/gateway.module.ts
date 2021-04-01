@@ -6,6 +6,7 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AlertModule } from 'ngx-bootstrap';
+import { TreeviewModule } from 'ngx-treeview';
 import { AlertComponentModule } from '../../shared/component/alert/alert.module';
 import { GatewaysListComponent } from './gateways-list/gateways-list.component';
 import { GatewayDetailComponent } from './gateway-detail/gateway-detail.component';
@@ -40,7 +41,8 @@ const routes: Routes = [
     NgSelectModule,
     AlertComponentModule,
     AlertModule,
-    SharedModule
+    SharedModule,
+    TreeviewModule.forRoot()
   ],
   providers: [
   ]

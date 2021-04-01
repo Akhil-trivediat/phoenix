@@ -139,23 +139,66 @@ export class SensorDetailComponent implements OnInit {
       rangeSelector: {
         selected: 4
       },
+      title: {
+        text: 'Temperature VS Time - Sensor Graph',
+      },
+      chart: {
+        zoomType: 'xy',
+        backgroundColor: {
+          linearGradient: [0, 0, 500, 500],
+          stops: [
+              [0, 'rgb(255, 255, 255)'],
+              [1, 'rgb(200, 200, 255)']
+          ]
+        },
+        type: 'line'
+      },
+      xAxis: {
+        title: {
+          enabled: true,
+          text: 'Time',
+          align: 'middle',
+          style: {
+            fontWeight: 'normal',
+            color: 'black'
+          }
+        }
+      },
       yAxis: {
+        tickPositioner: function () {
+          var minTick = Math.ceil(this.dataMin / 10) * 10;
+          var maxTick = Math.ceil(this.dataMax / 10) * 10;
+          var tickStart = minTick - 20;
+          var tickEnd = maxTick + 20;
+
+          var positions = [];
+          for(var i = tickStart ; i <= tickEnd ; i++) {
+            if(i%10 == 0) {
+              positions.push(i);
+            }
+          }
+          return positions;
+        },
+        tickInterval: 10,
+        opposite: false,
         labels: {
           formatter: function () {
             return (this.value > 0 ? ' + ' : '') + this.value;
-          }
+          },
+          align: 'left',
+          rotation:0,
+          y: 5,
+          x: -30
         },
-        left: '-96.5%',
-        plotLines: [{
-          value: 0,
-          width: 2,
-          color: 'silver'
-        }]
-      },
-      plotOptions: {
-        series: {
-          // compare: '',
-          showInNavigator: true
+        gridLineColor: 'grey',
+        title: {
+          enabled: true,
+          text: 'Temperature (°C)',
+          align: 'middle',
+          style: {
+            fontWeight: 'normal'
+          },
+          margin: 40
         }
       },
       tooltip: {
@@ -211,6 +254,7 @@ export class SensorDetailComponent implements OnInit {
     this.requesterService.getRequest('/sensor/details' + '?id=' + this.sensorid).subscribe(
       (response) => {
         var sensorData = response[0];
+        this.setSensorStatus(sensorData.status);
         this.fillFormData(sensorData);
         this.spinner.hide();
       },
@@ -219,6 +263,14 @@ export class SensorDetailComponent implements OnInit {
         this.spinner.hide();
       }
     );
+  }
+
+  setSensorStatus(status: string) {
+    if(status === "Online") {
+      this.isOnline = true;
+    } else {
+      this.isOnline = false;
+    }
   }
 
   loadGraph() {
@@ -230,12 +282,14 @@ export class SensorDetailComponent implements OnInit {
           if (data.rawvalue) {
             this.graphData.push([
               timestamp.getTime(),
-              data.rawvalue
+              +parseFloat(data.rawvalue).toFixed(2)
             ]);
             sensorDataTableRows.push({
-              'timestamp' : timestamp.getTime(),
+              'timestamp' : timestamp.toLocaleString(),
               'temperature' : parseFloat(data.rawvalue).toFixed(2)
             });
+
+            //parseFloat(data.rawvalue).toFixed(2)
           }
         });
         this.setSensorDataTable(sensorDataTableRows);

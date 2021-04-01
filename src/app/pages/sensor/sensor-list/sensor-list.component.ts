@@ -53,10 +53,10 @@ export class SensorListComponent implements OnInit {
           (sensorArray as Array<Sensor>).push({
             'sensorName': sensor["productname"],
             'sensorid': sensor["id"],
-            'status': '',
+            'status': sensor["status"],
             'gateway': sensor["gatewayname"],
             'activationdate': sensor["createddate"],
-            'lastconnected': ''
+            'lastconnected': sensor["lastCommDate"]
           });
         });
         this.sensorsArray = sensorArray;
@@ -209,7 +209,6 @@ export class SensorListComponent implements OnInit {
 
     this.requesterService.deleteRequest("/sensor", params).subscribe(
       (response) => {
-        console.log(response);
         this.getSensorList();
       },
       (error) => {

@@ -18,3 +18,8 @@
 .device-status-property .connection-status {
     font-size: 18px;
 }
+
+.btn-toolbar .glyphicon:before {
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+}

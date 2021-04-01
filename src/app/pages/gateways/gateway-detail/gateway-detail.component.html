@@ -29,7 +29,12 @@
         
                 <ngx-datatable-column name="status" prop="status">
                     <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
-                    {{value}}
+                        <div class="device-status-property" *ngIf="value === 'Online'">
+                            <span class="connection-status connected text-success"></span>
+                        </div>
+                        <div class="device-status-property" *ngIf="value === 'Offline'">
+                            <span class="connection-status connected text-danger"></span>
+                        </div> 
                     </ng-template>
                 </ngx-datatable-column>
             </ngx-datatable>
@@ -207,7 +212,7 @@
 
                     <div class="form-group row mt" *ngIf="LANConfigurationForm.get('ipaddressmode').value === '1'">
                         <label for="IPAddress"  class="col-form-label">IP Address:</label>
-                        <div>
+                        <div class="device-input">
                             <div class="input-group input-group-transparent">
                                 <input type="text"  class="form-control pl-3" formControlName="IPAddress"
                                     [ngClass]="{'is-invalid':LANConfigurationForm.controls.IPAddress.touched && LANConfigurationForm.controls.IPAddress.invalid}" required />
@@ -222,7 +227,7 @@
 
                     <div class="form-group row mt" *ngIf="LANConfigurationForm.get('ipaddressmode').value === '1'">
                         <label for="subnetMask"  class="col-form-label">Subnew Mask:</label>
-                        <div>
+                        <div class="device-input">
                             <div class="input-group input-group-transparent">
                                 <input type="text"  class="form-control pl-3" formControlName="subnetMask"
                                     [ngClass]="{'is-invalid':LANConfigurationForm.controls.subnetMask.touched && LANConfigurationForm.controls.subnetMask.invalid}" required />
@@ -237,7 +242,7 @@
 
                     <div class="form-group row mt" *ngIf="LANConfigurationForm.get('ipaddressmode').value === '1'">
                         <label for="gateway"  class="col-form-label">Gateway:</label>
-                        <div>
+                        <div class="device-input">
                             <div class="input-group input-group-transparent">
                                 <input type="text"  class="form-control pl-3" formControlName="gateway"
                                     [ngClass]="{'is-invalid':LANConfigurationForm.controls.gateway.touched && LANConfigurationForm.controls.gateway.invalid}" required />
@@ -249,10 +254,10 @@
                             </div>
                         </div>
                     </div>
-        
+
                     <div class="form-group row mt">
                         <label for="dnsprimary"  class="col-form-label">DNS Primary:</label>
-                        <div>
+                        <div class="device-input">
                             <div class="input-group input-group-transparent">
                                 <input type="text"  class="form-control pl-3" formControlName="dnsprimary"
                                     [ngClass]="{'is-invalid':LANConfigurationForm.controls.dnsprimary.touched && LANConfigurationForm.controls.dnsprimary.invalid}" required />
@@ -267,7 +272,7 @@
         
                     <div class="form-group row mt">
                         <label for="dnssecondary"  class="col-form-label">DNS Secondary:</label>
-                        <div>
+                        <div class="device-input">
                             <div class="input-group input-group-transparent">
                                 <input type="text"  class="form-control pl-3" formControlName="dnssecondary"
                                     [ngClass]="{'is-invalid':LANConfigurationForm.controls.dnssecondary.touched && LANConfigurationForm.controls.dnssecondary.invalid}" required />
@@ -279,26 +284,30 @@
                             </div>
                         </div>
                     </div>
-        
-                    <button (click)="onLANConfigFormSubmit(LANConfigurationForm)" type="submit" class="btn btn-m btn-primary" 
-                        [disabled]="
-                            LANConfigurationForm.controls.dnsprimary.invalid ||
-                            LANConfigurationForm.controls.dnssecondary.invalid ||
-                            LANConfigurationForm.get('ipaddressmode').value === '1' &&
-                            (
-                                LANConfigurationForm.get('IPAddress').invalid ||
-                                LANConfigurationForm.get('subnetMask').invalid ||
-                                LANConfigurationForm.get('gateway').invalid
-                            )">
-                        Save
-                    </button>
+                    <div class="button-group mt" role="group">
+                        <button (click)="onLANConfigFormSubmit(LANConfigurationForm)" type="submit" class="btn btn-m btn-primary" 
+                            [disabled]="
+                                LANConfigurationForm.controls.dnsprimary.invalid ||
+                                LANConfigurationForm.controls.dnssecondary.invalid ||
+                                LANConfigurationForm.get('ipaddressmode').value === '1' &&
+                                (
+                                    LANConfigurationForm.get('IPAddress').invalid ||
+                                    LANConfigurationForm.get('subnetMask').invalid ||
+                                    LANConfigurationForm.get('gateway').invalid
+                                )">
+                            Save
+                        </button>
+                        <button (click)="onCheckStatus()" type="submit" class="btn btn-m btn-primary">
+                            Check status
+                        </button>
+                    </div>
                 </form>
             </tab>
             <tab heading="WIFI">
                 <form name="WIFIConfigurationForm" [formGroup]="WIFIConfigurationForm">
                     <div class="form-group row mt">
                         <label for="dhcpRadio" class="col-form-label">IP Address Mode: </label>
-                        <div>
+                        <div class="device-input">
                             <div class="input-group input-group-transparent">
                                 <div class="form-check" style="margin-left: 1.5em;">
                                   <input type="radio"  class="form-check-input" formControlName="ipaddressmode" id="dhcpRadio" value="0"/>
@@ -318,7 +327,7 @@
 
                     <div class="form-group row mt" *ngIf="WIFIConfigurationForm.get('ipaddressmode').value === '1'">
                         <label for="IPAddress"  class="col-form-label">IP Address:</label>
-                        <div>
+                        <div class="device-input">
                             <div class="input-group input-group-transparent">
                                 <input type="text"  class="form-control pl-3" formControlName="IPAddress"
                                     [ngClass]="{'is-invalid':WIFIConfigurationForm.controls.IPAddress.touched && WIFIConfigurationForm.controls.IPAddress.invalid}" required />
@@ -333,7 +342,7 @@
 
                     <div class="form-group row mt" *ngIf="WIFIConfigurationForm.get('ipaddressmode').value === '1'">
                         <label for="subnetMask"  class="col-form-label">Subnew Mask:</label>
-                        <div>
+                        <div class="device-input">
                             <div class="input-group input-group-transparent">
                                 <input type="text"  class="form-control pl-3" formControlName="subnetMask"
                                     [ngClass]="{'is-invalid':WIFIConfigurationForm.controls.subnetMask.touched && WIFIConfigurationForm.controls.subnetMask.invalid}" required />
@@ -348,7 +357,7 @@
 
                     <div class="form-group row mt" *ngIf="WIFIConfigurationForm.get('ipaddressmode').value === '1'">
                         <label for="gateway"  class="col-form-label">Gateway:</label>
-                        <div>
+                        <div class="device-input">
                             <div class="input-group input-group-transparent">
                                 <input type="text"  class="form-control pl-3" formControlName="gateway"
                                     [ngClass]="{'is-invalid':WIFIConfigurationForm.controls.gateway.touched && WIFIConfigurationForm.controls.gateway.invalid}" required />
@@ -363,7 +372,7 @@
 
                     <div class="form-group row mt">
                         <label for="dnsprimary"  class="col-form-label">DNS Primary:</label>
-                        <div>
+                        <div class="device-input">
                             <div class="input-group input-group-transparent">
                                 <input type="text"  class="form-control pl-3" formControlName="dnsprimary"
                                     [ngClass]="{'is-invalid':WIFIConfigurationForm.controls.dnsprimary.touched && WIFIConfigurationForm.controls.dnsprimary.invalid}" required />
@@ -378,7 +387,7 @@
         
                     <div class="form-group row mt">
                         <label for="dnssecondary"  class="col-form-label">DNS Secondary:</label>
-                        <div>
+                        <div class="device-input">
                             <div class="input-group input-group-transparent">
                                 <input type="text"  class="form-control pl-3" formControlName="dnssecondary"
                                     [ngClass]="{'is-invalid':WIFIConfigurationForm.controls.dnssecondary.touched && WIFIConfigurationForm.controls.dnssecondary.invalid}" required />
@@ -393,7 +402,7 @@
 
                     <div class="form-group row mt">
                         <label for="ssid"  class="col-form-label">SSID:</label>
-                        <div>
+                        <div class="device-input">
                             <div class="input-group input-group-transparent">
                                 <input type="text"  class="form-control pl-3" formControlName="ssid"
                                     [ngClass]="{'is-invalid':WIFIConfigurationForm.controls.ssid.touched && WIFIConfigurationForm.controls.ssid.invalid}" required />
@@ -408,7 +417,7 @@
 
                     <div class="form-group row mt">
                         <label for="securityType"  class="col-form-label">Security Type:</label>
-                        <div>
+                        <div class="device-input">
                             <div class="input-group input-group-transparent">
                                 <select class="form-control pl-3" formControlName="securityType">
                                     <option value="1">WPA-PSK</option>
@@ -421,7 +430,7 @@
 
                     <div class="form-group row mt">
                         <label for="password"  class="col-form-label">Password:</label>
-                        <div>
+                        <div class="device-input">
                             <div class="input-group input-group-transparent">
                                 <input type="password"  class="form-control pl-3" formControlName="password"
                                     [ngClass]="{'is-invalid':WIFIConfigurationForm.controls.password.touched && WIFIConfigurationForm.controls.password.invalid}" required />
@@ -433,29 +442,33 @@
                             </div>
                         </div>
                     </div>
-
-                    <button (click)="onWIFIConfigFormSubmit(WIFIConfigurationForm)" type="submit" class="btn btn-m btn-primary" 
-                        [disabled]="
-                            WIFIConfigurationForm.controls.dnsprimary.invalid ||
-                            WIFIConfigurationForm.controls.dnssecondary.invalid ||
-                            WIFIConfigurationForm.controls.ssid.invalid ||
-                            WIFIConfigurationForm.controls.securityType.invalid ||
-                            WIFIConfigurationForm.controls.password.invalid ||
-                            WIFIConfigurationForm.get('ipaddressmode').value === '1' &&
-                            (
-                                WIFIConfigurationForm.get('IPAddress').invalid ||
-                                WIFIConfigurationForm.get('subnetMask').invalid ||
-                                WIFIConfigurationForm.get('gateway').invalid
-                            )">
-                        Save
-                    </button>
+                    <div class="button-group mt" role="group">
+                        <button (click)="onWIFIConfigFormSubmit(WIFIConfigurationForm)" type="submit" class="btn btn-m btn-primary" 
+                            [disabled]="
+                                WIFIConfigurationForm.controls.dnsprimary.invalid ||
+                                WIFIConfigurationForm.controls.dnssecondary.invalid ||
+                                WIFIConfigurationForm.controls.ssid.invalid ||
+                                WIFIConfigurationForm.controls.securityType.invalid ||
+                                WIFIConfigurationForm.controls.password.invalid ||
+                                WIFIConfigurationForm.get('ipaddressmode').value === '1' &&
+                                (
+                                    WIFIConfigurationForm.get('IPAddress').invalid ||
+                                    WIFIConfigurationForm.get('subnetMask').invalid ||
+                                    WIFIConfigurationForm.get('gateway').invalid
+                                )">
+                            Save
+                        </button>
+                        <button (click)="onCheckStatus()" type="submit" class="btn btn-m btn-primary">
+                            Check status
+                        </button>
+                    </div>
                 </form>
             </tab>
             <tab heading="CELLULAR">
                 <form name="CELLULARConfigurationForm" [formGroup]="CELLULARConfigurationForm">
                     <div class="form-group row mt">
                         <label for="APN"  class="col-form-label">APN:</label>
-                        <div>
+                        <div class="device-input">
                             <div class="input-group input-group-transparent">
                                 <input type="text"  class="form-control pl-3" formControlName="APN"
                                     [ngClass]="{'is-invalid':CELLULARConfigurationForm.controls.APN.touched && CELLULARConfigurationForm.controls.APN.invalid}" required />
@@ -470,7 +483,7 @@
 
                     <div class="form-group row mt">
                         <label for="username"  class="col-form-label">Username:</label>
-                        <div>
+                        <div class="device-input">
                             <div class="input-group input-group-transparent">
                                 <input type="text"  class="form-control pl-3" formControlName="username"
                                     [ngClass]="{'is-invalid':CELLULARConfigurationForm.controls.username.touched && CELLULARConfigurationForm.controls.username.invalid}" required />
@@ -485,7 +498,7 @@
 
                     <div class="form-group row mt">
                         <label for="password"  class="col-form-label">Password:</label>
-                        <div>
+                        <div class="device-input">
                             <div class="input-group input-group-transparent">
                                 <input type="password"  class="form-control pl-3" formControlName="password"
                                     [ngClass]="{'is-invalid':CELLULARConfigurationForm.controls.password.touched && CELLULARConfigurationForm.controls.password.invalid}" required />
@@ -497,11 +510,15 @@
                             </div>
                         </div>
                     </div>
-
-                    <button (click)="onCELLULARConfigFormSubmit(CELLULARConfigurationForm)" type="submit" class="btn btn-m btn-primary" 
-                        [disabled]="CELLULARConfigurationForm.invalid">
-                        Save
-                    </button>
+                    <div class="button-group mt" role="group">
+                        <button (click)="onCELLULARConfigFormSubmit(CELLULARConfigurationForm)" type="submit" class="btn btn-m btn-primary" 
+                            [disabled]="CELLULARConfigurationForm.invalid">
+                            Save
+                        </button>
+                        <button (click)="onCheckStatus()" type="submit" class="btn btn-m btn-primary">
+                            Check status
+                        </button>
+                    </div>
                 </form>
             </tab>
         </tabset>
@@ -509,17 +526,32 @@
       <tab heading="Device Management">
             <h5>Get Device Config: </h5>
             <hr>
-            <div class="row mb device-cmd-dispaly">
-                <div class="device-cmd-btn">
-                    <button (click)="ongetDeviceConfig()" type="button" class="btn btn-m btn-primary">
-                        Get Device Config
+            <div class="mb row">
+                <div class="mb device-cmd-display"> 
+                    <label class="col-form-label">Select command:</label>
+                    <ng-select
+                        class="custom"
+                        [items]="ddCmdList"
+                        [multiple]="false"
+                        [closeOnSelect]="true"
+                        [searchable]="false"
+                        bindLabel="id"
+                        bindValue="id"
+                        placeholder="Select command"
+                        [(ngModel)]="selectedCommand">
+                    </ng-select>
+                    <button (click)="ongetDeviceConfig(selectedCommand)" type="button" class="btn btn-m btn-primary float-right">
+                        Publish
                     </button>
                 </div>
-                
-                <div class="device-info">
-                    <p>{{devicecmdResponse}}</p>
+                <div class="mb device-cmd-response">
+                    <p>{{devicecmdResponse | json }}</p>
+                    <!-- <div *ngFor="let item of devicecmdResponse"> 
+                        <p>{{item}}</p>
+                    </div> -->
                 </div>
             </div>
+
             <h5>Cloud Configuration: </h5>
             <hr>
             <form name="cloudConfigurationForm" [formGroup]="cloudConfigurationForm">
@@ -582,10 +614,15 @@
                         </div>
                     </div>
                 </div>
-    
-                <button (click)="onCloudConfigFormSubmit(cloudConfigurationForm)" type="submit" class="btn btn-m btn-primary" [disabled]="cloudConfigurationForm.invalid">
-                    Update
-                </button>
+
+                <div class="button-group mt" role="group">
+                    <button (click)="onCloudConfigFormSubmit(cloudConfigurationForm)" type="submit" class="btn btn-m btn-primary" [disabled]="cloudConfigurationForm.invalid">
+                        Update
+                    </button>
+                    <button (click)="onCheckStatus()" type="submit" class="btn btn-m btn-primary">
+                        Check status
+                    </button>
+                </div>
             </form>
 
             <h5>Firmware Configuration: </h5>
@@ -599,9 +636,14 @@
                         </div>
                     </div>
                 </div>
-                <button (click)="onfirmwareConfigFormSubmit(firmwareConfigurationForm)" type="submit" class="btn btn-m btn-primary" [disabled]="firmwareConfigurationForm.invalid">
-                    Update
-                </button>
+                <div class="button-group mt" role="group">
+                    <button (click)="onfirmwareConfigFormSubmit(firmwareConfigurationForm)" type="submit" class="btn btn-m btn-primary" [disabled]="firmwareConfigurationForm.invalid">
+                        Update
+                    </button>
+                    <button (click)="onCheckStatus()" type="submit" class="btn btn-m btn-primary">
+                        Check status
+                    </button>
+                </div>
             </form>
 
             <h5>Sensor Configuration: </h5>
@@ -628,10 +670,29 @@
                         </div>
                     </div>
                 </div>
-                <button (click)="onsensorConfigFormSubmit(sensorConfigurationForm)" type="submit" class="btn btn-m btn-primary" [disabled]="sensorConfigurationForm.invalid">
-                    Update
-                </button>
+                <div class="button-group mt" role="group">
+                    <button (click)="onsensorConfigFormSubmit(sensorConfigurationForm)" type="submit" class="btn btn-m btn-primary" [disabled]="sensorConfigurationForm.invalid">
+                        Update
+                    </button>
+                    <button (click)="onCheckStatus()" type="submit" class="btn btn-m btn-primary">
+                        Check status
+                    </button>
+                </div>
             </form>
+
+            <h5>AutoSSH: </h5>
+            <hr>
+            <div class="row mb device-cmd-dispaly">
+                <div class="device-cmd-btn">
+                    <div class="display-inline-block checkbox-ios">
+                        <label for="checkbox-ios1" class="switch form-check-label"> 
+                            <input class="form-check-input" type="checkbox" class="ios" checked name="checkbox-ios1" id="checkbox-ios1" 
+                            (click)="onAutoSSHToggle($event)" #switchInput><i></i>
+                            <span class="switch-status">{{ switchInput.checked ? 'On' : 'Off'}}</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
 
             <h5>Factory Reset: </h5>
             <hr>
@@ -639,13 +700,14 @@
                 <div class="form-group row mt">
                     <label for="factoryReset"  class="col-form-label">Factory Reset:</label>
                     <div class="device-input">
-                        <div class="input-group input-group-transparent">
+                        <div class="button-group mt" role="group">
                             <button (click)="onfactoryResetFormSubmit()" class="btn btn-m btn-primary">
                                 Factory Reset
                             </button>
-                        </div>
+                        </div> 
                     </div>
                 </div>
+                
             </form>
       </tab>
     </tabset>

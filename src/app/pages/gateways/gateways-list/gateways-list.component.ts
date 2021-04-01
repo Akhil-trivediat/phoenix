@@ -5,6 +5,7 @@ import { HttpParams } from "@angular/common/http";
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Gateway } from '../../../models/commonmodel.data';
+import { PubsubService } from '../../../shared/service/pubsub.service';
 import { RequesterService } from '../../../shared/service/requester.service';
 import { NotificationService } from '../../../shared/service/notification.service';
 import { NgxDialogComponent } from 'src/app/shared/component/ngx-dialog/ngx-dialog.component';
@@ -29,12 +30,15 @@ export class GatewaysListComponent implements OnInit {
   gatewaysArray = [];
 
   constructor(
-    private requesterService: RequesterService,
-    private notificationService: NotificationService,
-    private spinner: NgxSpinnerService,
     private router: Router,
+    private spinner: NgxSpinnerService,
     private modalService: BsModalService,
-  ) { }
+    private pubsubService: PubsubService,
+    private requesterService: RequesterService,
+    private notificationService: NotificationService
+  ) { 
+    this.subscribetoMQTT();
+  }
 
   ngOnInit() {
     this.spinner.show();
@@ -51,6 +55,7 @@ export class GatewaysListComponent implements OnInit {
     this.requesterService.getRequest("/gateway" + "?email=" + email).subscribe(
       (gatewaysList) => {
         gatewaysList.forEach((gateway) => {
+          this.publishtoMQTT(gateway["id"]);
           (gatewayArray).push({
             'gatewayName': gateway["productname"],
             'gatewayid': gateway["id"],
@@ -113,4 +118,49 @@ export class GatewaysListComponent implements OnInit {
     );
   }
 
+  setGatewayStatus(data: any) {
+    this.gatewaysArray.forEach((gateway: any) => {
+      if(gateway.gatewayid === data.value.clientId){
+        if(data.value.aws_connection_status.toLocaleLowerCase() === "connected"){
+          gateway.status = "Online";
+        } else {
+          gateway.status = "Offline";
+        }
+      }
+      console.log("Status set");
+    });
+  }
+
+  subscribetoMQTT() {
+    this.pubsubService.subscribetoMQTT().subscribe(
+      data => {
+        console.log(data);
+        this.setGatewayStatus(data);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  publishtoMQTT(gatewayID: string) {
+    let deviceConfigJSON = {
+      "clientId": gatewayID,
+      "command": "CMD_INFO"
+    }
+
+    let IOTParams = {
+      topic: "config_sub_tt_message",
+      payload: deviceConfigJSON
+    }
+
+    this.pubsubService.publishtoMQTT(IOTParams).subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 }

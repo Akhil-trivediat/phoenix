@@ -16,8 +16,8 @@
       Use your username to sign in.
     </p>
     <form [formGroup]="formGroup">
-      <alert *ngIf="loginService.errorMessage" type="danger alert-sm widget-middle-overflow rounded-0">
-        {{loginService.errorMessage}}
+      <alert *ngIf="errorMessage" type="danger alert-sm widget-middle-overflow rounded-0">
+        {{errorMessage}}
       </alert>
       <div class="form-group mt">
         <label for="username">Username</label>
@@ -46,7 +46,7 @@
           <span class="auth-btn-circle">
             <i class="la la-caret-right"></i>
           </span>
-          {{loginService.isFetching ? 'Loading...' : 'Login'}}
+          {{isFetching ? 'Loading...' : 'Login'}}
         </button>
         <div class="btn-acc">
           <a routerLink="/changepassword" class="d-block text-center mb-4 forgot-pwd">Forgot Password?</a>
@@ -56,8 +56,3 @@
     </form>
   </section>
 </div>
-
-
-<!-- <footer class="auth-footer">
-  2019 &copy; Sing App - React Admin Dashboard Template.
-</footer> -->

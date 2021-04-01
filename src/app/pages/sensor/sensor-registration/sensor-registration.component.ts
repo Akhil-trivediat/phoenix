@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RequesterService } from '../../../shared/service/requester.service';
+import { PubsubService } from '../../../shared/service/pubsub.service';
 
 @Component({
   selector: 'app-sensor-registration',
@@ -12,8 +13,9 @@ export class SensorRegistrationComponent implements OnInit {
   sensorRegistrationForm: any;
 
   constructor(
+    private router: Router,
+    private pubsubService: PubsubService,
     private requesterService: RequesterService,
-    private router: Router
   ) { }
 
   ngOnInit() {
@@ -56,6 +58,31 @@ export class SensorRegistrationComponent implements OnInit {
       type: "Sensor",
       data: sensorData
     };
+    this.publishtoMQTT(requestBody);
+  }
+
+  publishtoMQTT(requestBody: any) {
+    let deviceConfigJSON = {
+      "clientId": requestBody.data.gatewayID,
+      "command": "ADDTRANSMITTER",
+      "transmitterids": [+requestBody.data.sensorID]
+    }
+
+    let IOTParams = {
+      topic: "config_sub_tt_message",
+      payload: deviceConfigJSON
+    }
+
+    this.pubsubService.publishtoMQTT(IOTParams).subscribe(
+      (response) => {
+        this.addSensor(requestBody);
+      }, 
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+  addSensor(requestBody: any) {
     this.requesterService.addRequest("/triggerSNS", JSON.stringify(requestBody)).subscribe(
       (response) => {
         console.log(response);

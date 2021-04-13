@@ -123,6 +123,7 @@ export class SensorDetailComponent implements OnInit {
           if(i === this.selectedSensor.length - 1) {
             this.resetSensorsSelectedforGraph();
           }
+          this.multipleSeriesOptions = Array.from(this.multipleSeriesOptions.reduce((m, t) => m.set(t.name, t), new Map()).values());
           this.prepareStockChart(this.multipleSeriesOptions);
         },
         error => {
@@ -299,6 +300,7 @@ export class SensorDetailComponent implements OnInit {
             data: this.graphData
           }
         );
+        
         this.prepareStockChart(this.multipleSeriesOptions);
       },
       error => {

@@ -41,6 +41,12 @@ export class SensorDetailComponent implements OnInit {
   aSensorsSelectedforGraph: any = [];
   sSensorsSelectedforGraph: string;
 
+  private $graph_textcolor = "#FFFFFF";
+  private $graph_backgroundcolor = "#36455A";
+  private $graph_gridlinecolor = "#1C2531";
+  private $graph_seriescolor = "#61D85E";
+  private $graph_threscolor = "#FF8252";
+
   constructor(
     private route: ActivatedRoute,
     private requesterService: RequesterService,
@@ -133,9 +139,9 @@ export class SensorDetailComponent implements OnInit {
         }
       );
     }
-  } 
+  }
 
-  prepareStockChart(seriesOptions: any) {
+  prepareStockChartNew(seriesOptions) {
     this.options = {
       rangeSelector: {
         selected: 4
@@ -207,6 +213,136 @@ export class SensorDetailComponent implements OnInit {
         valueDecimals: 2,
         changeDecimals: 2,
         split: true
+      },
+      series: seriesOptions
+    };
+    Highcharts.stockChart('highChart', this.options);
+    this.spinner.hide();
+  }
+
+  prepareStockChart(seriesOptions: any) {
+    this.options = {
+      navigator: {
+        enabled: false
+      },
+      scrollbar: {
+        enabled: false
+      },
+      rangeSelector: {
+        enabled: false
+      },
+      title: {
+        text: 'Temperature VS Time - Sensor Graph',
+        style: {
+          color: this.$graph_textcolor,
+          fontWeight: 'bold'
+        }
+      },
+      chart: {
+        zoomType: 'xy',
+        backgroundColor: this.$graph_backgroundcolor,
+        type: 'line'
+      },
+      xAxis: {
+        title: {
+          enabled: true,
+          text: 'Time',
+          align: 'middle',
+          style: {
+            fontWeight: 'normal',
+            color: this.$graph_textcolor
+          }
+        },
+        labels: {
+          style: {
+            color: this.$graph_textcolor
+          }
+        }
+      },
+      yAxis: {
+        tickPositioner: function () {
+          var minTick = Math.ceil(this.dataMin / 10) * 10;
+          var maxTick = Math.ceil(this.dataMax / 10) * 10;
+          var tickStart = minTick - 20;
+          var tickEnd = maxTick + 20;
+
+          var positions = [];
+          for(var i = tickStart ; i <= tickEnd ; i++) {
+            if(i%10 == 0) {
+              positions.push(i);
+            }
+          }
+          return positions;
+        },
+        tickInterval: 10,
+        opposite: false,
+        labels: {
+          formatter: function () {
+            return this.value;
+            //return (this.value > 0 ? ' + ' : '') + this.value;
+          },
+          align: 'left',
+          rotation:0,
+          y: 5,
+          x: -30,
+          style: {
+            color: this.$graph_textcolor
+          }
+        },
+        gridLineColor: this.$graph_gridlinecolor,
+        title: {
+          enabled: true,
+          text: 'Temperature (°C)',
+          align: 'middle',
+          style: {
+            fontWeight: 'normal',
+            color: this.$graph_textcolor
+          },
+          margin: 40
+        },
+        plotLines: [{
+          value: 18,
+          color: this.$graph_threscolor,
+          dashStyle: 'shortdash',
+          width: 1,
+          label: {
+              text: 'Min threshold',
+              style: {
+                color: this.$graph_textcolor
+              }
+          }
+        }, {
+            value: 25,
+            color: this.$graph_threscolor,
+            dashStyle: 'shortdash',
+            width: 1,
+            label: {
+                text: 'Max threshold',
+                style: {
+                  color: this.$graph_textcolor
+                }
+            }
+        }]
+      },
+      tooltip: {
+        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
+        valueDecimals: 2,
+        changeDecimals: 2,
+        split: true
+      },
+      plotOptions: {
+        series: {
+          color: this.$graph_seriescolor,
+          zones: [{
+            value: 18,
+            color: this.$graph_threscolor
+          }, {
+              value: 25,
+              color: this.$graph_seriescolor
+          }, {
+              color: this.$graph_threscolor
+          }]
+        }
       },
       series: seriesOptions
     };

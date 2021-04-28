@@ -10,7 +10,10 @@ import { PubsubService } from '../../../shared/service/pubsub.service';
   styleUrls: ['./sensor-registration.component.css']
 })
 export class SensorRegistrationComponent implements OnInit {
+
+  selectedSensor: any;
   sensorRegistrationForm: any;
+  gatewayList: Array<Object>;
 
   constructor(
     private router: Router,
@@ -19,7 +22,11 @@ export class SensorRegistrationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
     this.prepareForm();
+
+    this.getAllGatewaysList();
+
   }
 
   prepareForm() {
@@ -93,4 +100,24 @@ export class SensorRegistrationComponent implements OnInit {
       }
     );
   }
+
+  getAllGatewaysList() {
+    let gatewayArray = [];
+    const email = this.getUserDetails();
+
+    this.requesterService.getRequest("/gateway" + "?email=" + email).subscribe(
+      (gatewaysList) => {
+        gatewaysList.forEach((gateway) => {
+          (gatewayArray).push({
+            id: gateway["id"]
+          });
+        });
+        this.gatewayList = gatewayArray;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
 }

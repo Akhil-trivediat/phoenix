@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, LOCALE_ID } from '@angular/core';
+import { formatDate } from '@angular/common';
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import { Router } from '@angular/router';
 import { HttpParams } from "@angular/common/http";
@@ -35,7 +36,8 @@ export class GatewaysListComponent implements OnInit {
     private modalService: BsModalService,
     private pubsubService: PubsubService,
     private requesterService: RequesterService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    @Inject(LOCALE_ID) private locale: string,
   ) { 
     this.subscribetoMQTT();
   }
@@ -61,7 +63,7 @@ export class GatewaysListComponent implements OnInit {
             'gatewayid': gateway["id"],
             'status': gateway["status"],
             'sensor': gateway["sensor"],
-            'activationdate': gateway["createddate"],
+            'activationdate': gateway["createddate"].length > 0 ? formatDate(gateway["createddate"],'MM/dd/yyyy,HH:mm',this.locale) : gateway["createddate"],
             'lastconnected': gateway["lastconnected"]
           });
         });

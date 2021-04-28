@@ -11,8 +11,6 @@ import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { DatepickerModule } from 'ngx-bootstrap/datepicker';
-import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
@@ -66,8 +64,6 @@ const APP_PROVIDERS = [
     CollapseModule.forRoot(),
     PopoverModule.forRoot(),
     TooltipModule.forRoot(),
-    DatepickerModule.forRoot(),
-    TimepickerModule.forRoot(),
     ModalModule.forRoot(),
     TabsModule.forRoot(),
     AccordionModule.forRoot(),

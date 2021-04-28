@@ -14,6 +14,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from '../../shared/component/shared.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
+//import { DatepickerModule } from 'ng2-datepicker';
+
+//import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+
 const routes: Routes = [
   {
     path: '', component: SensorListComponent
@@ -42,7 +46,10 @@ const routes: Routes = [
     WidgsterModule,
     NgSelectModule,
     SharedModule,
-    ModalModule
+    ModalModule,
+    // DatepickerModule,
+    // BsDatepickerModule.forRoot(),
+    // DatepickerModule.forRoot(),
   ],
   providers: [
   ]

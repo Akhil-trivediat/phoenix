@@ -70,6 +70,7 @@
     "ng-multiselect-dropdown": "^0.2.14",
     "ng-wizard": "1.0.0",
     "ng2-carouselamos": "3.2.0",
+    "ng2-datepicker": "^11.1.0",
     "ng2-select2": "^1.0.0-beta.16",
     "ng5-slider": "1.2.4",
     "ngx-bootstrap": "5.5.0",

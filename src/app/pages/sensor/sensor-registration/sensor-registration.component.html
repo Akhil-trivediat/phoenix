@@ -35,8 +35,16 @@
             <label for="gatewayID"  class="col-form-label">Gateway ID:</label>
             <div class="device-input">
                 <div class="input-group">
-                    <input type="text"  class="form-control pl-3" formControlName="gatewayID"
-                        [ngClass]="{'is-invalid':sensorRegistrationForm.controls.gatewayID.touched && sensorRegistrationForm.controls.gatewayID.invalid}" required />
+                    <ng-select
+                        formControlName="gatewayID"
+                        class="custom"
+                        [items]="gatewayList"
+                        [multiple]="false"
+                        [closeOnSelect]="false"
+                        [searchable]="false"
+                        bindLabel="id"
+                        placeholder="Select gateway">
+                    </ng-select>
                 </div>
             </div>
         </div>

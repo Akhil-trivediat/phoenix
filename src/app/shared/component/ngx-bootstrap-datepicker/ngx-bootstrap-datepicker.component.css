@@ -1,0 +1,14 @@
+/* :host ::ng-deep .dtp .bs-datepicker-head{
+    background-color: #222d3c !important;
+} */
+
+body {
+    padding: 30px;
+    position: relative;
+  }
+  body .bs-datepicker-container .bs-datepicker-head {
+    background-color: rgb(112, 77, 77);
+  }
+  body .bs-datepicker-container .bs-datepicker-head * {
+    color: #000;
+  }

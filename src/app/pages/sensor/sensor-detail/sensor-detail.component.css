@@ -129,3 +129,62 @@
 .sensor-multi-select {
     margin-bottom: 15px;
 }
+
+/* Datepicker styles */
+.datepicker-blue .calendar-container {
+    background: #32A8E4;
+    border: 1px solid #32A8E4;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .3);
+    top: 35px;
+    left: 0;
+    font-weight: 700;
+}
+
+.datepicker-blue .month-year-text {
+    color: #ffffff;
+}
+
+.datepicker-blue .control path {
+    fill: #eff1f5
+}
+
+.datepicker-blue .control:hover path {
+    fill: #ffffff;
+}
+
+.datepicker-blue .day-name-unit {
+    color: #fafafa;
+}
+
+.datepicker-blue .day-unit,
+.datepicker-blue .year-unit {
+    color: #ffffff;
+}
+
+.datepicker-blue .day-unit.is-prev-month,
+.datepicker-blue .year-unit.is-prev-month {
+    color: #8ed0f0;
+}
+
+.datepicker-blue .day-unit.is-today,
+.datepicker-blue .year-unit.is-today {
+    background: #8ed0f0;
+}
+
+.datepicker-blue .day-unit:hover,
+.datepicker-blue .year-unit:hover,
+.datepicker-blue .day-unit.is-selected,
+.datepicker-blue .year-unit.is-selected {
+    background: #ffffff;
+    color: #686669;
+}
+
+.datepicker-blue .day-unit.is-disabled,
+.datepicker-blue .year-unit.is-disabled {
+    color: #aaa8ab;
+}
+
+.datepicker-blue .day-unit.is-disabled:hover,
+.datepicker-blue .year-unit.is-disabled:hover {
+    background: transparent
+}

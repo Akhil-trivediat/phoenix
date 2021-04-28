@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="col-xs-12 col-12 col-md-4 form-group">
+    <div class="start-date float-left">
+      <input type="text"
+        class="form-control input-transparent"
+        #dp="bsDatepicker"
+        bsDatepicker
+        placeholder="Start Date"
+        [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY, hh:mm:ss A', showWeekNumbers: false, isAnimated: true, adaptivePosition: true }"
+        (bsValueChange)="onStartDateChange($event)"
+        [bsValue]="startDateTime"
+        [(ngModel)]="startDateTime"
+        [maxDate]="maxStartDate"> 
+      <timepicker [(ngModel)]="startDateTime"></timepicker>
+    </div>
+    
+    <div class="end-date float-right">
+      <input type="text"
+        class="form-control input-transparent"
+        #dp="bsDatepicker"
+        bsDatepicker
+        placeholder="End Date"
+        [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY, hh:mm:ss A', showWeekNumbers: false, isAnimated: true, adaptivePosition: true }"
+        (bsValueChange)="onEndDateChange($event)"
+        [bsValue]="endDateTime"
+        [(ngModel)]="endDateTime"
+        [minDate]="minEndDate"
+        [maxDate]="maxEndDate">
+      <timepicker [(ngModel)]="endDateTime"></timepicker>
+    </div>
+  </div>
+  <div>
+    <button (click)="onSaveBtnClicked()" class="btn btn-m btn-primary">Save</button>
+  </div>
+</div>
+
+
+
+<!-- <pre>Time is: {{startDateTime}}</pre>
+    (ngModelChange)="timechanged()" -->

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, LOCALE_ID  } from '@angular/core';
+import { formatDate } from '@angular/common';
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import { HttpParams } from "@angular/common/http";
 import { Router } from '@angular/router';
@@ -22,6 +23,7 @@ export class SensorListComponent implements OnInit {
   bsModalRef: BsModalRef;
 
   constructor(
+    @Inject(LOCALE_ID) private locale: string,
     private requesterService: RequesterService,
     private spinner: NgxSpinnerService,
     private modalService: BsModalService,
@@ -55,8 +57,8 @@ export class SensorListComponent implements OnInit {
             'sensorid': sensor["id"],
             'status': sensor["status"],
             'gateway': sensor["gatewayname"],
-            'activationdate': sensor["createddate"],
-            'lastconnected': sensor["lastCommDate"]
+            'activationdate': formatDate(sensor["createddate"],'MM/dd/yyyy,HH:mm',this.locale),
+            'lastconnected': formatDate(sensor["lastCommDate"],'MM/dd/yyyy,HH:mm',this.locale)
           });
         });
         this.sensorsArray = sensorArray;

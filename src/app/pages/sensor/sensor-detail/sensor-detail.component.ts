@@ -1,12 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, LOCALE_ID, TemplateRef   } from '@angular/core';
+import { formatDate } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { RequesterService } from '../../../shared/service/requester.service';
-import { data, goog, msft, aapl } from './sampleGraphData';
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import * as Highcharts from 'highcharts/highstock';
 import { HttpParams } from "@angular/common/http";
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Observable } from 'rxjs';
+import { FilterbarModelComponent } from '../../../shared/component/filterbar-model/filterbar-model.component';
 
 declare var require: any;
 let Boost = require('highcharts/modules/boost');
@@ -40,23 +43,54 @@ export class SensorDetailComponent implements OnInit {
   sensorModel: any;
   aSensorsSelectedforGraph: any = [];
   sSensorsSelectedforGraph: string;
+  startdate: string = "";
+  enddate:string = "";
+
+  private $graph_textcolor = "#FFFFFF";
+  private $graph_backgroundcolor = "#36455A";
+  private $graph_gridlinecolor = "#1C2531";
+  private $graph_seriescolor = "#61D85E";
+  private $graph_threscolor = "#FF8252";
+ 
+  downloadCSVoptions = {
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalseparator: '.',
+    showLabels: false,
+    headers: [],
+    showTitle: true,
+    title: ['Timestamp','Temperature'],
+    useBom: false,
+    removeNewLines: true,
+    keys: ['timestamp','temperature']
+  };
+  downloadCSVdata = [];
+  CSVfilename: string = "SensorReport.csv";
+
+  modalRef: BsModalRef;
 
   constructor(
+    @Inject(LOCALE_ID) private locale: string,
     private route: ActivatedRoute,
     private requesterService: RequesterService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private formBuilder: FormBuilder,
+    private modalService: BsModalService
   ) { 
     this.subscription = this.route.params.subscribe(params => {
       this.sensorid = params['id'];
     });
-    //this.prepareStockChartDemo(); 
   }
   
   ngOnInit() {
     this.spinner.show();
+
     this.getSensorList();
-    this.loadGraph();
+
+    this.loadGraph(this.startdate, this.enddate, this.sensorid);
+
     this.prepareForm();
+
     this.getSensorDetails();
   }
 
@@ -88,6 +122,13 @@ export class SensorDetailComponent implements OnInit {
     );
   }
 
+  onDateTimeChange(event) {
+    this.startdate = event[0].toISOString();
+    this.enddate = event[1].toISOString();
+
+    this.loadGraph(this.startdate, this.enddate, this.sensorid);
+  }
+
   sensorModelChange(){
     this.aSensorsSelectedforGraph.push(this.sensorModel);
     this.sSensorsSelectedforGraph = this.aSensorsSelectedforGraph.join(' , ');
@@ -103,7 +144,13 @@ export class SensorDetailComponent implements OnInit {
     this.spinner.show();
     for(var i = 0; i < this.selectedSensor.length; i++ ) {
       let graphData: any = [];
-      await this.requesterService.getGraphDataSyncRequest('/graphdata',{ ID: this.selectedSensor[i].id }).then(
+
+      await this.requesterService.getGraphDataSyncRequest('/graphdata',
+        { 
+          ID: this.selectedSensor[i].id,
+          startDate: "",
+          endDate: ""
+        }).then(
         response => {
           response.forEach((data: any) =>{
             let timestamp = new Date(data.messagedate);
@@ -123,6 +170,7 @@ export class SensorDetailComponent implements OnInit {
           if(i === this.selectedSensor.length - 1) {
             this.resetSensorsSelectedforGraph();
           }
+          this.multipleSeriesOptions = Array.from(this.multipleSeriesOptions.reduce((m, t) => m.set(t.name, t), new Map()).values());
           this.prepareStockChart(this.multipleSeriesOptions);
         },
         error => {
@@ -132,85 +180,6 @@ export class SensorDetailComponent implements OnInit {
         }
       );
     }
-  } 
-
-  prepareStockChart(seriesOptions: any) {
-    this.options = {
-      rangeSelector: {
-        selected: 4
-      },
-      title: {
-        text: 'Temperature VS Time - Sensor Graph',
-      },
-      chart: {
-        zoomType: 'xy',
-        backgroundColor: {
-          linearGradient: [0, 0, 500, 500],
-          stops: [
-              [0, 'rgb(255, 255, 255)'],
-              [1, 'rgb(200, 200, 255)']
-          ]
-        },
-        type: 'line'
-      },
-      xAxis: {
-        title: {
-          enabled: true,
-          text: 'Time',
-          align: 'middle',
-          style: {
-            fontWeight: 'normal',
-            color: 'black'
-          }
-        }
-      },
-      yAxis: {
-        tickPositioner: function () {
-          var minTick = Math.ceil(this.dataMin / 10) * 10;
-          var maxTick = Math.ceil(this.dataMax / 10) * 10;
-          var tickStart = minTick - 20;
-          var tickEnd = maxTick + 20;
-
-          var positions = [];
-          for(var i = tickStart ; i <= tickEnd ; i++) {
-            if(i%10 == 0) {
-              positions.push(i);
-            }
-          }
-          return positions;
-        },
-        tickInterval: 10,
-        opposite: false,
-        labels: {
-          formatter: function () {
-            return (this.value > 0 ? ' + ' : '') + this.value;
-          },
-          align: 'left',
-          rotation:0,
-          y: 5,
-          x: -30
-        },
-        gridLineColor: 'grey',
-        title: {
-          enabled: true,
-          text: 'Temperature (°C)',
-          align: 'middle',
-          style: {
-            fontWeight: 'normal'
-          },
-          margin: 40
-        }
-      },
-      tooltip: {
-        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
-        valueDecimals: 2,
-        changeDecimals: 2,
-        split: true
-      },
-      series: seriesOptions
-    };
-    Highcharts.stockChart('highChart', this.options);
-    this.spinner.hide();
   }
 
   prepareForm() {
@@ -232,16 +201,11 @@ export class SensorDetailComponent implements OnInit {
 
   fillFormData(sensorData: any) {
     if(sensorData) {
-      let date_ob = new Date(sensorData.lastCommDate);
-      let date = ("0" + date_ob.getDate()).slice(-2);
-      let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-      let year = date_ob.getFullYear();
-      let lastCommDate = month + "-" + date + "-" + year;
       this.sensorDetailsForm.patchValue({
         sensorName: sensorData.sensorname,
         readingValue: parseFloat(sensorData.readingValue).toFixed(2),
         readingUnit: sensorData.readingUnit,
-        lastCommDate: lastCommDate,
+        lastCommDate: formatDate(sensorData.lastCommDate,'MM/dd/yyyy,HH:mm',this.locale),
         location: '',
         gatewayName: sensorData.gatewayname,
         minThres: '',
@@ -273,9 +237,10 @@ export class SensorDetailComponent implements OnInit {
     }
   }
 
-  loadGraph() {
+  loadGraph(startdate,enddate,sensorid) {
     let sensorDataTableRows: any = [];
-    this.requesterService.getGraphRequest('/graphdata',{ID: this.sensorid}).subscribe(
+    this.multipleSeriesOptions = [];
+    this.getGraphData(startdate,enddate,sensorid).subscribe(
       response => {
         response.forEach((data: any) =>{
           let timestamp = new Date(data.messagedate);
@@ -285,11 +250,9 @@ export class SensorDetailComponent implements OnInit {
               +parseFloat(data.rawvalue).toFixed(2)
             ]);
             sensorDataTableRows.push({
-              'timestamp' : timestamp.toLocaleString(),
+              'timestamp' : formatDate(timestamp,'MM/dd/yyyy,HH:mm',this.locale),
               'temperature' : parseFloat(data.rawvalue).toFixed(2)
             });
-
-            //parseFloat(data.rawvalue).toFixed(2)
           }
         });
         this.setSensorDataTable(sensorDataTableRows);
@@ -299,6 +262,7 @@ export class SensorDetailComponent implements OnInit {
             data: this.graphData
           }
         );
+      
         this.prepareStockChart(this.multipleSeriesOptions);
       },
       error => {
@@ -310,56 +274,185 @@ export class SensorDetailComponent implements OnInit {
 
   setSensorDataTable(data: any) {
     this.sensorDataTable = data;
+    this.prepareCSVReport(this.sensorDataTable);
     this.spinner.hide();
+  }
+
+  prepareCSVReport(data: any) {
+    this.downloadCSVoptions = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: false,
+      headers: [],
+      showTitle: true,
+      title: ['Timestamp','Temperature'],
+      useBom: false,
+      removeNewLines: true,
+      keys: ['timestamp','temperature']
+    };
+    this.downloadCSVdata = data;
+    
+    this.downloadCSVdata.sort((val1, val2)=> {
+      return new Date(val2.timestamp).getTime() - new Date(val1.timestamp).getTime()
+    });
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
-  prepareStockChartDemo() {
+  getGraphData(startDate: any, endDate: any, sensorID: any): Observable<any> {
+    return this.requesterService.getSensorDetailsbyIDforGraph('/graphdata',
+      {
+        ID: sensorID,
+        startDate: startDate,
+        endDate: endDate
+      }
+    );
+  }
+
+  ngAfterViewChecked() {
+    document.querySelector('angular2csv > button').innerHTML = '<i class="glyphicon glyphicon-download-alt text-white"></i>';
+  }
+
+  openModal(template: TemplateRef<any>) {
+    //this.modalRef = this.modalService.show(template);
+    this.modalRef = this.modalService.show(FilterbarModelComponent);
+    // this.modalRef.content.onClose.subscribe(
+    //   (response: any) => {
+    //     console.log(response);
+    //   }
+    // );
+  }
+
+  prepareStockChart(seriesOptions: any) {
     this.options = {
-      rangeSelector: {
-        selected: 4
+      navigator: {
+        enabled: false
       },
-      yAxis: {
-        labels: {
-          formatter: function () {
-            return (this.value > 0 ? ' + ' : '') + this.value + '%';
+      scrollbar: {
+        enabled: false
+      },
+      rangeSelector: {
+        enabled: false
+      },
+      title: {
+        text: 'Temperature VS Time - Sensor Graph',
+        style: {
+          color: this.$graph_textcolor,
+          fontWeight: 'bold'
+        }
+      },
+      chart: {
+        zoomType: 'xy',
+        backgroundColor: this.$graph_backgroundcolor,
+        type: 'line'
+      },
+      xAxis: {
+        title: {
+          enabled: true,
+          text: 'Time',
+          align: 'middle',
+          style: {
+            fontWeight: 'normal',
+            color: this.$graph_textcolor
           }
         },
+        labels: {
+          style: {
+            color: this.$graph_textcolor
+          }
+        }
+      },
+      yAxis: {
+        tickPositioner: function () {
+          var minTick = Math.ceil(this.dataMin / 10) * 10;
+          var maxTick = Math.ceil(this.dataMax / 10) * 10;
+          var tickStart = minTick - 20;
+          var tickEnd = maxTick + 20;
+
+          var positions = [];
+          for(var i = tickStart ; i <= tickEnd ; i++) {
+            if(i%10 == 0) {
+              positions.push(i);
+            }
+          }
+          return positions;
+        },
+        tickInterval: 10,
+        opposite: false,
+        labels: {
+          formatter: function () {
+            return this.value;
+            //return (this.value > 0 ? ' + ' : '') + this.value;
+          },
+          align: 'left',
+          rotation:0,
+          y: 5,
+          x: -30,
+          style: {
+            color: this.$graph_textcolor
+          }
+        },
+        gridLineColor: this.$graph_gridlinecolor,
+        title: {
+          enabled: true,
+          text: 'Temperature (°C)',
+          align: 'middle',
+          style: {
+            fontWeight: 'normal',
+            color: this.$graph_textcolor
+          },
+          margin: 40
+        },
         plotLines: [{
-          value: 0,
-          width: 2,
-          color: 'silver'
+          value: 18,
+          color: this.$graph_threscolor,
+          dashStyle: 'shortdash',
+          width: 1,
+          label: {
+              text: 'Min threshold',
+              style: {
+                color: this.$graph_textcolor
+              }
+          }
+        }, {
+            value: 25,
+            color: this.$graph_threscolor,
+            dashStyle: 'shortdash',
+            width: 1,
+            label: {
+                text: 'Max threshold',
+                style: {
+                  color: this.$graph_textcolor
+                }
+            }
         }]
+      },
+      tooltip: {
+        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
+        valueDecimals: 2,
+        changeDecimals: 2,
+        split: true
       },
       plotOptions: {
         series: {
-          compare: 'percent',
-          showInNavigator: true
+          color: this.$graph_seriescolor,
+          zones: [{
+            value: 18,
+            color: this.$graph_threscolor
+          }, {
+              value: 25,
+              color: this.$graph_seriescolor
+          }, {
+              color: this.$graph_threscolor
+          }]
         }
       },
-      tooltip: {
-        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
-        valueDecimals: 2,
-        split: true
-      },
-      series: [
-        {
-          name: 'goog',
-          data: goog
-        },
-        {
-          name: 'msft',
-          data: msft
-        },
-        {
-          name: 'aapl',
-          data: aapl
-        },
-      ]
+      series: seriesOptions
     };
-    Highcharts.stockChart('highChartDemo', this.options);
+    Highcharts.stockChart('highChart', this.options);
+    this.spinner.hide();
   }
 }

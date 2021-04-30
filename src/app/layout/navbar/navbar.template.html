@@ -1,28 +1,123 @@
 <nav class="navbar-collapse">
-  <!-- <div class="notifications">
-    <alert [dismissible]="true">
-      <i class="fa fa-info-circle mr-xs"></i> Check out Light Blue <a (click)="settings.isOpen = !settings.isOpen"
-        id="notification-link" href="#">settings</a> on
-      the right!
-    </alert>
-  </div> -->
-  <!-- <form id="search-form" class="navbar-form" role="search">
+
+  <form id="search-form" class="navbar-form location-hierarchy-form" role="search" name="locationhierarchyform" [formGroup]="locationhierarchyform">
     <div class="form-group mb-0">
-      <div class="input-group-transparent input-group">
-        <div class="input-group-addon">
+      <div class="input-group-transparent input-group" (click)="openLocationModal(locationmodalTemplate)">
+        <input placeholder="Location" type="text" class="input-transparent form-control" formControlName="locationname">
+        <div class="input-group-addon btn">
           <i class="fa fa-search text-white"></i>
+          <!-- <i class="glyphicon glyphicon-new-window text-white"></i> -->
         </div>
-        <input placeholder="Search..." type="text" class="input-transparent form-control">
       </div>
     </div>
-  </form> -->
+  </form>
+
   <ul class="nav navbar-nav">
-    <li class="nav-item visible-phone-landscape">
+
+    <li class="divider"></li>
+    
+    <li class="nav-item dropdown d-sm-down-none" dropdown>
+      <a title="Settings" id="account" class="nav-link dropdown-toggle" dropdownToggle>
+        <i class="glyphicon glyphicon-user"></i>
+      </a>
+      <ul *dropdownMenu id="account-menu" class="dropdown-menu dropdown-menu-right account" role="menu">
+        <li role="presentation" class="account-picture">
+          {{loginDetails}}
+        </li>
+        <li role="presentation">
+          <a routerLink="profile" class="dropdown-item">
+            <i class="fa fa-user"></i>
+            My Profile
+          </a>
+        </li>
+        <li role="presentation">
+          <a (click)="onResetClick()" class="dropdown-item">
+            <i class="la la-lock text-white"></i>
+            Reset Password
+          </a>
+        </li>
+
+      </ul>
+    </li>
+
+    <li class="d-md-none mr-3">
+      <a (click)="sidebarOpen()" class="btn-navbar">
+        <i class="fa fa-bars"></i>
+      </a>
+    </li>
+
+    <li class="nav-item d-sm-down-none">
+      <a title="Logout" class="nav-link" (click)="logout()"><i class="glyphicon glyphicon-off"></i></a>
+    </li>
+
+  </ul>
+  
+</nav>
+
+<ng-template #locationmodalTemplate class="location-modal">
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Location</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Corporate
+  </div>
+</ng-template> 
+
+<!-- <div class="notifications">
+  <alert [dismissible]="true"> 
+    <i class="fa fa-info-circle mr-xs"></i> Check out Light Blue <a (click)="settings.isOpen = !settings.isOpen"
+      id="notification-link" href="#">settings</a> on
+    the right!
+  </alert>
+</div>
+<form id="search-form" class="navbar-form" role="search">
+  <div class="form-group mb-0">
+    <div class="input-group-transparent input-group">
+      <div class="input-group-addon">
+        <i class="fa fa-search text-white"></i>
+      </div>
+      <input placeholder="Search..." type="text" class="input-transparent form-control">
+    </div>
+  </div>
+</form> -->
+<!-- <li dropdown [isOpen]="settings.isOpen" [autoClose]="false" class="nav-item dropdown d-sm-down-none">
+  <a id="settings" title="Settings" class="nav-link dropdown-toggle" dropdownToggle>
+    <i class="glyphicon glyphicon-cog"></i>
+  </a>
+  <div class="settings dropdown-menu" *dropdownMenu>
+    <div class="settings-content">
+      <div class="setting clearfix">
+        <div>Sidebar on the</div>
+        <div id="sidebar-toggle" class="btn-group"> -->
+          <!--nRight = sidebar == 'right'-->
+          <!-- <button type="button" btnRadio="Left" [(ngModel)]="radioModel" (click)="sidebarPosition('Left')"
+            class="btn btn-dark">Left</button>
+          <button type="button" btnRadio="Right" [(ngModel)]="radioModel" (click)="sidebarPosition('Right')"
+            class="btn btn-dark">Right</button>
+        </div>
+      </div>
+      <div class="setting clearfix">
+        <div>Sidebar</div>
+        <div id="display-sidebar-toggle" class="btn-group"> -->
+          <!--display = displaySidebar-->
+          <!-- <button type="button" btnRadio="Left" [(ngModel)]="display" (click)="sidebarDisplay('Show')"
+            class="btn btn-dark">Show</button>
+          <button type="button" btnRadio="Right" [(ngModel)]="display" (click)="sidebarDisplay('Hide')"
+            class="btn btn-dark">Hide</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</li> -->
+<!-- <li class="nav-item visible-phone-landscape">
       <a (click)="searchFormOpen()" class="nav-link" href="#" id="search-toggle">
         <i class="fa fa-search"></i>
       </a>
-    </li>
-    <li class="nav-item dropdown" dropdown>
+    </li> -->
+    <!-- <li class="nav-item dropdown" dropdown>
       <a title="Messages" id="messages" class="nav-link dropdown-toggle" dropdownToggle>
         <i class="glyphicon glyphicon-comment"></i>
       </a>
@@ -68,8 +163,8 @@
           </a>
         </li>
       </ul>
-    </li>
-    <li class="nav-item dropdown" dropdown>
+    </li> -->
+    <!-- <li class="nav-item dropdown" dropdown>
       <a title="8 support tickets" class="nav-link dropdown-toggle" dropdownToggle>
         <i class="glyphicon glyphicon-globe"></i>
         <span class="count">8</span>
@@ -131,80 +226,17 @@
           </a>
         </li>
       </ul>
-    </li>
-    <li class="divider"></li>
-    <!-- <li dropdown [isOpen]="settings.isOpen" [autoClose]="false" class="nav-item dropdown d-sm-down-none">
-      <a id="settings" title="Settings" class="nav-link dropdown-toggle" dropdownToggle>
-        <i class="glyphicon glyphicon-cog"></i>
-      </a>
-      <div class="settings dropdown-menu" *dropdownMenu>
-        <div class="settings-content">
-          <div class="setting clearfix">
-            <div>Sidebar on the</div>
-            <div id="sidebar-toggle" class="btn-group"> -->
-              <!--nRight = sidebar == 'right'-->
-              <!-- <button type="button" btnRadio="Left" [(ngModel)]="radioModel" (click)="sidebarPosition('Left')"
-                class="btn btn-dark">Left</button>
-              <button type="button" btnRadio="Right" [(ngModel)]="radioModel" (click)="sidebarPosition('Right')"
-                class="btn btn-dark">Right</button>
-            </div>
-          </div>
-          <div class="setting clearfix">
-            <div>Sidebar</div>
-            <div id="display-sidebar-toggle" class="btn-group"> -->
-              <!--display = displaySidebar-->
-              <!-- <button type="button" btnRadio="Left" [(ngModel)]="display" (click)="sidebarDisplay('Show')"
-                class="btn btn-dark">Show</button>
-              <button type="button" btnRadio="Right" [(ngModel)]="display" (click)="sidebarDisplay('Hide')"
-                class="btn btn-dark">Hide</button>
-            </div>
-          </div>
-        </div>
-      </div>
     </li> -->
-    <li class="nav-item dropdown d-sm-down-none" dropdown>
-      <a title="Settings" id="account" class="nav-link dropdown-toggle" dropdownToggle>
-        <!-- <i class="glyphicon glyphicon-user"></i> -->
-        <i class="glyphicon glyphicon-cog"></i>
-      </a>
-      <ul *dropdownMenu id="account-menu" class="dropdown-menu dropdown-menu-right account" role="menu">
-        <li role="presentation" class="account-picture">
-          <img src="assets/img/2.png" alt="">
-          {{loginDetails}}
-        </li>
-        <li role="presentation">
-          <a routerLink="profile" class="dropdown-item">
-            <i class="fa fa-user"></i>
-            My Profile
-          </a>
-        </li>
-        <li role="presentation">
-          <a (click)="onResetClick()" class="dropdown-item">
-            <i class="la la-lock text-white"></i>
-            Reset Password
-          </a>
-        </li>
-        <li role="presentation">
+
+    <!-- <li role="presentation">
           <a routerLink="calendar" class="dropdown-item">
             <i class="fa fa-calendar"></i>
             Calendar
           </a>
-        </li>
-        <li role="presentation">
+        </li> -->
+        <!-- <li role="presentation">
           <a routerLink="inbox" class="dropdown-item">
             <i class="fa fa-inbox"></i>
             Inbox
           </a>
-        </li>
-      </ul>
-    </li>
-    <li class="d-md-none mr-3">
-      <a (click)="sidebarOpen()" class="btn-navbar">
-        <i class="fa fa-bars"></i>
-      </a>
-    </li>
-    <li class="nav-item d-sm-down-none">
-      <a title="Logout" class="nav-link" (click)="logout()"><i class="glyphicon glyphicon-off"></i></a>
-    </li>
-  </ul>
-</nav>
+        </li> -->

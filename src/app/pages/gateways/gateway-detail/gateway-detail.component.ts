@@ -257,15 +257,15 @@ export class GatewayDetailComponent implements OnInit {
     // http call to datamessage table to get the last communicated date for sensor.
     // async / await call
     // return status
-    this.requesterService.getGraphRequest('/graphdata',{ID: '034100113'}).subscribe(
-      response => {
-        //console.log(response);
-        // sensor status -> true
-      },
-      error => {
-        console.log(error);
-      }
-    );
+    // this.requesterService.getSensorDetailsbyIDforGraph('/graphdata',{ID: '034100113'}).subscribe(
+    //   response => {
+    //     //console.log(response);
+    //     // sensor status -> true
+    //   },
+    //   error => {
+    //     console.log(error);
+    //   }
+    // );
   }
 
   setConnectionStatus(connectionStatus: string) {

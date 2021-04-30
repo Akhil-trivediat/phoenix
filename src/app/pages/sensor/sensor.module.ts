@@ -13,6 +13,7 @@ import { AssignGatewayComponent } from './assign-gateway/assign-gateway.componen
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from '../../shared/component/shared.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { Angular2CsvModule } from 'angular2-csv';
 
 //import { DatepickerModule } from 'ng2-datepicker';
 
@@ -47,9 +48,7 @@ const routes: Routes = [
     NgSelectModule,
     SharedModule,
     ModalModule,
-    // DatepickerModule,
-    // BsDatepickerModule.forRoot(),
-    // DatepickerModule.forRoot(),
+    Angular2CsvModule
   ],
   providers: [
   ]

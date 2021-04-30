@@ -5,17 +5,18 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
-import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { DatepickerModule, BsDatepickerModule, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
 import { SpinnerComponent } from './spinner/spinner.component'
 import { NgxDialogComponent } from './ngx-dialog/ngx-dialog.component';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import { DynamicFormcontrolComponent } from './dynamic-form/dynamic-formcontrol/dynamic-formcontrol.component';
 import { NgxBootstrapDatepickerComponent } from './ngx-bootstrap-datepicker/ngx-bootstrap-datepicker.component';
+import { FilterbarModelComponent } from './filterbar-model/filterbar-model.component';
 
 
 @NgModule({
-  declarations: [ SpinnerComponent, NgxDialogComponent, DynamicFormComponent, DynamicFormcontrolComponent, NgxBootstrapDatepickerComponent ],
+  declarations: [ SpinnerComponent, NgxDialogComponent, DynamicFormComponent, DynamicFormcontrolComponent, NgxBootstrapDatepickerComponent, FilterbarModelComponent ],
   imports: [
     CommonModule,
     NgxSpinnerModule,
@@ -31,6 +32,8 @@ import { NgxBootstrapDatepickerComponent } from './ngx-bootstrap-datepicker/ngx-
     SpinnerComponent,
     NgxDialogComponent,
     NgxBootstrapDatepickerComponent,
-  ]
+    FilterbarModelComponent,
+  ],
+  providers: [ BsDatepickerConfig ]
 })
 export class SharedModule { }

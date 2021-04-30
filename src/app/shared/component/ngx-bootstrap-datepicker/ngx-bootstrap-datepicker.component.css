@@ -3,12 +3,12 @@
 } */
 
 body {
-    padding: 30px;
-    position: relative;
-  }
-  body .bs-datepicker-container .bs-datepicker-head {
-    background-color: rgb(112, 77, 77);
-  }
-  body .bs-datepicker-container .bs-datepicker-head * {
-    color: #000;
-  }
+  padding: 30px;
+  position: relative;
+}
+body .bs-datepicker-container .bs-datepicker-head {
+  background-color: rgb(112, 77, 77);
+}
+body .bs-datepicker-container .bs-datepicker-head * {
+  color: #000;
+}

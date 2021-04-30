@@ -1,20 +1,15 @@
-import { Component, OnInit, Inject, LOCALE_ID   } from '@angular/core';
+import { Component, OnInit, Inject, LOCALE_ID, TemplateRef   } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { RequesterService } from '../../../shared/service/requester.service';
-import { data, goog, msft, aapl } from './sampleGraphData';
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import * as Highcharts from 'highcharts/highstock';
 import { HttpParams } from "@angular/common/http";
 import { NgxSpinnerService } from 'ngx-spinner';
-
-import { DatepickerOptions } from 'ng2-datepicker';
-import { getYear } from 'date-fns';
-//import locale from 'date-fns/locale/en-US';
-
-import { setTheme } from 'ngx-bootstrap/utils';
 import { Observable } from 'rxjs';
+import { FilterbarModelComponent } from '../../../shared/component/filterbar-model/filterbar-model.component';
 
 declare var require: any;
 let Boost = require('highcharts/modules/boost');
@@ -56,68 +51,47 @@ export class SensorDetailComponent implements OnInit {
   private $graph_gridlinecolor = "#1C2531";
   private $graph_seriescolor = "#61D85E";
   private $graph_threscolor = "#FF8252";
+ 
+  downloadCSVoptions = {
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalseparator: '.',
+    showLabels: false,
+    headers: [],
+    showTitle: true,
+    title: ['Timestamp','Temperature'],
+    useBom: false,
+    removeNewLines: true,
+    keys: ['timestamp','temperature']
+  };
+  downloadCSVdata = [];
+  CSVfilename: string = "SensorReport.csv";
 
-  // date = new Date();
-  // datepickeroptions: DatepickerOptions = {
-  //   minYear: getYear(new Date()) - 30, // minimum available and selectable year
-  //   maxYear: getYear(new Date()) + 30, // maximum available and selectable year
-  //   placeholder: '', // placeholder in case date model is null | undefined, example: 'Please pick a date'
-  //   format: 'LLLL do yyyy', // date format to display in input
-  //   formatTitle: 'LLLL yyyy',
-  //   formatDays: 'EEEEE',
-  //   firstCalendarDay: 0, // 0 - Sunday, 1 - Monday
-  //   locale: locale, // date-fns locale
-  //   position: 'bottom',
-  //   inputClass: '', // custom input CSS class to be applied
-  //   calendarClass: 'datepicker-blue', // custom datepicker calendar CSS class to be applied
-  //   scrollBarColor: '#dfe3e9', // in case you customize you theme, here you define scroll bar color
-  // };
-
-  // minRange:Date[];
-  // name: String = "name";
-  
-  // myForm: FormGroup;
-
- // myDateValue: Date;
+  modalRef: BsModalRef;
 
   constructor(
     @Inject(LOCALE_ID) private locale: string,
     private route: ActivatedRoute,
     private requesterService: RequesterService,
     private spinner: NgxSpinnerService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private modalService: BsModalService
   ) { 
     this.subscription = this.route.params.subscribe(params => {
       this.sensorid = params['id'];
     });
-    //this.prepareStockChartDemo(); 
-
-    //setTheme('bs4');
   }
   
   ngOnInit() {
     this.spinner.show();
+
     this.getSensorList();
+
     this.loadGraph(this.startdate, this.enddate, this.sensorid);
+
     this.prepareForm();
+
     this.getSensorDetails();
-
-   // this.myDateValue = new Date();
-
-    // this.myForm = this.formBuilder.group({
-    //   birthdate: null
-    // });
-  }
-
-  // onDateChange(newDate: Date) {
-  //   console.log(newDate);
-  // }
-
-  onDateTimeChange(event) {
-    this.startdate = event[0].toISOString();
-    this.enddate = event[1].toISOString();
-
-    this.loadGraph(this.startdate, this.enddate, this.sensorid);
   }
 
   getUserDetails() {
@@ -146,6 +120,13 @@ export class SensorDetailComponent implements OnInit {
         this.spinner.hide();
       }
     );
+  }
+
+  onDateTimeChange(event) {
+    this.startdate = event[0].toISOString();
+    this.enddate = event[1].toISOString();
+
+    this.loadGraph(this.startdate, this.enddate, this.sensorid);
   }
 
   sensorModelChange(){
@@ -293,7 +274,28 @@ export class SensorDetailComponent implements OnInit {
 
   setSensorDataTable(data: any) {
     this.sensorDataTable = data;
+    this.prepareCSVReport(this.sensorDataTable);
     this.spinner.hide();
+  }
+
+  prepareCSVReport(data: any) {
+    this.downloadCSVoptions = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: false,
+      headers: [],
+      showTitle: true,
+      title: ['Timestamp','Temperature'],
+      useBom: false,
+      removeNewLines: true,
+      keys: ['timestamp','temperature']
+    };
+    this.downloadCSVdata = data;
+    
+    this.downloadCSVdata.sort((val1, val2)=> {
+      return new Date(val2.timestamp).getTime() - new Date(val1.timestamp).getTime()
+    });
   }
 
   ngOnDestroy() {
@@ -308,6 +310,20 @@ export class SensorDetailComponent implements OnInit {
         endDate: endDate
       }
     );
+  }
+
+  ngAfterViewChecked() {
+    document.querySelector('angular2csv > button').innerHTML = '<i class="glyphicon glyphicon-download-alt text-white"></i>';
+  }
+
+  openModal(template: TemplateRef<any>) {
+    //this.modalRef = this.modalService.show(template);
+    this.modalRef = this.modalService.show(FilterbarModelComponent);
+    // this.modalRef.content.onClose.subscribe(
+    //   (response: any) => {
+    //     console.log(response);
+    //   }
+    // );
   }
 
   prepareStockChart(seriesOptions: any) {

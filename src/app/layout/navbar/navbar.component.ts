@@ -4,6 +4,8 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
 import { AppService } from '../../app.service';
 import { AuthService } from '../../shared/service/auth.service';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 
 @Component({
   selector: '[navbar]',
@@ -27,6 +29,13 @@ export class Navbar implements OnInit {
 
   modalRef: BsModalRef;
 
+  cities = [
+    { id: 1, name: "Corporate" },
+    { id: 2, name: "Loc1" },
+    { id: 3, name: "Loc2" }
+  ];
+  selectedCityId: string = null;
+
   constructor(
     private renderer: Renderer2,
     private el: ElementRef,
@@ -40,6 +49,7 @@ export class Navbar implements OnInit {
   }
 
   ngOnInit() {
+    this.selectedCityId = "Corporate";
     this.prepareLocationHierarchyForm();
   }
 

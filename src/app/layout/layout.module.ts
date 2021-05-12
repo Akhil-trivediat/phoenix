@@ -8,10 +8,14 @@ import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
+import { SharedModule } from '../shared/component/shared.module';
+
 import { ROUTES } from './layout.routes';
 import { Layout } from './layout.component';
 import { Sidebar } from './sidebar/sidebar.component';
 import { Navbar } from './navbar/navbar.component';
+
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   imports: [
@@ -24,7 +28,9 @@ import { Navbar } from './navbar/navbar.component';
     AlertModule,
     ProgressbarModule,
     CollapseModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    SharedModule,
+    NgSelectModule
   ],
   declarations: [Layout, Sidebar, Navbar]
 })

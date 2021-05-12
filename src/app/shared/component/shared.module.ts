@@ -13,10 +13,20 @@ import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import { DynamicFormcontrolComponent } from './dynamic-form/dynamic-formcontrol/dynamic-formcontrol.component';
 import { NgxBootstrapDatepickerComponent } from './ngx-bootstrap-datepicker/ngx-bootstrap-datepicker.component';
 import { FilterbarModelComponent } from './filterbar-model/filterbar-model.component';
+import { FilterBarComponent } from './filter-bar/filter-bar.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
-  declarations: [ SpinnerComponent, NgxDialogComponent, DynamicFormComponent, DynamicFormcontrolComponent, NgxBootstrapDatepickerComponent, FilterbarModelComponent ],
+  declarations: [ 
+    SpinnerComponent, 
+    NgxDialogComponent, 
+    DynamicFormComponent, 
+    DynamicFormcontrolComponent, 
+    NgxBootstrapDatepickerComponent, 
+    FilterbarModelComponent, 
+    FilterBarComponent
+  ],
   imports: [
     CommonModule,
     NgxSpinnerModule,
@@ -26,14 +36,16 @@ import { FilterbarModelComponent } from './filterbar-model/filterbar-model.compo
     PopoverModule.forRoot(),
     BsDatepickerModule.forRoot(),
     DatepickerModule.forRoot(),
-    TimepickerModule.forRoot()
+    TimepickerModule.forRoot(),
+    NgSelectModule
   ],
   exports: [
     SpinnerComponent,
     NgxDialogComponent,
     NgxBootstrapDatepickerComponent,
     FilterbarModelComponent,
+    FilterBarComponent
   ],
-  providers: [ BsDatepickerConfig ]
+  providers: [ BsDatepickerConfig ],
 })
 export class SharedModule { }

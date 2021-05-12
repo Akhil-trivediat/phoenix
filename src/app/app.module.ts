@@ -36,6 +36,16 @@ import { FilterbarModelComponent } from './shared/component/filterbar-model/filt
 import { AlertComponentModule } from './shared/component/alert/alert.module';
 import { SharedModule } from './shared/component/shared.module';
 
+import { ReactiveFormsModule } from '@angular/forms';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { AutocompleteInputBarComponent } from './pages/dashboard/autocomplete-input-bar/autocomplete-input-bar.component';
+import { FilterPipe } from './pages/dashboard/autocomplete-input-bar/filter.pipe';
+import { DashboardComponentModule } from './pages/dashboard/dashboard.module';
+
+
+// import { AutocompleteInputBarModule } from './pages/dashboard/autocomplete-input-bar/autocomplete-input-bar.module';
+// import { DashboardComponentModule } from './pages/dashboard/dashboard.module';
+
 const APP_PROVIDERS = [
   CheckAllService,
   AppGuard,
@@ -47,7 +57,8 @@ const APP_PROVIDERS = [
   declarations: [
     AppComponent,
     ResetPasswordComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    //FilterPipe
   ],
   imports: [
     AmplifyAngularModule,
@@ -75,7 +86,10 @@ const APP_PROVIDERS = [
     UtilsModule,
     NgxChartsModule,
     AlertComponentModule,
-    SharedModule
+    SharedModule,
+    DashboardComponentModule,
+    ReactiveFormsModule,
+    OverlayModule
   ],
   providers: [
     APP_PROVIDERS,
@@ -89,7 +103,8 @@ const APP_PROVIDERS = [
   entryComponents: [
     DialogComponent,
     NgxDialogComponent,
-    FilterbarModelComponent
+    FilterbarModelComponent,
+    AutocompleteInputBarComponent
   ]
 })
 export class AppModule { }

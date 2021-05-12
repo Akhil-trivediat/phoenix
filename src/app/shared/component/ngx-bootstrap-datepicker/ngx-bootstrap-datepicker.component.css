@@ -6,9 +6,39 @@ body {
   padding: 30px;
   position: relative;
 }
+
 body .bs-datepicker-container .bs-datepicker-head {
   background-color: rgb(112, 77, 77);
 }
+
 body .bs-datepicker-container .bs-datepicker-head * {
   color: #000;
+}
+
+.start-date {
+  margin-right: 15px;
+}
+
+.calendar-icon {
+  float: left;
+  padding: 10px;
+  /* background-color: #222D3C;
+  border-radius: 0.25rem 0 0 0.25rem; */
+}
+
+.date-time-range {
+  width: auto;
+  background-color: #222D3C;
+  border-radius: 0.25rem;
+}
+
+.datepicker-input {
+  clear: both;
+  display: inline-block;
+  width: 90%;
+}
+
+body ::ng-deep .bs-datepicker {
+  color: #f8f8f8;
+  background: #293647;
 }

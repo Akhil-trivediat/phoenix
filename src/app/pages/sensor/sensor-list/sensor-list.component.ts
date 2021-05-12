@@ -8,7 +8,7 @@ import { Sensor } from '../../../models/commonmodel.data';
 import { RequesterService } from '../../../shared/service/requester.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { NgxDialogComponent } from 'src/app/shared/component/ngx-dialog/ngx-dialog.component';
-import { config } from 'process';
+import { SensorService } from '../services/sensor.service';
 
 import { HttpClient } from '@angular/common/http';
 
@@ -21,6 +21,7 @@ export class SensorListComponent implements OnInit {
   public columnMode: typeof ColumnMode = ColumnMode;
   private readonly GATEWAY_ID = 'GATEWAY_ID';
   bsModalRef: BsModalRef;
+  sensorDetails: any;
 
   constructor(
     @Inject(LOCALE_ID) private locale: string,
@@ -28,14 +29,19 @@ export class SensorListComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private modalService: BsModalService,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private sensorService: SensorService
   ) { }
   sensorsArray = [];
 
   ngOnInit() {
+
     this.spinner.show();
+
     this.removeToken();
+
     this.getSensorList();
+
   }
 
   getUserDetails() {
@@ -101,7 +107,7 @@ export class SensorListComponent implements OnInit {
         key: 'sensorName',
         label: 'Sensor Name: ',
         value: userObject.sensorName,
-        required: true,
+        required: false,
         disabled: false,
         order: 2,
         controlType: 'textbox',
@@ -146,6 +152,26 @@ export class SensorListComponent implements OnInit {
         order: 6,
         controlType: 'textbox',
         type: 'text'
+      },
+      {
+        key: 'mintempthreshold',
+        label: 'Minimun Thershold: ',
+        value: this.sensorDetails.minThreshold,
+        required: false,
+        disabled: false,
+        order: 7,
+        controlType: 'textbox',
+        type: 'text'
+      },
+      {
+        key: 'maxtempthreshold',
+        label: 'Maximum Thershold: ',
+        value: this.sensorDetails.maxThreshold,
+        required: false,
+        disabled: false,
+        order: 7,
+        controlType: 'textbox',
+        type: 'text'
       }
     ];
 
@@ -153,42 +179,83 @@ export class SensorListComponent implements OnInit {
   }
 
   openDialog(action: string, userObject: any) {
-    let formControls = this.prepareFormControl(userObject);
 
-    const initialState = {
-      dialogObj : {
-        action: action,
-        type: "Sensor",
-        formControls: formControls
-      }
-    }
+    this.sensorService.getSensorDetailswithFormattedResponseasPromise(userObject.sensorid).then(
+      (sensor) => {
 
-    this.bsModalRef = this.modalService.show(NgxDialogComponent, {initialState});
-    this.bsModalRef.content.onClose.subscribe(
-      (response: any) => {
-        //console.log(response);
-        if(response.action === "Delete") {
-          const sensorID = response.data.getRawValue().sensorId;
-          this.deleteRequest(sensorID);
-        } else if(response.action === "Edit") {
-          // update sensor
-          const sensorID = response.data.getRawValue().sensorId;
-          const sensorName = response.data.getRawValue().sensorName;
-          this.updateRequest(sensorID,sensorName);
+        this.sensorDetails = {
+          name: sensor.name,
+          gatewayName: sensor.gatewayName,
+          readingValue: sensor.readingValue,
+          lastCommDate: sensor.lastCommDate,
+          location: sensor.location,
+          minThreshold: sensor.minThreshold,
+          maxThreshold: sensor.maxThreshold,
+          status: sensor.status
+        };
+
+        let formControls = this.prepareFormControl(userObject);
+
+        const initialState = {
+          dialogObj : {
+            action: action,
+            type: "Sensor",
+            formControls: formControls
+          }
         }
+
+        this.bsModalRef = this.modalService.show(NgxDialogComponent, {initialState});
+
+        this.bsModalRef.content.onClose.subscribe(
+          (response: any) => {
+            //console.log(response);
+            if(response.action === "Delete") {
+              const sensorID = response.data.getRawValue().sensorId;
+              this.deleteRequest(sensorID);
+            } else if(response.action === "Edit") {
+              
+              if(!response.data.pristine) {
+                // const sensorID = response.data.getRawValue().sensorId;
+                // const sensorName = response.data.getRawValue().sensorName;
+                // const mintempthreshold = response.data.getRawValue().mintempthreshold;
+                // const maxtempthreshold = response.data.getRawValue().maxtempthreshold;
+    
+                let updateRequestBody = {
+                  'sensorID': response.data.getRawValue().sensorId,
+                  'sensorName': response.data.getRawValue().sensorName,
+                  'mintempthreshold': response.data.getRawValue().mintempthreshold,
+                  'maxtempthreshold': response.data.getRawValue().maxtempthreshold
+                };
+    
+                this.updateRequest(updateRequestBody);
+              }
+              
+            }
+          }
+        )
+
       }
-    )
+    ).catch(
+      (error) => {
+        console.log(error);
+      }
+    );
+    
   }
 
-  updateRequest(sensorID: string, sensorName: string) {
+  updateRequest(updateRequestBody: any) {
     let params = new HttpParams();
-    params = params.append('sensorID', sensorID);
-    params = params.append('sensorName', sensorName);
+    params = params.append('sensorID', updateRequestBody.sensorID);
+    params = params.append('sensorName', updateRequestBody.sensorName);
+    params = params.append('mintempthreshold', updateRequestBody.mintempthreshold);
+    params = params.append('maxtempthreshold', updateRequestBody.maxtempthreshold);
     params = params.append('updateField', 'sensorname');
     let postData = {
-      'sensorID': sensorID,
-      'sensorName': sensorName,
-      'updateField': 'sensorname'
+      'sensorID': updateRequestBody.sensorID,
+      'sensorName': updateRequestBody.sensorName,
+      'updateField': 'sensorname',
+      'mintempthreshold': updateRequestBody.mintempthreshold,
+      'maxtempthreshold': updateRequestBody.maxtempthreshold
     };
     this.requesterService.updateRequest("/sensor", postData).subscribe(
       (response) => {

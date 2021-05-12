@@ -1,0 +1,25 @@
+.custom {
+    width: 100%;
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.ng-select.custom ::ng-deep .ng-value  {            
+    background-color: #fff !important;
+    color: #000 !important;
+}
+
+.ng-select.custom ::ng-deep .ng-select-container  {            
+    min-height: 33px;
+    background-color: #222D3C!important;
+}
+
+.ng-select.custom ::ng-deep .ng-placeholder  {            
+    color: #FFFFFF;
+}
+
+.filter-option {
+    display: inline-block;
+    padding: 0;
+    padding-right: 15px;
+}

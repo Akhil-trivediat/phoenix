@@ -47,7 +47,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngAfterViewInit(){
-    jQuery('#world-map').vectorMap();
+    //jQuery('#world-map').vectorMap();
     //document.querySelector('#world-map').vectorMap();
   }
 

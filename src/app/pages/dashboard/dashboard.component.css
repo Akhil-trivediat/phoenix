@@ -50,3 +50,40 @@ hr {
     width: 650px;
     height: 500px;
 }
+
+section {
+    padding: 30px 10px !important;
+}
+
+section .widget-content .header {
+    text-align: center;
+}
+
+section .widget-content .header img {
+    height: 42px;
+    width: 42px;
+}
+
+section .widget-content .header span {
+    display: inline-block;
+    margin: 0px 15px;
+    font-size: 2em;
+}
+
+section .widget-content .header a {
+    text-decoration: none;
+}
+
+section .widget-content .header .counter {
+    text-align: center;
+    font-size: 1.65em;
+    color: #FFFFFF;
+}
+
+section .widget-content .footer {
+    padding: 5px 10px 15px;
+}
+
+section .widget-content .footer .glyphicon {
+    font-size: 1.5rem;
+}

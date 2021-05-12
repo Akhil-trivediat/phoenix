@@ -1,11 +1,71 @@
 <app-spinner [spinnerSize]="'medium'" [fullScreen]="true"></app-spinner>
 <div class="container">
-    <div class="row">
-        <!-- <div class="col-lg-12 col-12">
-            <div class="title-container">
-                <h3></h3>
-            </div>
-        </div> -->
+
+  <div class="row">
+
+    <div class="col-md-3 col-sm-12 col-xs-12">
+
+      <section
+          class="mx-auto"
+          widgster
+          [optionsControl]="false"
+          [reloadControl]="false"
+          [fullscreenControl]="false"
+          [collapseControl]="false"
+          [closeControl]="false"
+          titleClass="mt-0">
+              <div class="widget-content">
+                  <div class="header">
+                    <img src="assets/img/phoenix/humidity.svg" alt="Sensor">
+                    <span>Sensor</span>
+                    <a routerLink="/app/sensor">
+                      <div class="counter">{{activeSensorCount}}/{{totalSensorCount}}</div>
+                    </a>
+                  </div>
+        
+                  <div class="footer">
+                    <a class="float-right" (click)="addDeviceNav('app/sensor/addSensor')">
+                      <i class="glyphicon glyphicon-plus text-white"></i> 
+                    </a>
+                  </div>
+              </div>
+      </section>
+
+    </div>
+
+    <div class="col-md-3 col-sm-12 col-xs-12">
+
+      <section 
+          class="mx-auto"
+          widgster
+          [optionsControl]="false"
+          [reloadControl]="false"
+          [fullscreenControl]="false"
+          [collapseControl]="false"
+          [closeControl]="false"
+          titleClass="mt-0">
+              <div class="widget-content">
+                  <div class="header">
+                    <img src="assets/img/phoenix/router.svg" alt="Gateway">
+                    <span>Gateway</span>
+                    <a routerLink="/app/gateway">
+                      <div class="counter">{{activeGatewayCount}}/{{totalGatewayCount}}</div>
+                    </a>
+                  </div>
+        
+                  <div class="footer">
+                    <a class="float-right" (click)="addDeviceNav('app/gateway/addGateway')">
+                      <i class="glyphicon glyphicon-plus text-white"></i>
+                    </a>
+                  </div>
+              </div>
+      </section>
+
+    </div>
+
+  </div>
+  <!-- <div id="world-map" style="width: 600px; height: 400px"></div> -->
+    <!-- <div class="row">
         <div class="col-lg-12 col-12">
             <section 
                 class="mx-auto"
@@ -30,9 +90,9 @@
                     </div>
             </section>
         </div>
-    </div>
+    </div> -->
 
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-sm">
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
@@ -56,11 +116,29 @@
             </div>
         </div>
         <div class="col-sm"></div>
-    </div>
+    </div> -->
 
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-lg-6 col-12">
-            
+            <div class="control">
+                <input class="input is-medium"
+                       placeholder="Search..."
+                       [formControl]="control"
+                       [appAutocomplete]="autocomplete">
+              </div>
+              
+              <p style="color: black; font-size: 18px; margin-bottom: 10px;">{{control.value}}</p>
+              
+              <app-autocomplete-input-bar #autocomplete="appAutocomplete">
+                <ng-template appAutocompleteContent>
+                  <ng-container *ngIf="(options | filter: control.value) as result">
+                    <app-autocomplete-option *ngFor="let option of result" [value]="option.label">
+                      {{ option.label }}
+                    </app-autocomplete-option>
+                    <app-autocomplete-option class="no-result" *ngIf="!result.length">No result...</app-autocomplete-option>
+                  </ng-container>
+                </ng-template>
+              </app-autocomplete-input-bar> 
         </div>
-    </div>
+    </div> -->
   </div>

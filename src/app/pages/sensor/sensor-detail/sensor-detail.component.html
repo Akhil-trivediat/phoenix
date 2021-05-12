@@ -1,7 +1,7 @@
 <app-spinner [spinnerSize]="'medium'" [fullScreen]="true"></app-spinner>
 <div class="row header-container">
     <div class="col">
-        <h3>SensorID : {{sensorid}}</h3>
+        <h3>Sensor Name : {{mapSensorDetailsData.name}}</h3>
         <div class="device-status-property" *ngIf="isOnline">
             <span class="connection-status connected text-success">Online</span>
         </div>
@@ -10,78 +10,335 @@
         </div>
     </div>
     <div class="col">
-        <button class="btn btn-m btn-info float-right" routerLink="../..">
+        <button class="btn btn-m btn-primary float-right" routerLink="../.."> 
             <span class="d-none d-md-inline-block">Back</span> 
         </button>
     </div>
 </div>
 <div class="sensor-details-page">
-    <div class="sensor-details">
-        <h5>Sensor Detail: </h5>
-        <hr>
-        <form name="sensorDetailsForm" [formGroup]="sensorDetailsForm" class="sensorForm">
-            <div class="form-group row mt">
-                <label for="sensorName"  class="col-form-label">Sensor Name:</label>
-                <div class="device-input">
-                    <div class="input-group input-group-transparent">
-                        <input type="text"  class="form-control input-transparent pl-3" formControlName="sensorName"/>
-                      </div>
-                </div>
-                <label for="gatewayName"  class="col-form-label">Gateway Name:</label>
-                <div class="device-input">
-                    <div class="input-group input-group-transparent">
-                        <input type="text"  class="form-control input-transparent pl-3" formControlName="gatewayName"/>
-                      </div>
-                </div>
-            </div>
-            <div class="form-group row mt">
-                <label for="readingValue"  class="col-form-label">Reading Value:</label>
-                <div class="device-input">
-                    <div class="input-group input-group-transparent">
-                        <input type="text"  class="form-control input-transparent pl-3" formControlName="readingValue"/>
-                      </div>
-                </div>
-                <label for="readingUnit"  class="col-form-label">Reading Unit:</label>
-                <div class="device-input">
-                    <div class="input-group input-group-transparent">
-                        <input type="text"  class="form-control input-transparent pl-3" formControlName="readingUnit"/>
-                      </div>
-                </div>
-            </div>
-            <div class="form-group row mt">
-                <label for="lastCommDate"  class="col-form-label">Last Communication Date:</label>
-                <div class="device-input">
-                    <div class="input-group input-group-transparent">
-                        <input type="text"  class="form-control input-transparent pl-3" formControlName="lastCommDate"/>
-                      </div>
-                </div>
-                <label for="location"  class="col-form-label">Location:</label>
-                <div class="device-input">
-                    <div class="input-group input-group-transparent">
-                        <input type="text"  class="form-control input-transparent pl-3" formControlName="location"/>
-                      </div>
-                </div>
-            </div>
-            <div class="form-group row mt">
-                <label for="minThres"  class="col-form-label">Minimum Threshold:</label>
-                <div class="device-input">
-                    <div class="input-group input-group-transparent">
-                        <input type="text"  class="form-control input-transparent pl-3" formControlName="minThres"/>
-                      </div>
-                </div>
-                <label for="maxThres"  class="col-form-label">Maximum Threshold:</label>
-                <div class="device-input">
-                    <div class="input-group input-group-transparent">
-                        <input type="text"  class="form-control input-transparent pl-3" formControlName="maxThres"/>
-                      </div>
-                </div>
-            </div>
-        </form>
-    </div>
     <div class="sensor-graph">
-        <h5>Sensor Graph: </h5>
+        <!-- <h5>Sensor Graph: </h5> -->
         <hr>
-        <div class="row sensor-multi-select">
+        
+        <!-- <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <app-filter-bar
+                    (dateTimeChangeEvent)="onDateTimeChange($event)"
+                    [ngSelectItems]="ddSensorsList"
+                    (ngSelectChangeEvent)="onItemChanged($event)"
+                    (ngSelectAddEvent)="onItemAdded($event)"
+                    (ngSelectRemoveEvent)="onItemRemoved($event)"
+                    (ngSelectClearEvent)="onClear()"
+                >
+                </app-filter-bar>
+            </div>
+        </div> -->  
+        
+
+        <div class="jumbotron jumbotron-fluid">
+            <div class="row">
+                <div class="jumbotron-header col-md-12 col-sm-12 col-xs-12">
+                    <app-filter-bar
+                        (dateTimeChangeEvent)="onDateTimeChange($event)"
+                        [ngSelectItems]="ddSensorsList"
+                        (ngSelectChangeEvent)="onItemChanged($event)"
+                        (ngSelectAddEvent)="onItemAdded($event)"
+                        (ngSelectRemoveEvent)="onItemRemoved($event)"
+                        (ngSelectClearEvent)="onClear()"
+                    >
+                    </app-filter-bar>
+                </div>
+            </div>
+            <div class="analytics-section">
+                <div class="graph-section">
+                    <div id="highChart" ></div>
+                </div>
+
+                <div class="details-section">
+
+                    <form name="sensorDetailsForm" [formGroup]="sensorDetailsForm">
+                        <div class="form-group row">
+                            <label for="sensorID"  class="col-form-label">Sensor ID:</label>
+                            
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control input-transparent pl-3" formControlName="sensorID"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="readingValue"  class="col-form-label">Reading Value:</label>
+
+                            <div class="col-sm-5">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="readingValue"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="lastCommDate"  class="col-form-label">Last Communication Date:</label>
+
+                            <div class="col-sm-5">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="lastCommDate"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="gatewayName"  class="col-form-label">Gateway Name:</label>
+
+                            <div class="col-sm-5">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="gatewayName"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="minThres"  class="col-form-label">Minimum Threshold:</label>
+
+                            <div class="col-sm-5">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="minThres"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="maxThres"  class="col-form-label">Maximum Threshold:</label>
+
+                            <div class="col-sm-5">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="maxThres"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="location"  class="col-form-label">Location:</label>
+
+                            <div class="col-sm-5">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="location"/>
+                            </div>
+                        </div>
+
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+         
+    </div>
+
+    <!-- <div class="jumbotron jumbotron-fluid">
+        <div class="sensor-details">
+            <form name="sensorDetailsForm" [formGroup]="sensorDetailsForm" class="sensorForm">
+                <div class="form-group row mt">
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <label for="sensorID"  class="col-form-label">Sensor ID:</label>
+                        <div class="device-input">
+                            <div class="input-group input-group-transparent">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="sensorID"/>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <label for="readingValue"  class="col-form-label">Reading Value:</label>
+                        <div class="device-input">
+                            <div class="input-group input-group-transparent">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="readingValue"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-12 col-xs-12"> 
+                        <label for="lastCommDate"  class="col-form-label">Last Communication Date:</label>
+                        <div class="device-input">
+                            <div class="input-group input-group-transparent">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="lastCommDate"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mt">
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <label for="gatewayName"  class="col-form-label">Gateway Name:</label>
+                        <div class="device-input">
+                            <div class="input-group input-group-transparent">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="gatewayName"/>
+                            </div>
+                        </div>
+                    </div>
+    
+                    
+
+                    <div class="col-md-4 col-sm-12 col-xs-12"> 
+                        <label for="minThres"  class="col-form-label">Minimum Threshold:</label>
+                        <div class="device-input">
+                            <div class="input-group input-group-transparent">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="minThres"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-12 col-xs-12"> 
+                        <label for="maxThres"  class="col-form-label">Maximum Threshold:</label>
+                        <div class="device-input">
+                            <div class="input-group input-group-transparent">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="maxThres"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mt">
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <label for="location"  class="col-form-label">Location:</label>
+                        <div class="device-input">
+                            <div class="input-group input-group-transparent">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="location"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="form-group row mt">
+                     
+                </div>
+                
+                <div class="more-info-section">
+                    <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed"
+                        [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">More Details
+                    </button>
+                    <div id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true">
+                        <div class="form-group row mt">
+                            <label for="gatewayName"  class="col-form-label">Gateway Name:</label>
+                            <div class="device-input">
+                                <div class="input-group input-group-transparent">
+                                    <input type="text"  class="form-control input-transparent pl-3" formControlName="gatewayName"/>
+                                  </div>
+                            </div>
+                            <label for="location"  class="col-form-label">Location:</label>
+                            <div class="device-input">
+                                <div class="input-group input-group-transparent">
+                                    <input type="text"  class="form-control input-transparent pl-3" formControlName="location"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mt">
+                            <label for="minThres"  class="col-form-label">Minimum Threshold:</label>
+                            <div class="device-input">
+                                <div class="input-group input-group-transparent">
+                                    <input type="text"  class="form-control input-transparent pl-3" formControlName="minThres"/>
+                                  </div>
+                            </div>
+                            <label for="maxThres"  class="col-form-label">Maximum Threshold:</label>
+                            <div class="device-input">
+                                <div class="input-group input-group-transparent">
+                                    <input type="text"  class="form-control input-transparent pl-3" formControlName="maxThres"/>
+                                  </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div> -->
+
+    <section 
+        class="mx-auto"
+        widgster
+        [optionsControl]="false"
+        [reloadControl]="false"
+        [fullscreenControl]="false"
+        [collapseControl]="false"
+        [closeControl]="false"
+        titleClass="mt-0"
+        bodyclass="widget-table-overflow">
+            <header>
+                <h5 class="title float-left">Sensor Data</h5>
+                <angular2csv [data]="downloadCSVdata" filename={{CSVfilename}} [options]="downloadCSVoptions" class="downloadCSV float-right"></angular2csv>
+            </header>
+            <div class="widget-content">
+                <ngx-datatable class="table table-striped table-hover" [rows]="sensorDataTable"
+                [columnMode]="columnMode.force" [headerHeight]="50" [footerHeight]="50" 
+                [rowHeight]="'auto'" [limit]="10" [sorts]="[{prop: 'timestamp', dir: 'desc'}]">
+                    <ngx-datatable-column name="Timestamp" prop="timestamp">
+                        <ng-template let-column="column" ngx-datatable-header-template>
+                            <span>{{column.name}}</span>
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+                        {{value}}
+                        </ng-template>
+                    </ngx-datatable-column>
+            
+                    <ngx-datatable-column name="Temperature (°C)" prop="temperature">
+                        <ng-template let-column="column" ngx-datatable-header-template>
+                            <span>{{column.name}}</span>
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+                        {{value}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+                <!-- <ngx-datatable 
+                    class="table table-striped table-hover" 
+                    [rows]="sensorDataTable"
+                    [columns]="columns"
+                    [columnMode]="columnMode.force" 
+                    [headerHeight]="50" 
+                    [footerHeight]="50" 
+                    [rowHeight]="'auto'" 
+                    [limit]="10">
+                </ngx-datatable> -->
+            </div>
+    </section>
+    
+    <!-- <div class="form-group row mt">
+        <label for="gatewayName"  class="col-form-label">Gateway Name:</label>
+        <div class="device-input">
+            <div class="input-group input-group-transparent">
+                <input type="text"  class="form-control input-transparent pl-3" formControlName="gatewayName"/>
+              </div>
+        </div>
+        <label for="location"  class="col-form-label">Location:</label>
+        <div class="device-input">
+            <div class="input-group input-group-transparent">
+                <input type="text"  class="form-control input-transparent pl-3" formControlName="location"/>
+            </div>
+        </div>
+    </div> -->
+    
+
+    <!-- <div class="sensor-data-table"> 
+        <h5>Sensor Data: </h5> 
+        <hr>
+
+        <angular2csv [data]="downloadCSVdata" filename={{CSVfilename}} [options]="downloadCSVoptions" class="downloadCSV float-right"></angular2csv>
+        <ngx-datatable class="table table-striped table-hover" [rows]="sensorDataTable"
+        [columnMode]="columnMode.force" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [sorts]="[{prop: 'timestamp', dir: 'desc'}]">
+            <ngx-datatable-column name="timestamp" prop="timestamp">
+                <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+                {{value}}
+                </ng-template>
+            </ngx-datatable-column>
+    
+            <ngx-datatable-column name="temperature (°C)" prop="temperature">
+                <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+                {{value}}
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div> -->
+</div>
+
+<ng-template #datepickermodalTemplate>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Datepicker</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <app-ngx-bootstrap-datepicker (onDateTimeChange)="onDateTimeChange($event)"></app-ngx-bootstrap-datepicker>
+    </div>
+</ng-template>
+
+
+<!-- <div class="row sensor-multi-select">
             <div class="col-sm">
                 <p>Select sensors: </p>
                 <ng-select
@@ -92,15 +349,18 @@
                     [searchable]="false"
                     bindLabel="id"
                     placeholder="Select sensor"
-                    [(ngModel)]="selectedSensor">
+                    [(ngModel)]="selectedSensor"
+                    (change)="onCompareSensor($event)"
+                    (add)="onItemAdded($event)"
+                    (remove)="onItemRemoved($event)"
+                    (clear)="onClear()">
                 </ng-select>
                 <button (click)="addSensortoGraph()" class="btn btn-m btn-primary">Add</button>
             </div>
-        </div>
+        </div> -->
 
-        <app-ngx-bootstrap-datepicker (onDateTimeChange)="onDateTimeChange($event)"></app-ngx-bootstrap-datepicker>
-        
-        <div class="row">
+        <!-- <app-ngx-bootstrap-datepicker (onDateTimeChange)="onDateTimeChange($event)" showDatepicker="true" showTimepicker="false"></app-ngx-bootstrap-datepicker> -->
+        <!-- <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <ul class="filter-bar">
                     <li class="duration" (click)="openModal(datepickermodalTemplate)">
@@ -115,40 +375,4 @@
                     </li>
                 </ul>
             </div>
-        </div>
-
-        <div id="highChart"></div> 
-    </div>
-    <div class="sensor-data-table"> 
-        <h5>Sensor Data: </h5> 
-        <hr>
-
-        <angular2csv [data]="downloadCSVdata" filename={{CSVfilename}} [options]="downloadCSVoptions" class="downloadCSV float-right"></angular2csv>
-        <ngx-datatable class="table table-striped table-hover" [rows]="sensorDataTable"
-        [columnMode]="columnMode.force" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [sorts]="[{prop: 'timestamp', dir: 'desc'}]">
-            <ngx-datatable-column name="time stamp" prop="timestamp">
-                <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
-                {{value}}
-                </ng-template>
-            </ngx-datatable-column>
-    
-            <ngx-datatable-column name="temperature (°C)" prop="temperature">
-                <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
-                {{value}}
-                </ng-template>
-            </ngx-datatable-column>
-        </ngx-datatable>
-    </div>
-</div>
-
-<ng-template #datepickermodalTemplate>
-    <div class="modal-header">
-      <h4 class="modal-title pull-left">Datepicker</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-        <app-ngx-bootstrap-datepicker (onDateTimeChange)="onDateTimeChange($event)"></app-ngx-bootstrap-datepicker>
-    </div>
-</ng-template>
+        </div> -->

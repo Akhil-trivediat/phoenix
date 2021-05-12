@@ -1,4 +1,4 @@
-.location-hierarchy-form input,
+/* .location-hierarchy-form input,
 .location-hierarchy-form .input-group-addon {
     background-color: #222D3C;
     box-shadow: 0 2px 6px rgb(0 0 0 / 20%), 0 2px 3px rgb(0 0 0 / 5%) !important;
@@ -39,4 +39,14 @@
 .location-modal .modal-body {
     background-color: #293647;
     color: #fff;
+} */
+
+.location-hierarchy-form {
+    width: 186px;
+}
+
+
+.location-hierarchy-form ::ng-deep .ng-value  {            
+    /* background-color: #fff !important; */
+    color: #fff !important;
 }

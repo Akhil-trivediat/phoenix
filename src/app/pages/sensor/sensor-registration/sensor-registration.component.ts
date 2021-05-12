@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RequesterService } from '../../../shared/service/requester.service';
 import { PubsubService } from '../../../shared/service/pubsub.service';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-sensor-registration',
@@ -14,6 +15,7 @@ export class SensorRegistrationComponent implements OnInit {
   selectedSensor: any;
   sensorRegistrationForm: any;
   gatewayList: Array<Object>;
+  sensorList: Array<Object>;
 
   constructor(
     private router: Router,
@@ -25,7 +27,9 @@ export class SensorRegistrationComponent implements OnInit {
 
     this.prepareForm();
 
-    this.getAllGatewaysList();
+    this.getAllGateways();
+
+    this.getAllSensors();
 
   }
 
@@ -34,14 +38,18 @@ export class SensorRegistrationComponent implements OnInit {
       deviceID: new FormControl('', [Validators.required]),
       deviceName: new FormControl('', [Validators.required]),
       gatewayID: new FormControl('', [Validators.required]),
-      location: new FormControl('', [Validators.required])
+      location: new FormControl('', [Validators.required]),
+      mintempthreshold: new FormControl('', [Validators.required]),
+      maxtempthreshold: new FormControl('', [Validators.required])
     });
   }
 
   disableSubmitButton(sensorRegistrationForm: NgForm) {
     if(sensorRegistrationForm.controls.deviceID.invalid ||
       sensorRegistrationForm.controls.deviceName.invalid ||
-      sensorRegistrationForm.controls.location.invalid) {
+      sensorRegistrationForm.controls.location.invalid ||
+      sensorRegistrationForm.controls.mintempthreshold.invalid ||
+      sensorRegistrationForm.controls.maxtempthreshold.invalid) {
         return true
     } else {
       return false
@@ -53,13 +61,22 @@ export class SensorRegistrationComponent implements OnInit {
   }
 
   onSensorRegistrationFormSubmit(form: NgForm) {
+
+    this.sensorList.push(+form.value.deviceID);
+
     let sensorData = {
       sensorID: form.value.deviceID,
       sensorName: form.value.deviceName,
-      gatewayID: form.value.gatewayID,
+      gatewayID: form.value.gatewayID.id,
       location: form.value.location,
-      email: this.getUserDetails()
+      email: this.getUserDetails(),
+      mintempthreshold: +form.value.mintempthreshold,
+      maxtempthreshold: +form.value.maxtempthreshold,
+      sensorArray: this.sensorList
     };
+
+    
+    
     let requestBody = {
       action: "Add",
       type: "Sensor",
@@ -72,7 +89,7 @@ export class SensorRegistrationComponent implements OnInit {
     let deviceConfigJSON = {
       "clientId": requestBody.data.gatewayID,
       "command": "ADDTRANSMITTER",
-      "transmitterids": [+requestBody.data.sensorID]
+      "transmitterids": requestBody.data.sensorArray
     }
 
     let IOTParams = {
@@ -101,7 +118,7 @@ export class SensorRegistrationComponent implements OnInit {
     );
   }
 
-  getAllGatewaysList() {
+  getAllGateways() {
     let gatewayArray = [];
     const email = this.getUserDetails();
 
@@ -113,6 +130,27 @@ export class SensorRegistrationComponent implements OnInit {
           });
         });
         this.gatewayList = gatewayArray;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  getAllSensors() {
+
+    let sensorArray = [];
+    const email = this.getUserDetails();
+    let params = new HttpParams();
+    params = params.append('email', this.getUserDetails());
+    params = params.append('gatewayID', 'all');
+
+    this.requesterService.getRequestParams("/sensor", params).subscribe(
+      (sensors) => {
+        sensors.forEach((sens) => {
+          (sensorArray).push(+sens["id"]);
+        });
+        this.sensorList = sensorArray;
       },
       (error) => {
         console.log(error);

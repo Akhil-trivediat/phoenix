@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { RequesterService } from '../../../shared/service/requester.service';
+import { SensorService } from '../services/sensor.service';
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import * as Highcharts from 'highcharts/highstock';
 import { HttpParams } from "@angular/common/http";
@@ -31,6 +32,7 @@ export class SensorDetailComponent implements OnInit {
   private subscription: any;
   public options: any;
   sensorid: string;
+  sensorname: string;
   sensorDetailsForm:  any;
   addSensorForm: any;
   isOnline: boolean = false;
@@ -39,12 +41,33 @@ export class SensorDetailComponent implements OnInit {
   names: any = ['MSFT', 'AAPL', 'GOOG'];
   multipleSeriesOptions: any = [];
   selectedSensor: any;
-  ddSensorsList: Array<Object>;
+  ddSensorsList: Array<Object> = [{
+    id: ""
+  }];
   sensorModel: any;
   aSensorsSelectedforGraph: any = [];
   sSensorsSelectedforGraph: string;
   startdate: string = "";
   enddate:string = "";
+
+  mapSensorDetailsData = {
+    id: "",
+    name: "",
+    gatewayName: "",
+    readingValue: "",
+    lastCommDate: "",
+    location: "",
+    minThreshold: "",
+    maxThreshold: "",
+    status: "",
+    sensorstobeDisplayedonGraph: [],
+    uom: ""
+  };
+
+  columns = [
+    { name: 'timestamp', prop: 'timestamp' }, 
+    { name: 'Temperature (°C)', prop: 'temperature' }
+  ];
 
   private $graph_textcolor = "#FFFFFF";
   private $graph_backgroundcolor = "#36455A";
@@ -69,16 +92,26 @@ export class SensorDetailComponent implements OnInit {
 
   modalRef: BsModalRef;
 
+  isCollapsed = true;
+
   constructor(
     @Inject(LOCALE_ID) private locale: string,
     private route: ActivatedRoute,
     private requesterService: RequesterService,
     private spinner: NgxSpinnerService,
     private formBuilder: FormBuilder,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private sensorService: SensorService
   ) { 
     this.subscription = this.route.params.subscribe(params => {
+
       this.sensorid = params['id'];
+
+      this.updateSensorModel({
+        id: this.sensorid,
+        sensorstobeDisplayedonGraph: [this.sensorid]
+      });
+
     });
   }
   
@@ -87,11 +120,29 @@ export class SensorDetailComponent implements OnInit {
 
     this.getSensorList();
 
-    this.loadGraph(this.startdate, this.enddate, this.sensorid);
+    //this.loadGraph(this.startdate, this.enddate, this.sensorid);
 
     this.prepareForm();
 
     this.getSensorDetails();
+  }
+
+  updateSensorModel(sensor: any) {
+    let that = this;
+
+    Object.keys(sensor).forEach(function(key,index) {
+
+      if(key == "sensorstobeDisplayedonGraph") {
+
+        sensor[key].forEach(sens => {
+          that.mapSensorDetailsData[key].push(sens);
+        });
+
+      } else {
+        that.mapSensorDetailsData[key] = sensor[key];
+      }
+
+    });
   }
 
   getUserDetails() {
@@ -123,10 +174,14 @@ export class SensorDetailComponent implements OnInit {
   }
 
   onDateTimeChange(event) {
-    this.startdate = event[0].toISOString();
-    this.enddate = event[1].toISOString();
-
-    this.loadGraph(this.startdate, this.enddate, this.sensorid);
+    
+    if(event) {
+      this.startdate = event[0].toISOString();
+      this.enddate = event[1].toISOString();
+  
+      this.loadGraph(this.startdate, this.enddate, this.sensorid);
+    }
+    
   }
 
   sensorModelChange(){
@@ -138,6 +193,208 @@ export class SensorDetailComponent implements OnInit {
   resetSensorsSelectedforGraph() {
     this.aSensorsSelectedforGraph = [];
     this.sSensorsSelectedforGraph = "";
+  }
+
+  prepareForm() {
+    this.sensorDetailsForm = new FormGroup({
+      sensorID: new FormControl({value: '', disabled: true}, [Validators.required]),
+      readingValue: new FormControl({value: '', disabled: true}, [Validators.required]),
+      readingUnit: new FormControl({value: '', disabled: true}, [Validators.required]),
+      lastCommDate: new FormControl({value: '', disabled: true}, [Validators.required]),
+      location: new FormControl({value: '', disabled: true}, [Validators.required]),
+      gatewayName: new FormControl({value: '', disabled: true}, [Validators.required]),
+      minThres: new FormControl({value: '', disabled: true}, [Validators.required]),
+      maxThres: new FormControl({value: '', disabled: true}, [Validators.required])
+    }); 
+
+    this.addSensorForm = new FormGroup({
+      sensorID: new FormControl('')
+    });
+  }
+
+  fillFormData(sensorData: any) {
+    if(sensorData) {
+      this.sensorDetailsForm.patchValue({
+        sensorID: sensorData.id,
+        readingValue: sensorData.readingValue,
+        readingUnit: "",
+        lastCommDate: sensorData.lastCommDate,
+        location: sensorData.location,
+        gatewayName: sensorData.gatewayName,
+        minThres: sensorData.minThreshold + " " + sensorData.uom,
+        maxThres: sensorData.maxThreshold + " " + sensorData.uom
+      });
+    }
+  }
+
+  getSensorDetails() {
+
+    this.sensorService.getSensorDetailswithFormattedResponse(this.sensorid).subscribe(
+      (sensor) => {
+
+        this.updateSensorModel({
+          name: sensor.name,
+          gatewayName: sensor.gatewayName,
+          readingValue: sensor.readingValue,
+          lastCommDate: sensor.lastCommDate,
+          location: sensor.location,
+          minThreshold: sensor.minThreshold,
+          maxThreshold: sensor.maxThreshold,
+          status: sensor.status,
+          uom: sensor.uom
+        });
+
+        this.setSensorStatus(this.mapSensorDetailsData.status);
+
+        this.fillFormData(this.mapSensorDetailsData);
+
+        this.spinner.hide();
+      },
+      (error) => {
+        console.log(error);
+        this.spinner.hide();
+      }
+    );
+  }
+
+  setSensorStatus(status: string) {
+    if(status.toLowerCase() == "online") {
+      this.isOnline = true;
+    } else {
+      this.isOnline = false;
+    }
+  }
+
+  onItemChanged($event) {
+    
+    const sensorsToCompare: [] = $event;
+
+  }
+
+  onItemAdded($event) {
+
+    const sensorAddedForComparision = $event;
+    this.mapSensorDetailsData.sensorstobeDisplayedonGraph.push(sensorAddedForComparision.id);
+
+    this.addSensorToGraphForComparision(sensorAddedForComparision.id);
+
+  }
+
+  onItemRemoved($event) {
+
+    const sensorRemovedFromComparision = $event;
+
+    var indexofRemovedItem = this.mapSensorDetailsData.sensorstobeDisplayedonGraph.indexOf(sensorRemovedFromComparision.value.id, 0);
+    if (indexofRemovedItem > -1) {
+      this.mapSensorDetailsData.sensorstobeDisplayedonGraph.splice(indexofRemovedItem, 1);
+    }
+
+    this.removeSensorFromGraph(sensorRemovedFromComparision.value.id);
+
+  }
+
+  addSensorToGraphForComparision(sensorsTobeAdded: any) {
+
+    let graphData: any = [];
+
+    this.sensorService.getDatamessagesbySensorID(sensorsTobeAdded,this.startdate,this.enddate).subscribe(
+      (response) => {
+
+        response.forEach((data: any) =>{
+          let timestamp = new Date(data.messagedate);
+          if (data.rawvalue) {
+            graphData.push([
+              timestamp.getTime(), //change to local time
+              data.rawvalue
+            ]);
+          }
+        });
+
+        this.multipleSeriesOptions.push(
+          {
+            name: sensorsTobeAdded,
+            data: graphData
+          }
+        );
+
+        this.multipleSeriesOptions = Array.from(this.multipleSeriesOptions.reduce((m, t) => m.set(t.name, t), new Map()).values());
+        this.prepareStockChart(this.multipleSeriesOptions);
+
+      }
+    );
+
+  }
+
+  removeSensorFromGraph(sensorToRemove) {
+
+    var removeIndex = this.multipleSeriesOptions.map(function(item) { return item.name; }).indexOf(sensorToRemove);
+
+    this.multipleSeriesOptions.splice(removeIndex, 1);
+
+    this.prepareStockChart(this.multipleSeriesOptions);
+
+  }
+  onClear() {
+
+    let that = this;
+
+    this.mapSensorDetailsData.sensorstobeDisplayedonGraph = 
+      this.mapSensorDetailsData.sensorstobeDisplayedonGraph.filter(function(value, index, arr){ 
+        return value == that.sensorid;
+      });
+
+    this.multipleSeriesOptions = 
+      this.multipleSeriesOptions.filter(function(value, index, arr){ 
+        return value.name == that.sensorid;
+      });
+
+    this.prepareStockChart(this.multipleSeriesOptions);
+
+  }
+
+  loadGraph(startdate,enddate,sensorid) {
+
+    this.spinner.show();
+
+    let sensorDataTableRows: any = [];
+    this.multipleSeriesOptions = [];
+    this.graphData = [];
+
+    this.sensorService.getDatamessagesbySensorID(sensorid,startdate,enddate).subscribe(
+      response => {
+
+        response.forEach((data: any) =>{
+          let timestamp = new Date(formatDate(data.messagedate,'MM/dd/yyyy,HH:mm',this.locale));
+          
+          if (data.rawvalue) {
+            this.graphData.push([
+              timestamp.getTime(),
+              +parseFloat(data.rawvalue).toFixed(2)
+            ]);
+            sensorDataTableRows.push({
+              'timestamp' : formatDate(timestamp,'MM/dd/yyyy,HH:mm',this.locale),
+              'temperature' : parseFloat(data.rawvalue).toFixed(2)
+            });
+          }
+        });
+
+        this.setSensorDataTable(sensorDataTableRows);
+
+        this.multipleSeriesOptions.push(
+          {
+            name: this.sensorid,
+            data: this.graphData
+          }
+        );
+      
+        this.prepareStockChart(this.multipleSeriesOptions);
+      },
+      error => {
+        console.log(error);
+        this.spinner.hide();
+      }
+    );
+
   }
 
   async addSensortoGraph() {
@@ -182,96 +439,6 @@ export class SensorDetailComponent implements OnInit {
     }
   }
 
-  prepareForm() {
-    this.sensorDetailsForm = new FormGroup({
-      sensorName: new FormControl({value: '', disabled: true}, [Validators.required]),
-      readingValue: new FormControl({value: '', disabled: true}, [Validators.required]),
-      readingUnit: new FormControl({value: '', disabled: true}, [Validators.required]),
-      lastCommDate: new FormControl({value: '', disabled: true}, [Validators.required]),
-      location: new FormControl({value: '', disabled: true}, [Validators.required]),
-      gatewayName: new FormControl({value: '', disabled: true}, [Validators.required]),
-      minThres: new FormControl({value: '', disabled: true}, [Validators.required]),
-      maxThres: new FormControl({value: '', disabled: true}, [Validators.required])
-    }); 
-
-    this.addSensorForm = new FormGroup({
-      sensorID: new FormControl('')
-    });
-  }
-
-  fillFormData(sensorData: any) {
-    if(sensorData) {
-      this.sensorDetailsForm.patchValue({
-        sensorName: sensorData.sensorname,
-        readingValue: parseFloat(sensorData.readingValue).toFixed(2),
-        readingUnit: sensorData.readingUnit,
-        lastCommDate: formatDate(sensorData.lastCommDate,'MM/dd/yyyy,HH:mm',this.locale),
-        location: '',
-        gatewayName: sensorData.gatewayname,
-        minThres: '',
-        maxThres: ''
-      });
-    }
-  }
-
-  getSensorDetails() {
-    this.requesterService.getRequest('/sensor/details' + '?id=' + this.sensorid).subscribe(
-      (response) => {
-        var sensorData = response[0];
-        this.setSensorStatus(sensorData.status);
-        this.fillFormData(sensorData);
-        this.spinner.hide();
-      },
-      (error) => {
-        console.log(error);
-        this.spinner.hide();
-      }
-    );
-  }
-
-  setSensorStatus(status: string) {
-    if(status === "Online") {
-      this.isOnline = true;
-    } else {
-      this.isOnline = false;
-    }
-  }
-
-  loadGraph(startdate,enddate,sensorid) {
-    let sensorDataTableRows: any = [];
-    this.multipleSeriesOptions = [];
-    this.getGraphData(startdate,enddate,sensorid).subscribe(
-      response => {
-        response.forEach((data: any) =>{
-          let timestamp = new Date(data.messagedate);
-          if (data.rawvalue) {
-            this.graphData.push([
-              timestamp.getTime(),
-              +parseFloat(data.rawvalue).toFixed(2)
-            ]);
-            sensorDataTableRows.push({
-              'timestamp' : formatDate(timestamp,'MM/dd/yyyy,HH:mm',this.locale),
-              'temperature' : parseFloat(data.rawvalue).toFixed(2)
-            });
-          }
-        });
-        this.setSensorDataTable(sensorDataTableRows);
-        this.multipleSeriesOptions.push(
-          {
-            name: this.sensorid,
-            data: this.graphData
-          }
-        );
-      
-        this.prepareStockChart(this.multipleSeriesOptions);
-      },
-      error => {
-        console.log(error);
-        this.spinner.hide();
-      }
-    );
-  }
-
   setSensorDataTable(data: any) {
     this.sensorDataTable = data;
     this.prepareCSVReport(this.sensorDataTable);
@@ -313,7 +480,8 @@ export class SensorDetailComponent implements OnInit {
   }
 
   ngAfterViewChecked() {
-    document.querySelector('angular2csv > button').innerHTML = '<i class="glyphicon glyphicon-download-alt text-white"></i>';
+    document.querySelector('angular2csv > button').innerHTML = 'Download';
+    //<i class="glyphicon glyphicon-download-alt text-white"></i>
   }
 
   openModal(template: TemplateRef<any>) {
@@ -327,6 +495,7 @@ export class SensorDetailComponent implements OnInit {
   }
 
   prepareStockChart(seriesOptions: any) {
+    let that = this;
     this.options = {
       navigator: {
         enabled: false
@@ -338,7 +507,7 @@ export class SensorDetailComponent implements OnInit {
         enabled: false
       },
       title: {
-        text: 'Temperature VS Time - Sensor Graph',
+        //text: 'Temperature VS Time - Sensor Graph',
         style: {
           color: this.$graph_textcolor,
           fontWeight: 'bold'
@@ -369,8 +538,22 @@ export class SensorDetailComponent implements OnInit {
         tickPositioner: function () {
           var minTick = Math.ceil(this.dataMin / 10) * 10;
           var maxTick = Math.ceil(this.dataMax / 10) * 10;
-          var tickStart = minTick - 20;
-          var tickEnd = maxTick + 20;
+          var minThresh = +that.mapSensorDetailsData.minThreshold;
+          var maxThresh = +that.mapSensorDetailsData.maxThreshold;
+
+          var tickStart = minTick;
+          var tickEnd = maxTick;
+
+          if(minThresh < tickStart) {
+            tickStart = minThresh;
+          }
+
+          if(maxThresh > tickEnd) {
+            tickEnd = maxThresh;
+          }
+
+          tickStart = tickStart - 10;
+          tickEnd = tickEnd + 20;
 
           var positions = [];
           for(var i = tickStart ; i <= tickEnd ; i++) {
@@ -407,23 +590,23 @@ export class SensorDetailComponent implements OnInit {
           margin: 40
         },
         plotLines: [{
-          value: 18,
+          value: this.mapSensorDetailsData.minThreshold,
           color: this.$graph_threscolor,
           dashStyle: 'shortdash',
           width: 1,
           label: {
-              text: 'Min threshold',
+              text: this.mapSensorDetailsData.minThreshold + " " + this.getUnitofMeasurment(this.mapSensorDetailsData.uom),
               style: {
                 color: this.$graph_textcolor
               }
           }
         }, {
-            value: 25,
+            value: this.mapSensorDetailsData.maxThreshold,
             color: this.$graph_threscolor,
             dashStyle: 'shortdash',
             width: 1,
             label: {
-                text: 'Max threshold',
+                text: this.mapSensorDetailsData.maxThreshold + " " + this.getUnitofMeasurment(this.mapSensorDetailsData.uom),
                 style: {
                   color: this.$graph_textcolor
                 }
@@ -440,10 +623,10 @@ export class SensorDetailComponent implements OnInit {
         series: {
           color: this.$graph_seriescolor,
           zones: [{
-            value: 18,
+            value: this.mapSensorDetailsData.minThreshold,
             color: this.$graph_threscolor
           }, {
-              value: 25,
+              value: this.mapSensorDetailsData.maxThreshold,
               color: this.$graph_seriescolor
           }, {
               color: this.$graph_threscolor
@@ -451,8 +634,60 @@ export class SensorDetailComponent implements OnInit {
         }
       },
       series: seriesOptions
-    };
+    }; 
+    Highcharts.setOptions({
+      time: {
+        useUTC: false
+      }
+    });
     Highcharts.stockChart('highChart', this.options);
     this.spinner.hide();
   }
+
+  getUnitofMeasurment(uom: string) {
+    if( uom.toLowerCase() == "celsius" ) {
+      return "°C";
+    } else if ( uom.toLowerCase() == "fahrenheit" ) {
+      return "°F";
+    } else {
+      return "";
+    }
+  }
+
+  loadGraphasPromise(startdate,enddate,sensorid) {
+
+    let sensorDataTableRows: any = [];
+    this.multipleSeriesOptions = [];
+
+    this.sensorService.getDatamessagesbySensorIDasPromise(sensorid,startdate,enddate).then(
+      response => {
+        console.log(response);
+
+        let timestamp = new Date(response.messagedate);
+        if (response.rawvalue) {
+          this.graphData.push([
+            timestamp.getTime(),
+            +parseFloat(response.rawvalue).toFixed(2)
+          ]);
+          sensorDataTableRows.push({
+            'timestamp' : formatDate(timestamp,'MM/dd/yyyy,HH:mm',this.locale),
+            'temperature' : parseFloat(response.rawvalue).toFixed(2)
+          });
+        }
+
+        this.setSensorDataTable(sensorDataTableRows);
+        this.multipleSeriesOptions.push(
+          {
+            name: this.sensorid,
+            data: this.graphData
+          }
+        );
+      
+        this.prepareStockChart(this.multipleSeriesOptions);
+
+      }
+
+    );
+  }
+
 }

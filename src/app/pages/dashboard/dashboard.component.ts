@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpParams } from "@angular/common/http";
 import { NgxSpinnerService } from 'ngx-spinner';
+import { FormControl } from '@angular/forms';
 import { PubsubService } from '../../shared/service/pubsub.service';
 import { RequesterService } from '../../shared/service/requester.service';
+
+declare var jQuery: any;
 
 @Component({
   selector: 'app-dashboard',
@@ -11,10 +14,19 @@ import { RequesterService } from '../../shared/service/requester.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+
+  // options = [
+  //   { id: 1, label: 'One' },
+  //   { id: 2, label: 'Two' },
+  //   { id: 3, label: 'Three' },
+  //   { id: 4, label: 'Four' }
+  // ];
+  control = new FormControl();
+
   username: string;
   location: string;
   totalGatewayCount: string;
-  activeGatewayCount: string;
+  activeGatewayCount: string = "0";
   totalSensorCount: string;
   activeSensorCount: string;
 
@@ -32,6 +44,11 @@ export class DashboardComponent implements OnInit {
     this.getUserDetails();
     this.getAllGateways();
     this.getAllSensors();
+  }
+
+  ngAfterViewInit(){
+    //jQuery('#world-map').vectorMap();
+    //document.querySelector('#world-map').vectorMap();
   }
 
   getUserDetails() {

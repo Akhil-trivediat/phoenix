@@ -1,16 +1,17 @@
 <nav class="navbar-collapse">
 
-  <form id="search-form" class="navbar-form location-hierarchy-form" role="search" name="locationhierarchyform" [formGroup]="locationhierarchyform">
-    <div class="form-group mb-0">
-      <div class="input-group-transparent input-group" (click)="openLocationModal(locationmodalTemplate)">
-        <input placeholder="Location" type="text" class="input-transparent form-control" formControlName="locationname">
-        <div class="input-group-addon btn">
-          <i class="fa fa-search text-white"></i>
-          <!-- <i class="glyphicon glyphicon-new-window text-white"></i> -->
-        </div>
-      </div>
+  <!-- <form id="search-form" class="navbar-form location-hierarchy-form" role="search" name="locationhierarchyform" [formGroup]="locationhierarchyform"> -->
+    <div class="location-hierarchy-form mb-0">
+      <ng-select
+      class="custom"
+        [items]="cities"
+        bindLabel="name"
+        bindValue="name"
+        [(ngModel)]="selectedCityId"
+      >
+      </ng-select>
     </div>
-  </form>
+  <!-- </form> -->
 
   <ul class="nav navbar-nav">
 

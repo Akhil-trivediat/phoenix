@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy  } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy, Input  } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -9,37 +9,48 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class NgxBootstrapDatepickerComponent implements OnInit  {
 
-  startDateTime: Date = new Date();
-  endDateTime: Date = new Date();
-  maxEndDate: Date = new Date();
-  maxStartDate: Date = new Date();
-  minEndDate: Date;
-  datetimepickerForm: any;
+  bsRangeValue: Date[];
+  endRangeDate: Date = new Date();
+  startRangeDate: Date = new Date();
   
   @Output() onDateTimeChange = new EventEmitter;
   
-  constructor(
-    
-  ) { }
+  constructor( ) { 
+    this.startRangeDate.setDate(this.startRangeDate.getDate() - 1);
+    this.bsRangeValue = [this.startRangeDate, this.endRangeDate];
+  }
+
+  onValueChange(event) {
+    this.onDateTimeChange.emit(event);
+  }
 
   ngOnInit() {
-    // this.datetimepickerForm = new FormGroup({
-    //   stdt: new FormControl({value: ''})
-    // });
-    this.startDateTime.setDate(this.startDateTime.getDate() - 1);
+    
+    //this.startDateTime.setDate(this.startDateTime.getDate() - 1);
   }
 
-  onStartDateChange(newDate: Date) {
-    this.startDateTime = newDate;
-    this.minEndDate = newDate;
-  }
+  // @Input() showDatepicker: boolean;
+  // @Input() showTimepicker: boolean;
+  // startDateTime: Date = new Date();
+  // endDateTime: Date = new Date();
+  // maxEndDate: Date = new Date();
+  // maxStartDate: Date = new Date();
+  // minEndDate: Date;
+  // datetimepickerForm: any;
 
-  onEndDateChange(newDate: Date) {
-    this.endDateTime = newDate;
-  }
+  // onSaveBtnClicked() {
+  //   let $event = [this.startDateTime, this.endDateTime];
+  //   this.onDateTimeChange.emit($event);
+  // }
 
-  onSaveBtnClicked() {
-    let $event = [this.startDateTime, this.endDateTime];
-    this.onDateTimeChange.emit($event);
-  }
+  // onStartDateChange(newDate: Date) {
+  //   this.startDateTime = newDate;
+  //   this.minEndDate = newDate;
+  // }
+
+  // onEndDateChange(newDate: Date) {
+  //   this.endDateTime = newDate;
+  // }
+
+  
 }

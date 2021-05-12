@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+//import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
@@ -14,10 +15,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from '../../shared/component/shared.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { Angular2CsvModule } from 'angular2-csv';
-
-//import { DatepickerModule } from 'ng2-datepicker';
-
-//import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 const routes: Routes = [
   {
@@ -35,7 +33,12 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [SensorListComponent, SensorDetailComponent, SensorRegistrationComponent, AssignGatewayComponent],
+  declarations: [
+    SensorListComponent, 
+    SensorDetailComponent, 
+    SensorRegistrationComponent, 
+    AssignGatewayComponent
+  ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -48,7 +51,9 @@ const routes: Routes = [
     NgSelectModule,
     SharedModule,
     ModalModule,
-    Angular2CsvModule
+    Angular2CsvModule,
+   // BrowserAnimationsModule,
+    CollapseModule.forRoot()
   ],
   providers: [
   ]

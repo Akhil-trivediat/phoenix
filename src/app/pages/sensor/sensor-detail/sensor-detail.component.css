@@ -26,8 +26,11 @@
 
 .sensorForm label.col-form-label,
 .sensor-graph label.col-form-label {
-    width: 15%;
-    margin-left: 15px;
+    /* width: 15%;
+    margin-left: 15px; */
+    /* width: auto;
+    margin-right: 1em; */
+    width: 46%;
 }
 
 .sensorForm h5 {
@@ -40,7 +43,8 @@
 
 .sensorForm .device-input,
 .sensor-graph .device-input {
-    width: 30%;
+    /* width: 30%; */
+    display: inline-block;
 }
 
 .sensor-details-page h5 {
@@ -175,4 +179,41 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.jumbotron {
+    padding: 1em 1em 3em;
+}
+
+.jumbotron-header {
+    padding: 1em 2em;
+}
+
+/* Graph Section */
+.analytics-section {
+    display: flex;
+    overflow: hidden;
+}
+
+.analytics-section > .graph-section {
+    width: 66.6%;
+}
+
+.analytics-section > .details-section {
+    width: 33.3%;
+    padding: 0px 17px;
+}
+
+.analytics-section > .details-section label {
+    width: 46%;
+    margin-left: 15px;
+    line-height: 26px;
+    font-size: 1.1rem;
+}
+
+.analytics-section > .details-section input {
+    background-color: transparent;
+    width: auto;
+    padding: 0 !important;
+    color: #FFFFFF;
 }

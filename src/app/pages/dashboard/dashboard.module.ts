@@ -8,6 +8,12 @@ import { DashboardComponent } from './dashboard.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { SharedModule } from '../../shared/component/shared.module';
 
+import { AutocompleteInputBarComponent } from './autocomplete-input-bar/autocomplete-input-bar.component';
+import { FilterPipe } from './autocomplete-input-bar/filter.pipe';
+import { AutocompleteDirective } from './autocomplete-input-bar/autocomplete.directive';
+import { AutocompleteContentDirective } from './autocomplete-input-bar/autocomplete-content.directive';
+import { AutocompleteOptionComponent } from './autocomplete-input-bar/autocomplete-option/autocomplete-option.component';
+
 const routes: Routes = [
   {
     path: '', component: DashboardComponent
@@ -15,7 +21,14 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [DashboardComponent],
+  declarations: [
+    DashboardComponent,
+    FilterPipe, 
+    AutocompleteInputBarComponent,
+    AutocompleteDirective,
+    AutocompleteContentDirective,
+    AutocompleteOptionComponent 
+  ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -24,9 +37,15 @@ const routes: Routes = [
     WidgsterModule,
     LoaderModule,
     NgxChartsModule,
-    SharedModule
+    SharedModule,
   ],
   providers: [
-  ]
+  ],
+  exports: [
+    AutocompleteInputBarComponent,
+    AutocompleteDirective,
+    AutocompleteContentDirective,
+    AutocompleteOptionComponent
+  ]  //entryComponents:[ AutocompleteInputBarComponent ]
 })
 export class DashboardComponentModule { }

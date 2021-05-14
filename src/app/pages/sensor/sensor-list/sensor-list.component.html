@@ -36,20 +36,20 @@
        </div>
        <br>
        <div class="d-flex justify-content-between">
-        <span class="fw-semi">Sensor Id:</span>
-         <a class="fw-semi" [routerLink]="['id/', item.sensorid]">{{item.sensorid}}</a>
+<!--        <span class="fw-semi">Sensor Id:</span>-->
+         <a class="fw-semi-bold ml-sm" [routerLink]="['id/', item.sensorid]"><h3>{{item.sensorid}}</h3></a>
        </div>
       <div class="d-flex justify-content-between">
-        <span class="fw-semi">Sensor Name:</span>
-        <a class="fw-semi ml-sm">{{item.sensorName}}</a>
+<!--        <span class="fw-semi">Sensor Name:</span>-->
+        <a class="fw-semi-bold ml-sm"><h5>{{item.sensorName}}</h5></a>
       </div>
        <div class="d-flex justify-content-between">
-        <span class="fw-semi">Gateway:</span>
-         <a  class="fw-semi ml-sm">{{item.gateway}}</a>
+<!--        <span class="fw-semi">Gateway:</span>-->
+         <a  class="fw-semi-bold ml-sm"><h5>{{item.gateway}}</h5></a>
        </div>
        <div class="d-flex justify-content-between">
-         <span class="fw-semi">Last connected:</span>
-         <a class="fw-semi ml-sm">{{item.lastconnected}}</a>
+<!--         <span class="fw-semi">Last connected:</span>-->
+         <a class="fw-thin ml-sm time-cl">{{item.lastconnected}}</a>
        </div>
      </div>
    </div>

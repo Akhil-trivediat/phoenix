@@ -16,6 +16,7 @@ import { SharedModule } from '../../shared/component/shared.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { Angular2CsvModule } from 'angular2-csv';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
+import {TooltipModule} from "ngx-bootstrap";
 
 const routes: Routes = [
   {
@@ -34,27 +35,28 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    SensorListComponent, 
-    SensorDetailComponent, 
-    SensorRegistrationComponent, 
+    SensorListComponent,
+    SensorDetailComponent,
+    SensorRegistrationComponent,
     AssignGatewayComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    FormsModule,
-    ReactiveFormsModule,
-    NgxDatatableModule,
-    TabsModule,
-    NgxChartsModule,
-    WidgsterModule,
-    NgSelectModule,
-    SharedModule,
-    ModalModule,
-    Angular2CsvModule,
-   // BrowserAnimationsModule,
-    CollapseModule.forRoot()
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        FormsModule,
+        ReactiveFormsModule,
+        NgxDatatableModule,
+        TabsModule,
+        NgxChartsModule,
+        WidgsterModule,
+        NgSelectModule,
+        SharedModule,
+        ModalModule,
+        Angular2CsvModule,
+        // BrowserAnimationsModule,
+        CollapseModule.forRoot(),
+        TooltipModule
+    ],
   providers: [
   ]
 })

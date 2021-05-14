@@ -23,3 +23,37 @@
     padding: 0.5rem 0.75rem;
     font-size: 1rem;
 }
+.status-online{
+  background: #61D85E !important;
+}
+.status-offline{
+  background: #FF8253 !important;
+}
+.time-cl{
+  color: #adb5bd;
+  font-size: 1em;
+}
+.tooltip .tooltiptext {
+  opacity: 0;
+  transition: opacity 1s;
+}
+.tooltip:hover .tooltiptext {
+  opacity: 1;
+}
+.lg-2{
+  font-size: 2em !important;
+  width: 19px !important;
+}
+img {
+  height: 50px !important;
+  width: 30px !important;
+}
+/*.logo {*/
+/*  margin: 20px 0 20px;*/
+/*  font-size: 16px;*/
+/*}*/
+
+/*.logo img{*/
+/*  height: 3em;*/
+/*  width: 12em;*/
+/*}*/

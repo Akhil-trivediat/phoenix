@@ -57,3 +57,11 @@ img {
 /*  height: 3em;*/
 /*  width: 12em;*/
 /*}*/
+
+.tile-container-content {
+  cursor: pointer;
+}
+
+.card {
+  min-height: 172px;
+}

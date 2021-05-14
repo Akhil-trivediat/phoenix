@@ -146,7 +146,7 @@ export class GatewayDetailComponent implements OnInit {
     }
 
     let IOTParams = {
-      topic: "config_sub_tt_message",
+      topic: this.gatewayid + "/config_sub_tt_message",
       payload: deviceConfigJSON
     }
 

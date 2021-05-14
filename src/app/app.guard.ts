@@ -1,5 +1,6 @@
 import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { from, Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { AppService } from './app.service';
 import { AuthService } from '../app/shared/service/auth.service';
@@ -8,7 +9,8 @@ import { AuthService } from '../app/shared/service/auth.service';
 export class AppGuard implements CanActivate {
   constructor(
     private appService: AppService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   canActivate(
@@ -18,6 +20,7 @@ export class AppGuard implements CanActivate {
     if (this.authService.isLoggedIn()) {
       return true;
     }
-    return !this.authService.isLoggedIn();
+    this.router.navigate(['/login']);
+    return this.authService.isLoggedIn();
   }
 }

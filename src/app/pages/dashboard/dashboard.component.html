@@ -3,9 +3,111 @@
 
   <div class="row">
 
-    <div class="col-md-3 col-sm-12 col-xs-12">
+    <div class="col-md-6 col-sm-12 col-xs-12">
 
       <section
+          class="mx-auto device-tile"
+          widgster
+          [optionsControl]="false"
+          [reloadControl]="false"
+          [fullscreenControl]="false"
+          [collapseControl]="false"
+          [closeControl]="false"
+          titleClass="mt-0"> 
+              <div class="widget-content">
+
+                <div class="row">
+
+                  <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 device-status-sectionA">
+
+                    <div class="header">
+                      <img src="assets/img/phoenix/humidity.svg" alt="Sensor">
+                      <span>Sensor</span>
+                      <a routerLink="/app/sensor">
+                        <div class="counter">{{activeSensorCount}}/{{totalSensorCount}}</div>
+                      </a>
+                    </div> 
+
+                  </div>
+
+                  <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 device-status-sectionB">
+                    <div class="status-circle online" (click)="onGoToDevicePage('/app/sensor')">
+                      <span>{{activeSensorCount}}</span>
+                    </div>
+  
+                    <div class="status-circle offline" (click)="onGoToDevicePage('/app/sensor')"> 
+                      <span>{{totalSensorCount - activeSensorCount}}</span>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="row footer">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <a class="float-right" (click)="onGoToDevicePage('app/sensor/addSensor')">
+                      <i class="glyphicon glyphicon-plus text-white"></i> 
+                    </a>
+                  </div>
+                </div>
+                
+              </div>
+      </section>
+
+    </div>
+
+    <div class="col-md-6 col-sm-12 col-xs-12">
+      <section
+          class="mx-auto device-tile"
+          widgster
+          [optionsControl]="false"
+          [reloadControl]="false"
+          [fullscreenControl]="false"
+          [collapseControl]="false"
+          [closeControl]="false"
+          titleClass="mt-0">
+          <div class="widget-content">
+
+            <div class="row">
+      
+              <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 device-status-sectionA">
+      
+                <div class="header">
+                  <img src="assets/img/phoenix/router.svg" alt="Gateway">
+                  <span>Gateway</span>
+                  <a routerLink="/app/gateway">
+                    <div class="counter">{{activeGatewayCount}}/{{totalGatewayCount}}</div>
+                  </a>
+                </div> 
+      
+              </div>
+      
+              <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 device-status-sectionB">
+                <div class="status-circle online" (click)="onGoToDevicePage('/app/gateway')"> 
+                  <span>{{activeGatewayCount}}</span>
+                </div>
+      
+                <div class="status-circle offline" (click)="onGoToDevicePage('/app/gateway')"> 
+                  <span>{{totalGatewayCount - activeGatewayCount}}</span>
+                </div>
+              </div>
+      
+            </div>
+            <div class="row footer">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <a class="float-right" (click)="onGoToDevicePage('app/gateway/addGateway')">
+                  <i class="glyphicon glyphicon-plus text-white"></i> 
+                </a>
+              </div>
+            </div>
+            
+          </div>
+        </section>
+    </div>
+
+    
+
+    <!-- <div class="col-md-3 col-sm-12 col-xs-12">
+
+      <section 
           class="mx-auto"
           widgster
           [optionsControl]="false"
@@ -14,29 +116,34 @@
           [collapseControl]="false"
           [closeControl]="false"
           titleClass="mt-0">
-              <div class="widget-content">
-                  <div class="header">
-                    <img src="assets/img/phoenix/humidity.svg" alt="Sensor">
-                    <span>Sensor</span>
-                    <a routerLink="/app/sensor">
-                      <div class="counter">{{activeSensorCount}}/{{totalSensorCount}}</div>
-                    </a>
-                  </div>
-        
-                  <div class="footer">
-                    <a class="float-right" (click)="addDeviceNav('app/sensor/addSensor')">
-                      <i class="glyphicon glyphicon-plus text-white"></i> 
-                    </a>
-                  </div>
-              </div>
+          <div id="highchart-donutchart" style="height: 110px;width: 200px;" ></div>
       </section>
 
-    </div>
+    </div> -->
 
-    <div class="col-md-3 col-sm-12 col-xs-12">
+    <!--  <div class="col-md-3 col-sm-12 col-xs-12"> 
 
       <section 
           class="mx-auto"
+          widgster
+          [optionsControl]="false"
+          [reloadControl]="false"
+          [fullscreenControl]="false"
+          [collapseControl]="false"
+          [closeControl]="false"
+          titleClass="mt-0">
+          <div id="donutchart"></div>
+      </section>
+
+    </div> -->
+
+  </div>
+  
+  <!-- <div class="row">
+    <div class="col-md-3 col-sm-12 col-xs-12">
+
+      <section 
+          class="mx-auto device-tile"
           widgster
           [optionsControl]="false"
           [reloadControl]="false"
@@ -54,7 +161,7 @@
                   </div>
         
                   <div class="footer">
-                    <a class="float-right" (click)="addDeviceNav('app/gateway/addGateway')">
+                    <a class="float-right" (click)="onGoToDevicePage('app/gateway/addGateway')">
                       <i class="glyphicon glyphicon-plus text-white"></i>
                     </a>
                   </div>
@@ -62,83 +169,215 @@
       </section>
 
     </div>
+  </div> -->
 
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+
+      <section 
+        class="mx-auto"
+        widgster
+        [optionsControl]="false"
+        [reloadControl]="false"
+        [fullscreenControl]="false"
+        [collapseControl]="false"
+        [closeControl]="false"
+        titleClass="mt-0">
+          <div id="chartdiv" style="width: 100%; height: 500px"></div> 
+      </section>
+
+      
+    </div>
   </div>
-  <!-- <div id="world-map" style="width: 600px; height: 400px"></div> -->
-    <!-- <div class="row">
-        <div class="col-lg-12 col-12">
-            <section 
-                class="mx-auto"
-                widgster
-                [optionsControl]="false"
-                [reloadControl]="false"
-                [fullscreenControl]="false"
-                [collapseControl]="false"
-                [closeControl]="false"
-                titleClass="mt-0">
-                    <div class="widget-content dashboard-counters-view">
-                        <div class="counters">
-                            <a class="counter navigation-link" routerLink="/app/sensor">
-                                <span class="counter-label">Sensors</span>
-                                <span class="counter-value">{{activeSensorCount}}/{{totalSensorCount}}</span>
-                            </a>
-                            <a class="counter navigation-link" routerLink="/app/gateway">
-                                <span class="counter-label">Gateways</span>
-                                <span class="counter-value">{{activeGatewayCount}}/{{totalGatewayCount}}</span>
-                            </a>
-                        </div>
-                    </div>
-            </section>
-        </div>
-    </div> -->
 
-    <!-- <div class="row">
-        <div class="col-sm">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                  <h5 class="card-title">Add a Gateway:</h5>
-                  <hr>
-                  <a class="btn btn-primary" (click)="addDeviceNav('app/gateway/addGateway')">
-                    <i class="glyphicon glyphicon-plus text-white"></i>
-                  </a>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                  <h5 class="card-title">Add a Sensor:</h5>
-                  <hr>
-                  <a class="btn btn-primary" (click)="addDeviceNav('app/sensor/addSensor')">
-                    <i class="glyphicon glyphicon-plus text-white"></i>
-                  </a>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm"></div>
-    </div> -->
+  <div class="row">
 
-    <!-- <div class="row">
-        <div class="col-lg-6 col-12">
-            <div class="control">
-                <input class="input is-medium"
-                       placeholder="Search..."
-                       [formControl]="control"
-                       [appAutocomplete]="autocomplete">
+    <div class="col-md-4 col-sm-12 col-xs-12">
+      <section 
+        class="mx-auto"
+        widgster
+        [optionsControl]="false"
+        [reloadControl]="false"
+        [fullscreenControl]="false"
+        [collapseControl]="false"
+        [closeControl]="false"
+        titleClass="mt-0">
+        <header>
+          <div class="title ng-tns-c105-81 ">
+            <h6>
+              <div>
+                <h4>Today's Tasks <span class="badge badge-pill badge-success fw-bold pull-right mt-xs"> 4 </span></h4>
+                <p class="mb-0"><small class="text-primary"> 0 of 4 completed </small></p>
               </div>
-              
-              <p style="color: black; font-size: 18px; margin-bottom: 10px;">{{control.value}}</p>
-              
-              <app-autocomplete-input-bar #autocomplete="appAutocomplete">
-                <ng-template appAutocompleteContent>
-                  <ng-container *ngIf="(options | filter: control.value) as result">
-                    <app-autocomplete-option *ngFor="let option of result" [value]="option.label">
-                      {{ option.label }}
-                    </app-autocomplete-option>
-                    <app-autocomplete-option class="no-result" *ngIf="!result.length">No result...</app-autocomplete-option>
-                  </ng-container>
-                </ng-template>
-              </app-autocomplete-input-bar> 
+            </h6>
+          </div>
+        </header>
+        <div class="widget-content-wrapper ">
+          <div class="widget-body task-container mt">
+            <div class="widget-content">
+              <div>
+                <div class="d-flex align-items-start">
+                  <div class="abc-checkbox abc-checkbox-success d-flex">
+                    <input type="checkbox" id="checkbox0">
+                    <label for="checkbox0"></label>
+                  </div>
+                  <div class="task-content pl-2">
+                    <p class="mb-xs"><small >Meeting</small></p>
+                    <h6 class="fw-semi-bold">Meeting with Andrew Piker</h6>
+                    <p ><small>9:00</small></p>
+                  </div>
+                </div>
+              </div>
+              <div class="ng-star-inserted" style="">
+                <div class="d-flex align-items-start">
+                  <div class="abc-checkbox abc-checkbox-success d-flex">
+                    <input type="checkbox" id="checkbox1">
+                    <label for="checkbox1"></label>
+                  </div>
+                  <div class="task-content pl-2">
+                    <p class="mb-xs"><small>Call</small></p>
+                    <h6 class="fw-semi-bold">Call with HT Company</h6>
+                    <p><small>12:00</small></p>
+                  </div>
+                </div>
+              </div>
+              <div class="ng-star-inserted" style="">
+                <div class="d-flex align-items-start">
+                  <div class="abc-checkbox abc-checkbox-success d-flex">
+                    <input type="checkbox" id="checkbox2">
+                    <label for="checkbox2"></label>
+                  </div>
+                  <div class="task-content pl-2">
+                    <p class="mb-xs"><small>Meeting</small></p>
+                    <h6 class="fw-semi-bold">Meeting with Zoe Alison</h6>
+                    <p ><small>14:00</small></p>
+                  </div>
+                </div>
+              </div>
+              <div style="">
+                <div class="d-flex align-items-start">
+                  <div class="abc-checkbox abc-checkbox-success d-flex">
+                    <input type="checkbox" id="checkbox3">
+                    <label for="checkbox3"></label>
+                  </div>
+                  <div class="task-content pl-2">
+                    <p class="mb-xs"><small>Interview</small></p>
+                    <h6 class="fw-semi-bold">Interview with HR</h6>
+                    <p ><small>15:00</small></p>
+                  </div>
+                </div>
+              </div>
+              <button class="btn btn-transparent w-100 text-center ng-tns-c105-81"> See All <i class="la la-arrow-down"></i></button>
+            </div>
+          </div>
         </div>
-    </div> -->
+      </section>
+    </div>
+
+    <div class="col-md-4 col-sm-12 col-xs-12">
+
+      <section 
+        class="mx-auto"
+        widgster
+        [optionsControl]="false"
+        [reloadControl]="false"
+        [fullscreenControl]="false"
+        [collapseControl]="false"
+        [closeControl]="false"
+        titleClass="mt-0">
+          <header>
+            <div class="title">
+              <h4>Notifications <span class="badge badge-pill badge-success fw-bold pull-right mt-xs"> 6 </span></h4>
+            </div>
+          </header>
+          <div class="widget-content-wrapper">
+            <div class="widget-body analytics-notifications w-100 mt-4">
+              <div class="widget-content">
+                <div class="d-flex align-items-start" key="0" style="">
+                  <i class="la la-thumbs-up mr text-primary"></i>
+                  <p>Ken <span classname="fw-semi-bold">accepts</span> your invitation</p>
+                </div>
+                <div class="d-flex align-items-start" key="1" style="">
+                  <i class="la la-file mr text-success"></i>
+                  <p>Report from LT Company</p>
+                </div>
+                <div class="d-flex align-items-start" key="2" style="">
+                  <i class="la la-envelope mr text-danger"></i>
+                  <p>4 <span classname="fw-semi-bold">Private</span> Mails</p>
+                </div>
+                <div class="d-flex align-items-start" key="3" style="">
+                  <i class="la la-comment mr text-success"></i>
+                  <p>3 <span classname="fw-semi-bold">Comments</span> to your Post</p>
+                </div>
+                <div class="d-flex align-items-start" key="4" style="">
+                  <i class="la la-cog mr text-light"></i>
+                  <p>New <span classname="fw-semi-bold">Version</span> of RNS app</p>
+                </div>
+                <div class="d-flex align-items-start" key="5" style="">
+                  <i class="la la-bell mr text-info"></i>
+                  <p class="mb-0">15 <span classname="fw-semi-bold">Notifications</span> from Social Apps</p>
+                </div>
+              </div>
+            </div>
+          </div>
+      </section>
+      
+    </div>
+
+    <div class="col-md-4 col-sm-12 col-xs-12">
+
+      <section 
+        class="mx-auto"
+        widgster
+        [optionsControl]="false"
+        [reloadControl]="false"
+        [fullscreenControl]="false"
+        [collapseControl]="false"
+        [closeControl]="false"
+        titleClass="mt-0">
+          <header>
+            <div class="title">
+              <h6>Server <span class="fw-semi-bold">Overview</span></h6>
+            </div>
+          </header>
+          <div class="widget-content-wrapper">
+            <div class="widget-body">
+              <div class="widget-content">
+                <div class="clearfix fs-mini">
+                  <span class="pull-right m-0 fw-semi-bold">CPU</span>
+                  <span class="fs-mini">60% / 37°C / 3.3 Ghz</span>
+                </div>
+                <div class="progress progress-xs">
+                  <div class="progress-bar bg-primary progress-xs" style="width: 70%;"></div>
+                </div>
+                <div class="clearfix fs-mini mt">
+                  <span class="pull-right m-0 fw-semi-bold">Mem</span>
+                  <span class="fs-mini">29% / 4GB (16 GB)</span>
+                </div>
+                <div class="progress progress-xs">
+                  <div class="progress-bar progress-xs bg-warning" style="width: 29%;"></div>
+                </div>
+                <div class="clearfix fs-mini mt">
+                  <span class="pull-right m-0 fw-semi-bold">LAN</span>
+                  <span class="fs-mini">6 Mb/s <i class="fa fa-caret-down"></i> &nbsp; 3 Mb/s <i class="fa fa-caret-up"></i></span>
+                </div>
+                <div class="progress progress-xs">
+                  <div class="progress-bar progress-xs bg-danger" style="width: 48%;"></div>
+                </div>
+                <div class="clearfix fs-mini mt">
+                  <span class="pull-right m-0 fw-semi-bold">Access</span>
+                  <span class="fs-mini">17 Mb/s <i class="fa fa-caret-up"></i> &nbsp; (+18%)</span>
+                </div>
+                <div class="progress progress-xs">
+                  <div class="progress-bar progress-xs bg-success" style="width: 64%;">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </section>
+      
+    </div>
+  </div>
+  
   </div>

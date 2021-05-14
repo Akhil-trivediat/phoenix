@@ -49,26 +49,24 @@
                     </app-filter-bar>
                 </div>
             </div>
-            <div class="analytics-section">
-                <div class="graph-section">
+            <div class="row analytics-section">
+                <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 graph-section">
                     <div id="highChart" ></div>
                 </div>
-
-                <div class="details-section">
-
+                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 details-section">
                     <form name="sensorDetailsForm" [formGroup]="sensorDetailsForm">
                         <div class="form-group row">
                             <label for="sensorID"  class="col-form-label">Sensor ID:</label>
                             
-                            <div class="col-sm-5">
+                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
                                 <input type="text" class="form-control input-transparent pl-3" formControlName="sensorID"/>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="readingValue"  class="col-form-label">Reading Value:</label>
+                            <label for="readingValue"  class="col-form-label">Current Value:</label>
 
-                            <div class="col-sm-5">
+                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
                                 <input type="text"  class="form-control input-transparent pl-3" formControlName="readingValue"/>
                             </div>
                         </div>
@@ -76,7 +74,7 @@
                         <div class="form-group row">
                             <label for="lastCommDate"  class="col-form-label">Last Communication Date:</label>
 
-                            <div class="col-sm-5">
+                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
                                 <input type="text"  class="form-control input-transparent pl-3" formControlName="lastCommDate"/>
                             </div>
                         </div>
@@ -84,7 +82,7 @@
                         <div class="form-group row">
                             <label for="gatewayName"  class="col-form-label">Gateway Name:</label>
 
-                            <div class="col-sm-5">
+                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
                                 <input type="text"  class="form-control input-transparent pl-3" formControlName="gatewayName"/>
                             </div>
                         </div>
@@ -92,7 +90,7 @@
                         <div class="form-group row">
                             <label for="minThres"  class="col-form-label">Minimum Threshold:</label>
 
-                            <div class="col-sm-5">
+                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
                                 <input type="text"  class="form-control input-transparent pl-3" formControlName="minThres"/>
                             </div>
                         </div>
@@ -100,26 +98,73 @@
                         <div class="form-group row">
                             <label for="maxThres"  class="col-form-label">Maximum Threshold:</label>
 
-                            <div class="col-sm-5">
+                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
                                 <input type="text"  class="form-control input-transparent pl-3" formControlName="maxThres"/>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="location"  class="col-form-label">Location:</label>
+                            <label for="location"  class="col-form-label">Sensor Type:</label>
 
-                            <div class="col-sm-5">
-                                <input type="text"  class="form-control input-transparent pl-3" formControlName="location"/>
+                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="sensorType"/>
                             </div>
                         </div>
 
+                        <!-- <div class="form-group row">
+                            <label for="location"  class="col-form-label">Location:</label>
+
+                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="location"/>
+                            </div>
+                        </div> -->
+
                     </form>
-                    
                 </div>
             </div>
+            
         </div>
          
     </div>
+
+    <section 
+        class="mx-auto"
+        widgster
+        [optionsControl]="false"
+        [reloadControl]="false"
+        [fullscreenControl]="false"
+        [collapseControl]="false"
+        [closeControl]="false"
+        titleClass="mt-0"
+        bodyclass="widget-table-overflow">
+            <header>
+                <h5 class="title float-left">Sensor Data</h5>
+                <angular2csv [data]="downloadCSVdata" filename={{CSVfilename}} [options]="downloadCSVoptions" class="downloadCSV float-right"></angular2csv>
+            </header>
+            <div class="widget-content">
+                <ngx-datatable class="table table-striped table-hover" [rows]="sensorDataTable"
+                [columnMode]="columnMode.force" [headerHeight]="50" [footerHeight]="50" 
+                [rowHeight]="'auto'" [limit]="10" [sorts]="[{prop: 'timestamp', dir: 'desc'}]">
+                    <ngx-datatable-column name="Timestamp" prop="timestamp">
+                        <ng-template let-column="column" ngx-datatable-header-template>
+                            <span>{{column.name}}</span>
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+                        {{value}}
+                        </ng-template>
+                    </ngx-datatable-column>
+            
+                    <ngx-datatable-column name="Temperature (°C)" prop="temperature">
+                        <ng-template let-column="column" ngx-datatable-header-template>
+                            <span>{{column.name}}</span>
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+                        {{value}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+            </div>
+    </section>
 
     <!-- <div class="jumbotron jumbotron-fluid">
         <div class="sensor-details">
@@ -237,55 +282,6 @@
             </form>
         </div>
     </div> -->
-
-    <section 
-        class="mx-auto"
-        widgster
-        [optionsControl]="false"
-        [reloadControl]="false"
-        [fullscreenControl]="false"
-        [collapseControl]="false"
-        [closeControl]="false"
-        titleClass="mt-0"
-        bodyclass="widget-table-overflow">
-            <header>
-                <h5 class="title float-left">Sensor Data</h5>
-                <angular2csv [data]="downloadCSVdata" filename={{CSVfilename}} [options]="downloadCSVoptions" class="downloadCSV float-right"></angular2csv>
-            </header>
-            <div class="widget-content">
-                <ngx-datatable class="table table-striped table-hover" [rows]="sensorDataTable"
-                [columnMode]="columnMode.force" [headerHeight]="50" [footerHeight]="50" 
-                [rowHeight]="'auto'" [limit]="10" [sorts]="[{prop: 'timestamp', dir: 'desc'}]">
-                    <ngx-datatable-column name="Timestamp" prop="timestamp">
-                        <ng-template let-column="column" ngx-datatable-header-template>
-                            <span>{{column.name}}</span>
-                        </ng-template>
-                        <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
-                        {{value}}
-                        </ng-template>
-                    </ngx-datatable-column>
-            
-                    <ngx-datatable-column name="Temperature (°C)" prop="temperature">
-                        <ng-template let-column="column" ngx-datatable-header-template>
-                            <span>{{column.name}}</span>
-                        </ng-template>
-                        <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
-                        {{value}}
-                        </ng-template>
-                    </ngx-datatable-column>
-                </ngx-datatable>
-                <!-- <ngx-datatable 
-                    class="table table-striped table-hover" 
-                    [rows]="sensorDataTable"
-                    [columns]="columns"
-                    [columnMode]="columnMode.force" 
-                    [headerHeight]="50" 
-                    [footerHeight]="50" 
-                    [rowHeight]="'auto'" 
-                    [limit]="10">
-                </ngx-datatable> -->
-            </div>
-    </section>
     
     <!-- <div class="form-group row mt">
         <label for="gatewayName"  class="col-form-label">Gateway Name:</label>

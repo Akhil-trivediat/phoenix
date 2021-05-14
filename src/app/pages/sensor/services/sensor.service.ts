@@ -27,18 +27,27 @@ export class SensorService {
     return this.getSensorDetailsbyID(sensorID).pipe(
         map(
             response => {
-                return {
-                    id: response.sensorid,
-                    name: response.sensorname,
-                    gatewayName: response.gatewayname,
-                    readingValue: parseFloat(response.readingValue).toFixed(2) + " " + response.readingUnit,
-                    lastCommDate: formatDate(response.lastCommDate,'MM/dd/yyyy,HH:mm',this.locale),
-                    location: "",
-                    minThreshold: response.minThreshold,
-                    maxThreshold: response.maxThreshold,
-                    status:  response.status,
-                    uom: response.readingUnit
+
+              let currReading: string = "";
+
+              if(response.readingValue) {
+                if(!response.readingValue.toString().includes("e")) {
+                  currReading = parseFloat(response.readingValue).toFixed(2) + " " + response.readingUnit;
                 }
+              }
+
+              return {
+                  id: response.sensorid,
+                  name: response.sensorname,
+                  gatewayName: response.gatewayname,
+                  readingValue: currReading,
+                  lastCommDate: formatDate(response.lastCommDate,'MM/dd/yyyy,HH:mm',this.locale),
+                  location: "",
+                  minThreshold: response.minThreshold,
+                  maxThreshold: response.maxThreshold,
+                  status:  response.status,
+                  uom: response.readingUnit
+              }
             }
         )
     );

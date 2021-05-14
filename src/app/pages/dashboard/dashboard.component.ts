@@ -225,11 +225,14 @@ export class DashboardComponent implements OnInit {
     let polygonTemplate = polygonSeries.mapPolygons.template;
     polygonTemplate.tooltipText = "{name}";
     polygonTemplate.polygon.fillOpacity = 0.6;
+    polygonTemplate.fill = am4core.color("rgb(121, 136, 146)"); //#798892 #d2d2d2
+    polygonSeries.fill = am4core.color("rgb(121, 136, 146)");
+    polygonTemplate.stroke = am4core.color("rgb(41, 54, 71)"); //#293647
 
 
     // Create hover state and set alternative fill color
     let hs = polygonTemplate.states.create("hover");
-    hs.properties.fill = chart.colors.getIndex(0);
+    hs.properties.fill = am4core.color("rgb(41, 50, 58)"); //#222D3C
 
     // Add image series
     let imageSeries = chart.series.push(new am4maps.MapImageSeries());
@@ -239,16 +242,24 @@ export class DashboardComponent implements OnInit {
     imageSeries.mapImages.template.propertyFields.url = "url";
 
     let circle = imageSeries.mapImages.template.createChild(am4core.Circle);
-    circle.radius = 3;
-    circle.propertyFields.fill = "color";
+    circle.radius = 5;
+    circle.strokeWidth = 2;
+    circle.fill = am4core.color("rgb(255, 194, 71)");
+    circle.stroke = am4core.color("rgb(255, 255, 255)");
+
+    //circle.propertyFields.fill = "color";
+    
     circle.nonScaling = true;
 
     let circle2 = imageSeries.mapImages.template.createChild(am4core.Circle);
-    circle2.radius = 3;
-    circle2.propertyFields.fill = "color";
+    circle2.radius = 5;
+    circle2.strokeWidth = 2;
+    circle2.fill = am4core.color("rgb(255, 194, 71)");
+    circle2.stroke = am4core.color("rgb(255, 255, 255)");
+    
 
     circle2.events.on("inited", function(event){
-      animateBullet(event.target);
+      //animateBullet(event.target);
     })
 
     function animateBullet(circle) {
@@ -264,8 +275,37 @@ export class DashboardComponent implements OnInit {
     {
       "title": "Boston",
       "latitude": 42.364506,
-      "longitude": -71.038887,
-      "color": '#61D85E'
+      "longitude": -71.038887
+    },
+    {
+      "title": "Toronto",
+      "latitude": 43.651070,
+      "longitude": -79.347015
+    },
+    {
+      "title": "New York",
+      "latitude": 40.730610,
+      "longitude": -73.935242
+    },
+    {
+      "title": "Los Angeles",
+      "latitude": 34.052235,
+      "longitude": -118.243683
+    },
+    {
+      "title": "Ottawa",
+      "latitude": 45.334904,
+      "longitude": -75.724098
+    },
+    {
+      "title": "San Francisco",
+      "latitude": 37.733795,
+      "longitude": -122.446747
+    },
+    {
+      "title": "Ohio",
+      "latitude": 40.001633,
+      "longitude": -83.019707
     },
     // {
     //   "title": "Brussels",
@@ -478,7 +518,7 @@ export class DashboardComponent implements OnInit {
     }
 
     let IOTParams = {
-      topic: "config_sub_tt_message",
+      topic: gatewayID + "/config_sub_tt_message",
       payload: deviceConfigJSON
     }
 

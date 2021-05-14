@@ -29,8 +29,19 @@
 .status-offline{
   background: #FF8253 !important;
 }
-.gi-2x{font-size: 2em;}
 .time-cl{
   color: #adb5bd;
   font-size: 1em;
 }
+.tooltip .tooltiptext {
+  opacity: 0;
+  transition: opacity 1s;
+}
+.tooltip:hover .tooltiptext {
+  opacity: 1;
+}
+.lg-2{
+  font-size: 2em !important;
+  width: 19px !important;
+}
+

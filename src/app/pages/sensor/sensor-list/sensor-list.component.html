@@ -10,6 +10,64 @@
         </div>
     </div>
 </div>
+<!--<div class="btn-toolbar">-->
+<!--  <a (click)="openDialog('Edit', row)">-->
+<!--    <span class="glyphicon glyphicon-edit"></span>-->
+<!--  </a>-->
+<!--  <a (click)="openDialog('Delete', row)">-->
+<!--    <span class="glyphicon glyphicon-trash"></span>-->
+<!--  </a>-->
+<!--</div>-->
+<div class="row">
+  <div class="col-12 col-sm-4 col-md-4">
+   <div class="card mb-xlg border-0">
+     <div class="card-body" *ngFor="let item of sensorsArray">
+       <div class="d-flex flex-row-reverse">
+        <div class="btn-toolbar">
+          <a (click)="openDialog('Edit', item)">
+            <span class="glyphicon glyphicon-edit"></span>
+          </a>
+          <a (click)="openDialog('Delete', item)">
+           <span class="glyphicon glyphicon-trash"></span>
+         </a>
+        </div>
+       </div>
+       <br>
+       <div class="d-flex justify-content-between mb-lg">
+        <a href="#" class="fw-semi-bold text-success">Sensor Id:</a>
+         <a [routerLink]="['id/', item.sensorid]">{{item.sensorid}}</a>
+<!--        <a class="fw-semi-bold text-muted ml-sm">Sensor1</a>-->
+       </div>
+      <div class="d-flex justify-content-between mb-lg">
+        <a href="#" class="fw-semi-bold text-success">Sensor Name:</a>
+        <a class="fw-semi-bold text-muted ml-sm">{{item.sensorName}}</a>
+      </div>
+       <div class="d-flex justify-content-between mb-lg">
+         <a class="fw-semi-bold text-success">Status</a>
+<!--         <div class="device-status-property" *ngIf="value === 'Online'">-->
+<!--           <span class="connection-status connected text-success"></span>-->
+<!--         </div>-->
+<!--         <div class="device-status-property" *ngIf="value === 'Offline'">-->
+<!--           <span class="connection-status connected text-danger"></span>-->
+<!--         </div>-->
+         <a class="fw-semi-bold text-muted ml-sm">online</a>
+       </div>
+       <div class="d-flex justify-content-between mb-lg">
+         <a href="#" class="fw-semi-bold text-success">Gateway Id</a>
+         <a  class="fw-semi-bold text-muted ml-sm">{{item.gateway}}</a>
+       </div>
+<!--       <div class="d-flex justify-content-between mb-lg">-->
+<!--         <a href="#" class="fw-semi-bold text-success">Activation Date</a>-->
+<!--         <a  class="fw-semi-bold text-muted ml-sm"> 03/23/2021,18:20</a>-->
+<!--       </div>-->
+       <div class="d-flex justify-content-between mb-lg">
+         <a href="#" class="fw-semi-bold text-success">Last connected</a>
+         <a class="fw-semi-bold text-muted ml-sm">{{item.lastconnected}}</a>
+       </div>
+     </div>
+   </div>
+  </div>
+</div>
 
 <ngx-datatable class="table table-striped table-hover" [rows]="sensorsArray"
     [columnMode]="columnMode.force" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" >
@@ -20,7 +78,7 @@
             </a>
         </ng-template>
     </ngx-datatable-column>
-    
+
     <ngx-datatable-column name="sensor Name" prop="sensorName">
         <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
             {{value}}
@@ -34,7 +92,7 @@
             </div>
             <div class="device-status-property" *ngIf="value === 'Offline'">
                 <span class="connection-status connected text-danger"></span>
-            </div> 
+            </div>
         </ng-template>
     </ngx-datatable-column>
 

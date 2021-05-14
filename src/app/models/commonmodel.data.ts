@@ -14,7 +14,9 @@ export interface Sensor {
   status: string,
   gateway: string,
   activationdate: string,
-  lastconnected: string
+  lastconnected: string,
+  sensorType: string,
+  currentReading: string
 }
 
 export interface Gateway {

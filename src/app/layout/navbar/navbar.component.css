@@ -1,0 +1,52 @@
+/* .location-hierarchy-form input,
+.location-hierarchy-form .input-group-addon {
+    background-color: #222D3C;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 20%), 0 2px 3px rgb(0 0 0 / 5%) !important;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.location-hierarchy-form input:active,
+.location-hierarchy-form input:focus,
+.location-hierarchy-form input:hover{
+    color: #FFFFFF;
+    background-color: #222D3C;
+    border-color: #222D3C;
+    z-index: 2;
+}
+
+.btn-group .btn:active {
+    box-shadow: inset 0 3px 5px rgb(0 0 0 / 13%);
+}
+
+.location-modal ::ng-deep .modal-dialog {
+    left: 1px;
+}
+
+.location-modal .modal-header {
+    background-color: #293647;
+}
+
+.location-modal .modal-title {
+    color: #fff;
+}
+
+.location-modal .modal-body {
+    background-color: #293647;
+    color: #fff;
+} */
+
+.location-hierarchy-form {
+    width: 186px;
+}
+
+
+.location-hierarchy-form ::ng-deep .ng-value  {            
+    /* background-color: #fff !important; */
+    color: #fff !important;
+}

@@ -11,8 +11,6 @@ import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { DatepickerModule } from 'ngx-bootstrap/datepicker';
-import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
@@ -34,7 +32,19 @@ import { ResetPasswordComponent } from './shared/component/reset-password/reset-
 import { ForgotPasswordComponent } from './pages/forgotpassword/forgotpassword.component';
 import { DialogComponent } from './pages/account/users/dialog/dialog.component';
 import { NgxDialogComponent } from './shared/component/ngx-dialog/ngx-dialog.component';
+import { FilterbarModelComponent } from './shared/component/filterbar-model/filterbar-model.component';
 import { AlertComponentModule } from './shared/component/alert/alert.module';
+import { SharedModule } from './shared/component/shared.module';
+
+import { ReactiveFormsModule } from '@angular/forms';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { AutocompleteInputBarComponent } from './pages/dashboard/autocomplete-input-bar/autocomplete-input-bar.component';
+import { FilterPipe } from './pages/dashboard/autocomplete-input-bar/filter.pipe';
+import { DashboardComponentModule } from './pages/dashboard/dashboard.module';
+
+
+// import { AutocompleteInputBarModule } from './pages/dashboard/autocomplete-input-bar/autocomplete-input-bar.module';
+// import { DashboardComponentModule } from './pages/dashboard/dashboard.module';
 
 const APP_PROVIDERS = [
   CheckAllService,
@@ -47,7 +57,8 @@ const APP_PROVIDERS = [
   declarations: [
     AppComponent,
     ResetPasswordComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    //FilterPipe
   ],
   imports: [
     AmplifyAngularModule,
@@ -66,8 +77,6 @@ const APP_PROVIDERS = [
     CollapseModule.forRoot(),
     PopoverModule.forRoot(),
     TooltipModule.forRoot(),
-    DatepickerModule.forRoot(),
-    TimepickerModule.forRoot(),
     ModalModule.forRoot(),
     TabsModule.forRoot(),
     AccordionModule.forRoot(),
@@ -76,7 +85,11 @@ const APP_PROVIDERS = [
     ToastrModule.forRoot(),
     UtilsModule,
     NgxChartsModule,
-    AlertComponentModule
+    AlertComponentModule,
+    SharedModule,
+    DashboardComponentModule,
+    ReactiveFormsModule,
+    OverlayModule
   ],
   providers: [
     APP_PROVIDERS,
@@ -89,7 +102,9 @@ const APP_PROVIDERS = [
   ],
   entryComponents: [
     DialogComponent,
-    NgxDialogComponent
+    NgxDialogComponent,
+    FilterbarModelComponent,
+    AutocompleteInputBarComponent
   ]
 })
 export class AppModule { }

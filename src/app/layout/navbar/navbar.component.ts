@@ -1,33 +1,63 @@
-import { Component, Output, EventEmitter, Renderer2, ElementRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Output, EventEmitter, Renderer2, ElementRef, ChangeDetectionStrategy, OnInit, TemplateRef } from '@angular/core';
+import { FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
-import { Auth } from 'aws-amplify';
 import { AppService } from '../../app.service';
-//import { LoginService } from '../../pages/login/login.service';
-import { AuthService } from '../../shared/service/auth.service'
+import { AuthService } from '../../shared/service/auth.service';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+
 @Component({
   selector: '[navbar]',
   templateUrl: './navbar.template.html',
+  styleUrls: ['./navbar.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class Navbar {
+export class Navbar implements OnInit {
   @Output() changeSidebarPosition = new EventEmitter();
   @Output() changeSidebarDisplay = new EventEmitter();
-  @Output() openSidebar = new EventEmitter();
+  @Output() openSidebar = new EventEmitter(); 
 
-  display: string = 'Left';
+  display: string = 'Left'; 
   radioModel: string = 'Left';
   searchFormState: boolean = true;
   settings: any = {
     isOpen: false
   };
 
+  locationhierarchyform:  any;
+
+  modalRef: BsModalRef;
+
+  cities = [
+    { id: 1, name: "Corporate" },
+    { id: 2, name: "Loc1" },
+    { id: 3, name: "Loc2" }
+  ];
+  selectedCityId: string = null;
+
   constructor(
     private renderer: Renderer2,
     private el: ElementRef,
     public router: Router,
-    private appService: AppService,
-    private authService: AuthService
+    private authService: AuthService,
+    private modalService: BsModalService
   ) {}
+
+  openLocationModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  ngOnInit() {
+    this.selectedCityId = "Corporate";
+    this.prepareLocationHierarchyForm();
+  }
+
+  prepareLocationHierarchyForm() {
+    this.locationhierarchyform = new FormGroup({
+      locationname: new FormControl({value: "Corporate", disabled: true}, [Validators.required])
+    });
+  }
 
   sidebarPosition(position): void {
     this.changeSidebarPosition.emit(position);

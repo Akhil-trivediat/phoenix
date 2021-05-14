@@ -26,8 +26,11 @@
 
 .sensorForm label.col-form-label,
 .sensor-graph label.col-form-label {
-    width: 15%;
-    margin-left: 15px;
+    /* width: 15%;
+    margin-left: 15px; */
+    /* width: auto;
+    margin-right: 1em; */
+    width: 46%;
 }
 
 .sensorForm h5 {
@@ -40,7 +43,8 @@
 
 .sensorForm .device-input,
 .sensor-graph .device-input {
-    width: 30%;
+    /* width: 30%; */
+    display: inline-block;
 }
 
 .sensor-details-page h5 {
@@ -128,4 +132,75 @@
 
 .sensor-multi-select {
     margin-bottom: 15px;
+}
+
+/* Download CSV styles */
+
+.downloadCSV ::ng-deep button {
+    color: #fff;
+    background-color: #1D8DFF;
+    border-color: #1D8DFF;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 15%), 0 1px 1px rgb(0 0 0 / 8%);
+    display: inline-block;
+    font-weight: 300;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.25;
+    border-radius: 0.25rem;
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+/* Filter bar styles */
+
+.filter-bar {
+    margin-bottom: 20px;
+}
+
+.filter-bar > li {
+    display: inline-block;
+    margin-right: 15px;
+    padding: 10px 20px;
+    min-width: 10%;
+    border-radius: 0.25rem;
+    text-align: center;
+    background-color: #222D3C;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 20%), 0 2px 3px rgb(0 0 0 / 5%);
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.jumbotron {
+    padding: 1em 1em 3em;
+}
+
+.jumbotron-header {
+    padding: 1em 2em;
+}
+
+/* Graph Section */
+
+.analytics-section > .details-section label {
+    width: 46%;
+    margin-left: 15px;
+    line-height: 26px;
+    font-size: 1.1rem;
+}
+
+.analytics-section > .details-section input {
+    background-color: transparent;
+    width: auto;
+    padding: 0 !important;
+    color: #FFFFFF;
 }

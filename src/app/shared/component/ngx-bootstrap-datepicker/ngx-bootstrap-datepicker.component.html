@@ -1,0 +1,65 @@
+
+<div class="date-time-picker">
+
+    <div class="date-time-range">
+
+      <span class="glyphicon glyphicon-glyph-calendar calendar-icon"></span>
+
+      <div class="datepicker-input">
+        <input type="text"
+        placeholder="Daterangepicker"
+        class="form-control"
+        bsDaterangepicker
+        [bsConfig]="{ rangeInputFormat: 'MM/DD/YYYY, hh:mm:ss A' , dateInputFormat: 'MM/DD/YYYY, hh:mm:ss A', showWeekNumbers: false, isAnimated: true, adaptivePosition: true }"
+        [(ngModel)]="bsRangeValue"
+        class="form-control input-transparent"
+        (bsValueChange)="onValueChange($event)"
+        >
+      </div>
+
+    </div>
+    
+</div>
+
+<!-- <div class="row float-right date-time-picker">
+ 
+  <div class="col-xs-12 col-12 col-md-12">
+    <span class="glyphicon glyphicon-glyph-calendar calendar-icon"></span>
+    <div class="start-date float-left"> 
+      <input type="text"
+        class="form-control input-transparent"
+        #dp="bsDatepicker"
+        bsDatepicker
+        placeholder="Start Date"
+        [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY, hh:mm:ss A', showWeekNumbers: false, isAnimated: true, adaptivePosition: true }"
+        (bsValueChange)="onStartDateChange($event)"
+        [bsValue]="startDateTime"
+        [(ngModel)]="startDateTime"
+        [maxDate]="maxStartDate"> 
+      <timepicker [(ngModel)]="startDateTime"></timepicker>
+    </div>
+    
+    <div class="end-date float-right">
+      <input type="text"
+        class="form-control input-transparent"
+        #dp="bsDatepicker"
+        bsDatepicker
+        placeholder="End Date"
+        [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY, hh:mm:ss A', showWeekNumbers: false, isAnimated: true, adaptivePosition: true }"
+        (bsValueChange)="onEndDateChange($event)"
+        [bsValue]="endDateTime"
+        [(ngModel)]="endDateTime"
+        [minDate]="minEndDate"
+        [maxDate]="maxEndDate">
+      
+    </div>
+  </div>
+  <div>
+    <button (click)="onSaveBtnClicked()" class="btn btn-m btn-primary">Save</button>
+  </div>
+</div> -->
+
+
+
+<!-- <pre>Time is: {{startDateTime}}</pre>
+    (ngModelChange)="timechanged()" -->

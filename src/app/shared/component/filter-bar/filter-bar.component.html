@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="filter-option datepicker col-xs-12 col-12 col-md-4">
+            <app-ngx-bootstrap-datepicker (onDateTimeChange)="onDateTimeChange($event)"></app-ngx-bootstrap-datepicker>
+        </div>
+        <div class="filter-option compare-sensor col-xs-12 col-12 col-md-3">
+            <ng-select
+                class="custom"
+                [items]="ngSelectItems"
+                [multiple]="true"
+                [closeOnSelect]="false"
+                [searchable]="false"
+                bindLabel="id"
+                placeholder="Compare sensor"
+                [(ngModel)]="selectedSensor"
+                (change)="onNgSelectChange($event)"
+                (add)="onNgSelectAdd($event)"
+                (remove)="onNgSelectRemove($event)"
+                (clear)="onNgSelectClear($event)">
+            </ng-select>
+        </div>
+    </div>
+</div>

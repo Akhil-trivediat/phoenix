@@ -50,3 +50,66 @@ hr {
     width: 650px;
     height: 500px;
 }
+
+section.device-tile {
+    padding: 10px 10px !important;
+}
+
+section .widget-content .header {
+    text-align: center;
+}
+
+section .widget-content .header img {
+    height: 42px;
+    width: 42px;
+}
+
+section .widget-content .header span {
+    display: inline-block;
+    margin: 0px 15px;
+    font-size: 2em;
+}
+
+section .widget-content .header a {
+    text-decoration: none;
+}
+
+section .widget-content .header .counter {
+    text-align: center;
+    font-size: 1.65em;
+    color: #FFFFFF;
+}
+
+section.device-tile .device-status-sectionB {
+    text-align: center;
+}
+
+section.device-tile .device-status-sectionB .status-circle {
+    height: 80px;
+    width: 80px;
+    border-radius: 40px;
+    display: inline-block;
+    margin-right: 3em;
+    text-align: center;
+    cursor: pointer;
+}
+
+section.device-tile .device-status-sectionB .status-circle.online {
+    border-color: #61D85E;
+    background-color: #61D85E;
+}
+
+section.device-tile .device-status-sectionB .status-circle.offline {
+    border-color: 1px solid #FF8253;
+    background-color: #FF8253;
+}
+
+section.device-tile .device-status-sectionB .status-circle span {
+    font-size: 2em;
+    line-height: 80px;
+}
+
+section .widget-content .footer {
+    padding: 0px 10px;
+    font-size: 1.5rem;
+}

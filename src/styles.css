@@ -1,3 +1,56 @@
 /* You can add global styles to this file, and also import other style files */
 /* @import "~@aws-amplify/ui/src/Theme.css";
 @import "~@aws-amplify/ui/src/Angular.css"; */
+
+@import "~@angular/cdk/overlay-prebuilt.css";
+
+body .bs-datepicker{
+    color: #f8f8f8;
+    background: #293647;
+    border-radius: 10px;
+}
+
+body .bs-datepicker-multiple {
+    border-radius: 0px;
+}
+
+body .bs-datepicker-head {
+    background-color: inherit !important;
+}
+
+body .bs-datepicker-body table th{
+    color: #ffffff;
+}
+
+body .bs-datepicker-body table td{
+    color: #ffffff; 
+}
+
+body .bs-datepicker-body table td span.is-other-month, 
+body .bs-datepicker-body table td.is-other-month span {
+    color: #ffffff;
+}
+
+body .theme-green .bs-datepicker-body table td span.selected, 
+body .theme-green .bs-datepicker-body table td.selected span, 
+body .theme-green .bs-datepicker-body table td span[class*=select-]:after, 
+body .theme-green .bs-datepicker-body table td[class*=select-] span:after {
+    background-color: rgba(0,0,0,.15);
+}
+
+body .bs-datepicker-body table td.is-highlighted:not(.disabled):not(.selected) span, 
+body .bs-datepicker-body table td span.is-highlighted:not(.disabled):not(.selected) {
+    background-color: #FFFFFF;
+    color: #293647
+}
+
+body .bs-datepicker-body table.days td.active:not(.select-start):before, 
+body .bs-datepicker-body table.days td.in-range:not(.select-start):before, 
+body .bs-datepicker-body table.days span.active:not(.select-start):before, 
+body .bs-datepicker-body table.days span.in-range:not(.select-start):before {
+    /* background: */
+}
+
+.content .content-footer {
+    text-align: center;
+}

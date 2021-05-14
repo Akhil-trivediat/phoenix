@@ -61,22 +61,51 @@ export class RequesterService {
     );
   }
 
-  getGraphRequest(path: string, params: any): Observable<any>{
-    let queryParams = params.ID;
-    return this.http.get<any>(environment.serverUrl + path + "?id=" + queryParams).pipe(
+  getSensorDetailsbyIDforGraph(path: string, params: any): Observable<any>{
+    let id = params.ID;
+    let startDate = params.startDate;
+    let endDate = params.endDate;
+    
+    startDate = startDate == "" ? new Date(Date.now() - 86400 * 1000).toISOString() : startDate;
+    endDate = endDate == "" ? new Date(Date.now()).toISOString() : endDate;
+
+    return this.http.get<any>(environment.serverUrl + path + `?id=${id}&startDate=${startDate}&endDate=${endDate}`).pipe(
       catchError((error) => {
         return this.handleExternalRequestException(error);
       })
     );
   }
 
-  getDashboardUrl(path: string, email: string) {
-    const url = environment.serverUrl + path + `?email=${email}`;
-    return this.http.get(url);
+  getDatamessagesbySensorIDasPromise(path: string, params: any):Promise<any> {
+
+    let id = params.ID;
+    let startDate = params.startDate;
+    let endDate = params.endDate;
+    
+    startDate = startDate == "" ? new Date(Date.now() - 86400 * 1000).toISOString() : startDate;
+    endDate = endDate == "" ? new Date(Date.now()).toISOString() : endDate;
+
+    return this.http.get<any>(environment.serverUrl + path + `?id=${id}&startDate=${startDate}&endDate=${endDate}`).pipe(
+      catchError((error) => {
+        return this.handleExternalRequestException(error);
+      })
+    ).toPromise();
+    
   }
 
   getGraphDataSyncRequest(path: string, params: any) {
-    let queryParams = params.ID;
-    return  this.http.get<any>(environment.serverUrl + path + "?id=" + queryParams).toPromise();
+    let id = params.ID;
+    let startDate = params.startDate;
+    let endDate = params.endDate;
+
+    startDate = startDate == "" ? new Date(Date.now() - 86400 * 1000).toISOString() : startDate;
+    endDate = endDate == "" ? new Date(Date.now()).toISOString() : endDate;
+    
+    return  this.http.get<any>(environment.serverUrl + path + `?id=${id}&startDate=${startDate}&endDate=${endDate}`).toPromise();
+  }
+
+  getDashboardUrl(path: string, email: string) {
+    const url = environment.serverUrl + path + `?email=${email}`;
+    return this.http.get(url);
   }
 }

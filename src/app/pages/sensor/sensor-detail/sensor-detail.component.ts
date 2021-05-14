@@ -204,7 +204,8 @@ export class SensorDetailComponent implements OnInit {
       location: new FormControl({value: '', disabled: true}, [Validators.required]),
       gatewayName: new FormControl({value: '', disabled: true}, [Validators.required]),
       minThres: new FormControl({value: '', disabled: true}, [Validators.required]),
-      maxThres: new FormControl({value: '', disabled: true}, [Validators.required])
+      maxThres: new FormControl({value: '', disabled: true}, [Validators.required]),
+      sensorType: new FormControl({value: '', disabled: true}, [Validators.required])
     }); 
 
     this.addSensorForm = new FormGroup({
@@ -222,7 +223,8 @@ export class SensorDetailComponent implements OnInit {
         location: sensorData.location,
         gatewayName: sensorData.gatewayName,
         minThres: sensorData.minThreshold + " " + sensorData.uom,
-        maxThres: sensorData.maxThreshold + " " + sensorData.uom
+        maxThres: sensorData.maxThreshold + " " + sensorData.uom,
+        sensorType: "M500"
       });
     }
   }
@@ -516,7 +518,8 @@ export class SensorDetailComponent implements OnInit {
       chart: {
         zoomType: 'xy',
         backgroundColor: this.$graph_backgroundcolor,
-        type: 'line'
+        type: 'line',
+        //height: (9 / 16 * 100) + '%' // 16:9 ratio
       },
       xAxis: {
         title: {
@@ -536,6 +539,8 @@ export class SensorDetailComponent implements OnInit {
       },
       yAxis: {
         tickPositioner: function () {
+          var positions = [];
+
           var minTick = Math.ceil(this.dataMin / 10) * 10;
           var maxTick = Math.ceil(this.dataMax / 10) * 10;
           var minThresh = +that.mapSensorDetailsData.minThreshold;
@@ -555,7 +560,7 @@ export class SensorDetailComponent implements OnInit {
           tickStart = tickStart - 10;
           tickEnd = tickEnd + 20;
 
-          var positions = [];
+          
           for(var i = tickStart ; i <= tickEnd ; i++) {
             if(i%10 == 0) {
               positions.push(i);
@@ -563,7 +568,7 @@ export class SensorDetailComponent implements OnInit {
           }
           return positions;
         },
-        tickInterval: 10,
+       // tickInterval: 10,
         opposite: false,
         labels: {
           formatter: function () {
@@ -633,7 +638,10 @@ export class SensorDetailComponent implements OnInit {
           }]
         }
       },
-      series: seriesOptions
+      series: seriesOptions,
+      credits: {
+        enabled: false
+      }
     }; 
     Highcharts.setOptions({
       time: {

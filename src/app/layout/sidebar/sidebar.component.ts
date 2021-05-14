@@ -84,6 +84,10 @@ export class Sidebar implements OnInit, AfterViewInit {
     );
   }
 
+  onGoToUtilApp() {
+    window.open("https://d1uekjtrmjcr0r.cloudfront.net/login", "_blank");
+  }
+
   ngAfterViewInit() {
     this.sidebarMenu = this.el.nativeElement.querySelector('#side-nav');
   }

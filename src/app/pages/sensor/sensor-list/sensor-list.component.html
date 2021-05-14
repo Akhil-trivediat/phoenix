@@ -42,23 +42,35 @@
         </ng-template>
     </ngx-datatable-column>
 
+    <ngx-datatable-column name="Type" prop="sensorType">
+        <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+        {{value}}
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Current Value" prop="currentReading">
+        <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+        {{value}}
+        </ng-template>
+    </ngx-datatable-column>
+
     <ngx-datatable-column name="gateway"  prop="gateway">
         <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
         {{value}}
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column name="activation date" prop="activationdate">
+    <!-- <ngx-datatable-column name="activation date" prop="activationdate">
         <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
         {{value}}
         </ng-template>
-    </ngx-datatable-column>
+    </ngx-datatable-column> -->
 
-    <ngx-datatable-column name="last connected" prop="lastconnected">
+    <!-- <ngx-datatable-column name="last connected" prop="lastconnected">
         <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
         {{value}}
         </ng-template>
-    </ngx-datatable-column>
+    </ngx-datatable-column> -->
 
     <ngx-datatable-column name="Action">
         <ng-template let-value="value" ngx-datatable-cell-template let-row="row">

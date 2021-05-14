@@ -1,5 +1,5 @@
 <header class="logo">
-  <img src="assets/img/trivedilogo.jpg" alt="">
+  <img src="assets/img/plumsense_logo_b.png" alt="">
   
 </header>
 <ul id="side-nav" class="side-nav">
@@ -18,11 +18,17 @@
     <ul id="account-collapse" class="accordion-body" [attr.aria-expanded]="sidebarState.accountCollapsed"
         [collapse]="sidebarState.accountCollapsed" [isAnimated]="true">
       <li [routerLinkActive]="['active']"><a routerLink="users">Users</a></li>
+      <li><a (click)="onGoToUtilApp()">Utilities</a></li>
+      <li><a>Data Connectors</a></li>
     </ul>
   </li>
 
-  <!-- <li><a routerLink=""><img src="assets/img/phoenix/router.svg" alt=""><span class="name">AI Insight & report</span></a></li> -->
-  
+  <li><a routerLink=""><img src="assets/img/phoenix/router.svg" alt=""><span class="name">AI Insight & report</span></a></li>
+
+  <li><a><img src="assets/img/phoenix/document_icon.png" alt="API Documentation">API Documentation</a></li>
+
+  <li><a><img src="assets/img/phoenix/notification.png" alt="Notification">Notification</a></li>
+   
 </ul>
 
 <!-- <a href="https://flatlogic.com/templates/light-blue-angular/demo">Light <span class="fw-bold">Blue</span></a> -->

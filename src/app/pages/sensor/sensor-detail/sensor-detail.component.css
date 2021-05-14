@@ -190,19 +190,6 @@
 }
 
 /* Graph Section */
-.analytics-section {
-    display: flex;
-    overflow: hidden;
-}
-
-.analytics-section > .graph-section {
-    width: 66.6%;
-}
-
-.analytics-section > .details-section {
-    width: 33.3%;
-    padding: 0px 17px;
-}
 
 .analytics-section > .details-section label {
     width: 46%;

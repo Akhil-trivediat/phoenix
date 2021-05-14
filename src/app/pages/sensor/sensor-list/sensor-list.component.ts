@@ -58,13 +58,22 @@ export class SensorListComponent implements OnInit {
       (sensorsList) => {
         this.sensorsArray = sensorsList;
         sensorsList.forEach((sensor: Array<Sensor>) => {
+          let currReading: string = "";
+          if(sensor["currentReading"]) {
+            if(!sensor["currentReading"].toString().includes("e") ) {
+              currReading = parseFloat(sensor["currentReading"]).toFixed(2) + " " + sensor["readingUnit"];
+            }
+          }
+
           (sensorArray as Array<Sensor>).push({
             'sensorName': sensor["productname"],
             'sensorid': sensor["id"],
             'status': sensor["status"],
             'gateway': sensor["gatewayname"],
             'activationdate': formatDate(sensor["createddate"],'MM/dd/yyyy,HH:mm',this.locale),
-            'lastconnected': formatDate(sensor["lastCommDate"],'MM/dd/yyyy,HH:mm',this.locale)
+            'lastconnected': formatDate(sensor["lastCommDate"],'MM/dd/yyyy,HH:mm',this.locale),
+            'sensorType': sensor["sensorType"],
+            'currentReading': currReading
           });
         });
         this.sensorsArray = sensorArray;

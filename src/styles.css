@@ -50,3 +50,7 @@ body .bs-datepicker-body table.days span.active:not(.select-start):before,
 body .bs-datepicker-body table.days span.in-range:not(.select-start):before {
     /* background: */
 }
+
+.content .content-footer {
+    text-align: center;
+}

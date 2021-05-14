@@ -15,42 +15,43 @@
     </div>
 </div>
 
-<div class="row">
+ <div class="row">
   <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" *ngFor="let item of sensorsArray" >
    <div class="tile-container">
     <div class="card mb-xlg border-0" [ngClass]="item.status == 'Online' ? 'status-online' : 'status-offline'">
       <div class="card-body text-white">
-          <div class="d-flex flex-row-reverse">
-           <div class="btn-toolbar">
-            <a (click)="openDialog('Edit', item)">
-              <i class="glyphicon glyphicon-edit lg-2"></i>
-            </a>
-             <a (click)="openDialog('Delete', item)">
-              <i class="glyphicon glyphicon-trash lg-2"></i>
-             </a>
-           </div>
-          </div>
-        <div class="d-flex justify-content-between">
+
+            <img  class="ml-sm" src="assets/img/phoenix/humidity.svg" alt="">
+            <div class="btn-toolbar float-right">
+              <a (click)="openDialog('Edit', item)">
+                <i class="glyphicon glyphicon-edit lg-2"></i>
+              </a>
+              <a (click)="openDialog('Delete', item)">
+               <i class="glyphicon glyphicon-trash lg-2"></i>
+              </a>
+            </div>
+          <div class="d-flex justify-content-between">
 <!--        <span class="fw-semi">Sensor Id:</span>-->
-           <a class="fw-semi-bold ml-sm" tooltip="Sensor Id" [routerLink]="['id/', item.sensorid]"><h3>{{item.sensorid}}</h3></a>
-         </div>
-         <div class="d-flex justify-content-between">
+            <a class="fw-semi-bold ml-sm" tooltip="Sensor Id" [routerLink]="['id/', item.sensorid]"><h3>{{item.sensorid}}</h3></a>
+          </div>
+          <div class="d-flex justify-content-between">
 <!--        <span class="fw-semi">Sensor Name:</span>-->
-           <a class="fw-semi-bold ml-sm" tooltip="Sensor Name"><h5>{{item.sensorName}}</h5></a>
-         </div>
-         <div class="d-flex justify-content-between">
+            <a class="fw-semi-bold ml-sm" tooltip="Sensor Name"><h5>{{item.sensorName}}</h5></a>
+          </div>
+          <div class="d-flex justify-content-between">
 <!--        <span class="fw-semi">Gateway:</span>-->
-             <a  class="fw-semi-bold ml-sm" tooltip="Gateway"><h5>{{item.gateway}}</h5></a>
+              <a  class="fw-semi-bold ml-sm" tooltip="Gateway"><h5>{{item.gateway}}</h5></a>
           </div>
           <div class="d-flex justify-content-between">
 <!--         <span class="fw-semi">Last connected:</span>-->
-             <a class="fw-thin ml-sm time-cl" tooltip="Last Connected">{{item.lastconnected}}</a>
+              <a class="fw-thin ml-sm time-cl" tooltip="Last Connected">{{item.lastconnected}}</a>
           </div>
+<!--        </div>-->
+      </div>
      </div>
+    </div>
    </div>
-   </div>
-  </div>
-</div>
+ </div>
 <!--<ngx-datatable class="table table-striped table-hover" [rows]="sensorsArray"-->
 <!--    [columnMode]="columnMode.force" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" >-->
 <!--    <ngx-datatable-column name="sensor id" prop="sensorid">-->

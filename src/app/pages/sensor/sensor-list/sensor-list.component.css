@@ -23,3 +23,10 @@
     padding: 0.5rem 0.75rem;
     font-size: 1rem;
 }
+.status-online{
+  background: #61D85E !important;
+}
+.status-offline{
+  background: #FF8253 !important;
+}
+.gi-2x{font-size: 2em;}

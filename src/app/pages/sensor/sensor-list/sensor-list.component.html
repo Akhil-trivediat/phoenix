@@ -19,52 +19,40 @@
 <!--  </a>-->
 <!--</div>-->
 <div class="row">
-  <div class="col-12 col-sm-4 col-md-4">
-   <div class="card mb-xlg border-0">
-     <div class="card-body" *ngFor="let item of sensorsArray">
+  <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" *ngFor="let item of sensorsArray" >
+   <div class="tile-container">
+    <div class="card mb-xlg border-0" [ngClass]="item.status == 'Online' ? 'status-online' : 'status-offline'">
+<!--    <div class="widget widget-sm bg-success text-white ng-tns-c125-29">-->
+     <div class="card-body text-white">
        <div class="d-flex flex-row-reverse">
         <div class="btn-toolbar">
           <a (click)="openDialog('Edit', item)">
-            <span class="glyphicon glyphicon-edit"></span>
+            <i class="glyphicon glyphicon-edit gi-2x"></i>
           </a>
           <a (click)="openDialog('Delete', item)">
-           <span class="glyphicon glyphicon-trash"></span>
+           <span class="glyphicon glyphicon-trash gi-2x"></span>
          </a>
         </div>
        </div>
        <br>
-       <div class="d-flex justify-content-between mb-lg">
-        <a href="#" class="fw-semi-bold text-success">Sensor Id:</a>
-         <a [routerLink]="['id/', item.sensorid]">{{item.sensorid}}</a>
-<!--        <a class="fw-semi-bold text-muted ml-sm">Sensor1</a>-->
+       <div class="d-flex justify-content-between">
+        <span class="fw-semi">Sensor Id:</span>
+         <a class="fw-semi" [routerLink]="['id/', item.sensorid]">{{item.sensorid}}</a>
        </div>
-      <div class="d-flex justify-content-between mb-lg">
-        <a href="#" class="fw-semi-bold text-success">Sensor Name:</a>
-        <a class="fw-semi-bold text-muted ml-sm">{{item.sensorName}}</a>
+      <div class="d-flex justify-content-between">
+        <span class="fw-semi">Sensor Name:</span>
+        <a class="fw-semi ml-sm">{{item.sensorName}}</a>
       </div>
-       <div class="d-flex justify-content-between mb-lg">
-         <a class="fw-semi-bold text-success">Status</a>
-<!--         <div class="device-status-property" *ngIf="value === 'Online'">-->
-<!--           <span class="connection-status connected text-success"></span>-->
-<!--         </div>-->
-<!--         <div class="device-status-property" *ngIf="value === 'Offline'">-->
-<!--           <span class="connection-status connected text-danger"></span>-->
-<!--         </div>-->
-         <a class="fw-semi-bold text-muted ml-sm">online</a>
+       <div class="d-flex justify-content-between">
+        <span class="fw-semi">Gateway:</span>
+         <a  class="fw-semi ml-sm">{{item.gateway}}</a>
        </div>
-       <div class="d-flex justify-content-between mb-lg">
-         <a href="#" class="fw-semi-bold text-success">Gateway Id</a>
-         <a  class="fw-semi-bold text-muted ml-sm">{{item.gateway}}</a>
-       </div>
-<!--       <div class="d-flex justify-content-between mb-lg">-->
-<!--         <a href="#" class="fw-semi-bold text-success">Activation Date</a>-->
-<!--         <a  class="fw-semi-bold text-muted ml-sm"> 03/23/2021,18:20</a>-->
-<!--       </div>-->
-       <div class="d-flex justify-content-between mb-lg">
-         <a href="#" class="fw-semi-bold text-success">Last connected</a>
-         <a class="fw-semi-bold text-muted ml-sm">{{item.lastconnected}}</a>
+       <div class="d-flex justify-content-between">
+         <span class="fw-semi">Last connected:</span>
+         <a class="fw-semi ml-sm">{{item.lastconnected}}</a>
        </div>
      </div>
+   </div>
    </div>
   </div>
 </div>

@@ -1,5 +1,5 @@
 <app-spinner [spinnerSize]="'medium'" [fullScreen]="true"></app-spinner>
-<div class="row header-container">
+<!-- <div class="row header-container">
     <div class="col">
         <h3>Sensor List</h3>
     </div>
@@ -13,8 +13,8 @@
             </a>
         </div>
     </div>
-</div>
-<div class="row">
+</div> -->
+<!-- <div class="row">
   <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
     <div class="form-inline ">
       <div class="form-group  col-md-4">
@@ -22,16 +22,57 @@
           class="form-control"
           type='text'
           name="search"
-          placeholder="Sensor Name"
+          placeholder="&#61442; Search"
           [(ngModel)]="filterText"
           autocomplete="off"
-          (keyup)='filterSensor($event)'/>
-        <span class="input-group-addon fa fa-search" id="basic-addon2"></span>
-<!--        <span class="fa fa-search form-control-feedback" ></span>-->
+          (keyup)='filterSensor($event)'
+          />
+        <span class="input-group-addon fa fa-search" id="basic-addon2"></span> 
       </div>
     </div>
   </div>
+</div> -->
+
+<div class="row header-bar">
+    <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+        <h3>Sensor List</h3>
+    </div>
+    <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12">
+        <div class="float-right action-bar">
+
+            <form id="search-form" class="navbar-form action-bar-item" role="search">
+                <div class="form-group mb-0">
+                  <div class="input-group-transparent input-group">
+                    <div class="input-group-addon">
+                      <i class="glyphicon glyphicon-filter text-white"></i>
+                    </div>
+                    <input 
+                        placeholder="Filter by name,id..." 
+                        type="text" 
+                        class="input-transparent form-control"
+                        name="search"
+                        [(ngModel)]="filterText"
+                        autocomplete="off"
+                        (keyup)='filterSensor($event)'
+                    >
+                  </div>
+                </div>
+            </form>
+
+            <a class="btn btn-primary action-bar-item" (click)="onRefresh()">
+                <i class="glyphicon glyphicon-refresh text-white"></i>
+            </a>
+            
+            <a href="#" class="btn btn-primary action-bar-item" routerLink="/app/sensor/addSensor">
+                <i class="glyphicon glyphicon-plus text-white"></i> 
+            </a>
+
+        </div>
+        
+    </div>
 </div>
+
+
  <div class="row">
   <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" *ngFor="let item of sensorsArray" >
    <div class="tile-container">
@@ -77,6 +118,8 @@
     </div>
    </div>
  </div>
+
+ 
 <!--<ngx-datatable class="table table-striped table-hover" [rows]="sensorsArray"-->
 <!--    [columnMode]="columnMode.force" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" >-->
 <!--    <ngx-datatable-column name="sensor id" prop="sensorid">-->

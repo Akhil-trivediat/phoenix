@@ -94,22 +94,22 @@ export class SensorListComponent implements OnInit {
     this.spinner.show();
     this.getSensorList();
   }
+
   filterSensor(event) {
-    // get the value of the key pressed and make it lowercase
+    this.sensorsArray = this.backupSensorArray;
+
     if(this.filterText != '') {
+
       const val = event.target.value.toLowerCase();
-      console.log(this.sensorsArray);
-      let backupSensor = this.sensorsArray;
-      // Filter the datasource according to the filter.
+      
       this.sensorsArray = this.sensorsArray.filter(x => {
         return (x.sensorName.toLocaleLowerCase().includes(val)
           || x.sensorid.toLocaleLowerCase().includes(val));
       });
-    }
-    else {
-      this.sensorsArray = this.backupSensorArray;
+
     }
   }
+  
   onAssignGateway(sensorID: string,gatewayID: string) {
     localStorage.setItem(this.GATEWAY_ID, gatewayID);
     const path = "/app/sensor/" + sensorID + "/assignGateway";

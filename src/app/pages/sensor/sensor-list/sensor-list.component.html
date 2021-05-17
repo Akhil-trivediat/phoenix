@@ -38,14 +38,15 @@
     <div class="card mb-xlg border-0" [ngClass]="item.status == 'Online' ? 'status-online' : 'status-offline'">
       <div class="card-body text-white">
 
-        <img  class="ml-sm" src="assets/img/phoenix/humidity.svg" alt="">
+        <!-- <img  class="ml-sm" src="assets/img/phoenix/humidity.svg" alt=""> -->
+        <i class="fa fa-thermometer-half icon"></i>
 
         <div class="btn-toolbar float-right">
             <a (click)="openDialog('Edit', item)">
                 <i class="glyphicon glyphicon-edit lg-2"></i>
             </a>
             <a (click)="openDialog('Delete', item)">
-                <i class="glyphicon glyphicon-trash lg-2"></i>
+                <i class="glyphicon glyphicon-trash lg-2"></i> 
             </a>
         </div>
 

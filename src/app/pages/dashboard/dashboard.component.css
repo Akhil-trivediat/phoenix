@@ -74,6 +74,10 @@ section .widget-content .header a {
     text-decoration: none;
 }
 
+section .widget-content .header .icon {
+    font-size: 42px;
+}
+
 section .widget-content .header .counter {
     text-align: center;
     font-size: 1.65em;

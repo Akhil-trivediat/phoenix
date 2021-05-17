@@ -65,3 +65,8 @@ img {
 .card {
   min-height: 172px;
 }
+
+.card .icon {
+  font-size: 36px;
+  margin: 0 10px 10px;
+}

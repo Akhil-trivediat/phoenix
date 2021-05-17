@@ -11,6 +11,7 @@ import { NgxDialogComponent } from 'src/app/shared/component/ngx-dialog/ngx-dial
 import { SensorService } from '../services/sensor.service';
 
 import { HttpClient } from '@angular/common/http';
+import {string} from "@amcharts/amcharts4/core";
 
 @Component({
   selector: 'app-sensor-list',
@@ -22,7 +23,7 @@ export class SensorListComponent implements OnInit {
   private readonly GATEWAY_ID = 'GATEWAY_ID';
   bsModalRef: BsModalRef;
   sensorDetails: any;
-  filter = null;
+  filterText : string;
 
   constructor(
     @Inject(LOCALE_ID) private locale: string,
@@ -95,7 +96,7 @@ export class SensorListComponent implements OnInit {
   }
   filterSensor(event) {
     // get the value of the key pressed and make it lowercase
-    if(this.filter != '') {
+    if(this.filterText != '') {
       const val = event.target.value.toLowerCase();
       console.log(this.sensorsArray);
       let backupSensor = this.sensorsArray;

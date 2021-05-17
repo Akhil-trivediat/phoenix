@@ -22,6 +22,7 @@ export class SensorListComponent implements OnInit {
   private readonly GATEWAY_ID = 'GATEWAY_ID';
   bsModalRef: BsModalRef;
   sensorDetails: any;
+  filter = null;
 
   constructor(
     @Inject(LOCALE_ID) private locale: string,
@@ -33,6 +34,7 @@ export class SensorListComponent implements OnInit {
     private sensorService: SensorService
   ) { }
   sensorsArray = [];
+  backupSensorArray = [];
 
   ngOnInit() {
 
@@ -77,6 +79,7 @@ export class SensorListComponent implements OnInit {
           });
         });
         this.sensorsArray = sensorArray;
+        this.backupSensorArray = this.sensorsArray;
         this.spinner.hide();
       },
       (error) => {
@@ -89,7 +92,22 @@ export class SensorListComponent implements OnInit {
     this.spinner.show();
     this.getSensorList();
   }
-
+  filterSensor(event) {
+    // get the value of the key pressed and make it lowercase
+    if(this.filter != '') {
+      const val = event.target.value.toLowerCase();
+      console.log(this.sensorsArray);
+      let backupSensor = this.sensorsArray;
+      // Filter the datasource according to the filter.
+      this.sensorsArray = this.sensorsArray.filter(x => {
+        return (x.sensorName.toLocaleLowerCase().includes(val)
+          || x.sensorid.toLocaleLowerCase().includes(val));
+      });
+    }
+    else {
+      this.sensorsArray = this.backupSensorArray;
+    }
+  }
   onAssignGateway(sensorID: string,gatewayID: string) {
     localStorage.setItem(this.GATEWAY_ID, gatewayID);
     const path = "/app/sensor/" + sensorID + "/assignGateway";
@@ -222,23 +240,23 @@ export class SensorListComponent implements OnInit {
               const sensorID = response.data.getRawValue().sensorId;
               this.deleteRequest(sensorID);
             } else if(response.action === "Edit") {
-              
+
               if(!response.data.pristine) {
                 // const sensorID = response.data.getRawValue().sensorId;
                 // const sensorName = response.data.getRawValue().sensorName;
                 // const mintempthreshold = response.data.getRawValue().mintempthreshold;
                 // const maxtempthreshold = response.data.getRawValue().maxtempthreshold;
-    
+
                 let updateRequestBody = {
                   'sensorID': response.data.getRawValue().sensorId,
                   'sensorName': response.data.getRawValue().sensorName,
                   'mintempthreshold': response.data.getRawValue().mintempthreshold,
                   'maxtempthreshold': response.data.getRawValue().maxtempthreshold
                 };
-    
+
                 this.updateRequest(updateRequestBody);
               }
-              
+
             }
           }
         )
@@ -249,7 +267,7 @@ export class SensorListComponent implements OnInit {
         console.log(error);
       }
     );
-    
+
   }
 
   updateRequest(updateRequestBody: any) {

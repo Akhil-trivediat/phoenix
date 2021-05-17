@@ -44,6 +44,41 @@
   font-size: 2em !important;
   width: 19px !important;
 }
+.fa-search{
+  display: table-cell;
+  margin-left: -34px !important;
+  margin-bottom: 10px !important;
+  width: 35px !important;
+  height: 35px !important;
+}
+.form-control {
+  /*box-sizing: content-box !important;*/
+  width: 250px !important;
+  /*height: 15px !important;*/
+  display: inline-block !important;
+  margin-bottom: 10px !important;
+  margin-left: -12px !important;
+}
+/*.fa-search:before{*/
+/*  margin-left: -23px !important;*/
+/*}*/
+/*.form-control {*/
+/*  box-sizing: content-box !important;*/
+/*  width: 360px !important;*/
+/*  height: 15px !important;*/
+/*  display: inline-block !important;*/
+/*  margin-top: 1px !important;*/
+/*  margin-left: -11px !important;*/
+
+/*  input[type=text] {*/
+/*    padding-left: -1px !important;*/
+/*    align-content: start !important;*/
+/*    min-height: 3px !important;*/
+/*   margin-left: -2px !important;*/
+/*  }*/
+/* }*/
+
+
 img {
   height: 50px !important;
   width: 30px !important;

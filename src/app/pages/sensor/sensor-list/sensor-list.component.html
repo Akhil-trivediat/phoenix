@@ -14,7 +14,24 @@
         </div>
     </div>
 </div>
-
+<div class="row">
+  <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+    <div class="form-inline ">
+      <div class="form-group  col-md-4">
+        <input
+          class="form-control"
+          type='text'
+          name="search"
+          placeholder="Sensor Name"
+          [(ngModel)]="filterText"
+          autocomplete="off"
+          (keyup)='filterSensor($event)'/>
+        <span class="input-group-addon fa fa-search" id="basic-addon2"></span>
+<!--        <span class="fa fa-search form-control-feedback" ></span>-->
+      </div>
+    </div>
+  </div>
+</div>
  <div class="row">
   <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" *ngFor="let item of sensorsArray" >
    <div class="tile-container">
@@ -33,14 +50,14 @@
             </a>
         </div>
 
-        <div class="tile-container-content" (click)="gotoSensorDetailsScreen(item.sensorid)"> 
+        <div class="tile-container-content" (click)="gotoSensorDetailsScreen(item.sensorid)">
             <!-- <div class="d-flex justify-content-between">
                 <a class="fw-semi-bold ml-sm" tooltip="Sensor Id"><h3>{{item.sensorid}}</h3></a>
             </div> -->
             <div class="d-flex justify-content-between">
                 <a class="fw-semi-bold ml-sm" tooltip="Sensor Name"><h3>{{item.sensorName}}</h3></a>
             </div>
-            
+
             <div class="d-flex justify-content-between">
                 <a class="fw-semi-bold ml-sm" tooltip="Current Reading"><h5>{{item.currentReading}}</h5></a>
             </div>

@@ -152,7 +152,7 @@ export class GatewaysListComponent implements OnInit {
     }
 
     let IOTParams = {
-      topic: "config_sub_tt_message",
+      topic: gatewayID + "/config_sub_tt_message",
       payload: deviceConfigJSON
     }
 

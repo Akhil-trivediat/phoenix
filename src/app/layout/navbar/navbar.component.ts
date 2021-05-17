@@ -31,8 +31,8 @@ export class Navbar implements OnInit {
 
   cities = [
     { id: 1, name: "Corporate" },
-    { id: 2, name: "Loc1" },
-    { id: 3, name: "Loc2" }
+    { id: 2, name: "Toronto" },
+    { id: 3, name: "Boston" }
   ];
   selectedCityId: string = null;
 

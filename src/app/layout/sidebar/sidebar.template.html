@@ -3,31 +3,40 @@
   
 </header>
 <ul id="side-nav" class="side-nav">
-  <li><a routerLink="dashboard"><img src="assets/img/phoenix/home.svg" alt=""><span class="name">Dashboard</span></a></li>
   
-  <li><a routerLink="sensor"><img src="assets/img/phoenix/humidity.svg" alt="">Sensor<span class="count">{{sensorCount}}</span></a></li>
+  <!-- <i class="fa fa-file icon"></i> -->
+  <!-- <img src="assets/img/phoenix/router.svg" alt=""> 
+  <img src="assets/img/phoenix/user.svg" alt="">-->
 
-  <li><a routerLink="gateway"><img src="assets/img/phoenix/router.svg" alt="">Gateway<span class="count">{{gatewayCount}}</span></a></li>
+  <li><a routerLink="dashboard"><i class="fa fa-home icon"></i><span class="name">Dashboard</span></a></li>
+  
+  <li><a routerLink="sensor"><i class="fa fa-thermometer-half icon"></i>Sensors<span class="count">{{sensorCount}}</span></a></li> 
+
+  <li><a routerLink="gateway"><i class="fa fa-router icon"></i>Gateways<span class="count">{{gatewayCount}}</span></a></li>
   
   <li class="accordion-group panel" [routerLinkActive]="['active']">
     <a class="accordion-toggle" (click)="sidebarBehavior($event, 'accountCollapsed')" aria-controls="account-collapse"
        [class.open]="!sidebarState.accountCollapsed">
-      <img src="assets/img/phoenix/user.svg" alt="">
+       <i class="fa fa-user-circle icon"></i>
       <span class="name">Account</span>
     </a>
     <ul id="account-collapse" class="accordion-body" [attr.aria-expanded]="sidebarState.accountCollapsed"
         [collapse]="sidebarState.accountCollapsed" [isAnimated]="true">
       <li [routerLinkActive]="['active']"><a routerLink="users">Users</a></li>
-      <li><a (click)="onGoToUtilApp()">Utilities</a></li>
-      <li><a>Data Connectors</a></li>
     </ul>
   </li>
 
-  <li><a routerLink=""><img src="assets/img/phoenix/router.svg" alt=""><span class="name">AI Insight & report</span></a></li>
+  <li><a (click)="onGoToUtilApp()"><i class="fa fa-cog icon"></i><span class="name">Utilities</span></a></li>
 
-  <li><a><img src="assets/img/phoenix/document_icon.png" alt="API Documentation">API Documentation</a></li>
+  <li><a routerLink="dataconnector"><i class="fa fa-database icon"></i><span class="name">Data Connectors</span></a></li>
 
-  <li><a><img src="assets/img/phoenix/notification.png" alt="Notification">Notification</a></li>
+  <li><a routerLink="AIInsight"><i class="fa fa-chart-bar icon"></i><span class="name">AI Insights & Reports</span></a></li>
+
+  <li><a routerLink="apidocumentation"><i class="fa fa-file icon"></i>API Documentation</a></li>
+
+  <li><a routerLink="notifications"><i class="fa fa-bell icon"></i>Notifications</a></li>
+
+  <li><a routerLink="help"><i class="fa fa-question-circle icon"></i>Help</a></li>
    
 </ul>
 

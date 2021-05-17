@@ -17,7 +17,7 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { LoginService } from './pages/login/login.service';
-import { ROUTES } from './app.routes';
+import { AppRoutingModule } from './app.routes';
 import { CheckAllService } from './layout/utils/services/check-all.service';
 import { AppComponent } from './app.component';
 import { AppGuard } from './app.guard';
@@ -42,10 +42,6 @@ import { AutocompleteInputBarComponent } from './pages/dashboard/autocomplete-in
 import { FilterPipe } from './pages/dashboard/autocomplete-input-bar/filter.pipe';
 import { DashboardComponentModule } from './pages/dashboard/dashboard.module';
 
-
-// import { AutocompleteInputBarModule } from './pages/dashboard/autocomplete-input-bar/autocomplete-input-bar.module';
-// import { DashboardComponentModule } from './pages/dashboard/dashboard.module';
-
 const APP_PROVIDERS = [
   CheckAllService,
   AppGuard,
@@ -57,8 +53,7 @@ const APP_PROVIDERS = [
   declarations: [
     AppComponent,
     ResetPasswordComponent,
-    ForgotPasswordComponent,
-    //FilterPipe
+    ForgotPasswordComponent
   ],
   imports: [
     AmplifyAngularModule,
@@ -66,10 +61,7 @@ const APP_PROVIDERS = [
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(ROUTES, {
-      useHash: false,
-      preloadingStrategy: PreloadAllModules
-    }),
+    AppRoutingModule,
     ButtonsModule.forRoot(),
     BsDropdownModule.forRoot(),
     AlertModule.forRoot(),

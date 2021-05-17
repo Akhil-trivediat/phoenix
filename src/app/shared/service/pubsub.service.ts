@@ -42,7 +42,7 @@ export class PubsubService {
             aws_pubsub_endpoint: this.IOT_ENDPOINT,
         }));
 
-        return PubSub.subscribe('config_pub_tt_message').map(
+        return PubSub.subscribe('m500{0001c02a195c}/config_pub_tt_message').map(
             response => {
                 return response;
             }

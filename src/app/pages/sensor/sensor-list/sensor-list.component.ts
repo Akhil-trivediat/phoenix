@@ -2,7 +2,7 @@ import { Component, OnInit, Inject, LOCALE_ID  } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import { HttpParams } from "@angular/common/http";
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Sensor } from '../../../models/commonmodel.data';
 import { RequesterService } from '../../../shared/service/requester.service';
@@ -30,6 +30,7 @@ export class SensorListComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private modalService: BsModalService,
     private router: Router,
+    private route: ActivatedRoute,
     private http: HttpClient,
     private sensorService: SensorService
   ) { }
@@ -268,6 +269,10 @@ export class SensorListComponent implements OnInit {
       }
     );
 
+  }
+
+  gotoSensorDetailsScreen(sensorid: any) {
+    this.router.navigate(['id/', sensorid],{relativeTo: this.route});
   }
 
   updateRequest(updateRequestBody: any) {

@@ -97,6 +97,8 @@
     "shufflejs": "5.2.3",
     "skycons": "1.0.0",
     "sortablejs": "1.10.2",
+    "swagger-ui-dist": "^3.48.0",
+    "swagger-ui-themes": "^3.0.1",
     "tslib": "^1.10.0",
     "validator": "13.0.0",
     "zone.js": "~0.10.2"

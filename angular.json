@@ -28,11 +28,14 @@
               "./node_modules/intl-tel-input/build/css/intlTelInput.css",
               "src/app/app.component.css",
               "src/app/styles/application.scss",
-              "src/styles.css"
+              "src/styles.css",
+              "src/app/styles/swagger-ui.css"
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",
-              "./node_modules/select2/dist/js/select2.full.min.js"
+              "./node_modules/select2/dist/js/select2.full.min.js",
+              "node_modules/swagger-ui-dist/swagger-ui-bundle.js",
+              "node_modules/swagger-ui-dist/swagger-ui-standalone-preset.js"
             ]
           },
           "configurations": {

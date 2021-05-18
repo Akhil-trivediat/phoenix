@@ -7,10 +7,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class FilterBarComponent implements OnInit {
 
- // ddSensorsList: Array<Object>;
   selectedSensor: any;
+  selectedYAxis: any;
 
-  @Input() ngSelectItems: any = [];
+  @Input() ngSelectItemsforComparision: any = [];
+  @Input() ngSelectItemsforYaxis: any = [];
   @Output() dateTimeChangeEvent = new EventEmitter;
   @Output() ngSelectChangeEvent = new EventEmitter;
   @Output() ngSelectAddEvent = new EventEmitter;
@@ -19,14 +20,7 @@ export class FilterBarComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-    // this.ddSensorsList = [
-    //   {id: "1"},
-    //   {id: "2"},
-    //   {id: "3"},
-    //   {id: "4"}
-    // ];
-  }
+  ngOnInit() { }
 
   onDateTimeChange($event) {
     this.dateTimeChangeEvent.emit($event);

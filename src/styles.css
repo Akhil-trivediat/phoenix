@@ -44,13 +44,28 @@ body .bs-datepicker-body table td span.is-highlighted:not(.disabled):not(.select
     color: #293647
 }
 
-body .bs-datepicker-body table.days td.active:not(.select-start):before, 
-body .bs-datepicker-body table.days td.in-range:not(.select-start):before, 
-body .bs-datepicker-body table.days span.active:not(.select-start):before, 
-body .bs-datepicker-body table.days span.in-range:not(.select-start):before {
-    /* background: */
-}
-
 .content .content-footer {
     text-align: center;
+}
+
+.form-horizontal-custom h5 {
+    font-weight: bold;
+    clear: both;
+}
+
+.form-horizontal-custom hr {
+    border-top: 1px solid grey;
+}
+
+.form-horizontal-custom .form-actions {
+    padding: 17px 15px 18px;
+    background-color: transparent;
+}
+
+.form-horizontal-custom .form-actions .btn {
+    margin-right: 1em;
+}
+
+.form-horizontal-custom .form-actions .btn:last-child {
+    margin-right: 0em;
 }

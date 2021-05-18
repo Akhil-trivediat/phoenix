@@ -40,7 +40,8 @@
                 <div class="jumbotron-header col-md-12 col-sm-12 col-xs-12">
                     <app-filter-bar
                         (dateTimeChangeEvent)="onDateTimeChange($event)"
-                        [ngSelectItems]="ddSensorsList"
+                        [ngSelectItemsforComparision]="ddSensorsList"
+                        [ngSelectItemsforYaxis]="yaxisList"
                         (ngSelectChangeEvent)="onItemChanged($event)"
                         (ngSelectAddEvent)="onItemAdded($event)"
                         (ngSelectRemoveEvent)="onItemRemoved($event)"
@@ -56,15 +57,47 @@
                 <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 details-section">
                     <form name="sensorDetailsForm" [formGroup]="sensorDetailsForm">
                         <div class="form-group row">
-                            <label for="sensorID"  class="col-form-label">Sensor ID:</label>
+                            <label for="sensorID"  class="col-form-label">Sensor ID:</label> 
                             
                             <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
                                 <input type="text" class="form-control input-transparent pl-3" formControlName="sensorID"/>
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <!-- <div class="form-group row">
                             <label for="readingValue"  class="col-form-label">Current Reading:</label>
+
+                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="readingValue"/>
+                            </div>
+                        </div> -->
+
+                        <div class="form-group row">
+                            <label for="readingValue"  class="col-form-label">Channel 1:</label>
+
+                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="readingValue"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="readingValue"  class="col-form-label">Channel 2:</label>
+
+                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="readingValue"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="readingValue"  class="col-form-label">Channel 3:</label>
+
+                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
+                                <input type="text"  class="form-control input-transparent pl-3" formControlName="readingValue"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="readingValue"  class="col-form-label">Channel 4:</label>
 
                             <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
                                 <input type="text"  class="form-control input-transparent pl-3" formControlName="readingValue"/>

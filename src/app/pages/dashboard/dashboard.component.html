@@ -21,12 +21,8 @@
                   <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 device-status-sectionA">
 
                     <div class="header">
-                      <!-- <img src="assets/img/phoenix/humidity.svg" alt="Sensor"> -->
                       <i class="fa fa-thermometer-half icon"></i> 
                       <span>Sensors</span>
-                      <!-- <a routerLink="/app/sensor">
-                        <div class="counter">{{activeSensorCount}}/{{totalSensorCount}}</div>
-                      </a> -->
                     </div> 
 
                   </div>
@@ -74,9 +70,6 @@
                 <div class="header">
                   <img src="assets/img/phoenix/router.svg" alt="Gateway">
                   <span>Gateways</span>
-                  <!-- <a routerLink="/app/gateway">
-                    <div class="counter">{{activeGatewayCount}}/{{totalGatewayCount}}</div>
-                  </a> -->
                 </div> 
       
               </div>
@@ -139,38 +132,6 @@
     </div> -->
 
   </div>
-  
-  <!-- <div class="row">
-    <div class="col-md-3 col-sm-12 col-xs-12">
-
-      <section 
-          class="mx-auto device-tile"
-          widgster
-          [optionsControl]="false"
-          [reloadControl]="false"
-          [fullscreenControl]="false"
-          [collapseControl]="false"
-          [closeControl]="false"
-          titleClass="mt-0">
-              <div class="widget-content">
-                  <div class="header">
-                    <img src="assets/img/phoenix/router.svg" alt="Gateway">
-                    <span>Gateway</span>
-                    <a routerLink="/app/gateway">
-                      <div class="counter">{{activeGatewayCount}}/{{totalGatewayCount}}</div>
-                    </a>
-                  </div>
-        
-                  <div class="footer">
-                    <a class="float-right" (click)="onGoToDevicePage('app/gateway/addGateway')">
-                      <i class="glyphicon glyphicon-plus text-white"></i>
-                    </a>
-                  </div>
-              </div>
-      </section>
-
-    </div>
-  </div> -->
 
   <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -338,7 +299,7 @@
         titleClass="mt-0">
           <header>
             <div class="title">
-              <h6>Corrective <span class="fw-semi-bold">Action</span></h6>
+              <h6>Corrective <span class="fw-semi-bold">Action</span> & Checklists</h6>
             </div>
           </header>
           <div class="widget-content-wrapper">
@@ -346,19 +307,19 @@
               <div class="widget-content">
                 <div class="clearfix fs-mini">
                   <span class="pull-right m-0 fw-semi-bold">Checklist</span>
-                  <span class="fs-mini">60% / 37°C / 3.3 Ghz</span>
+                  <span class="fs-mini">6 / 11</span>
                 </div>
                 <div class="progress progress-xs">
                   <div class="progress-bar bg-primary progress-xs" style="width: 70%;"></div>
                 </div>
                 <div class="clearfix fs-mini mt">
                   <span class="pull-right m-0 fw-semi-bold">Mem</span>
-                  <span class="fs-mini">29% / 4GB (16 GB)</span>
+                  <span class="fs-mini">3 / 20</span>
                 </div>
                 <div class="progress progress-xs">
                   <div class="progress-bar progress-xs bg-warning" style="width: 29%;"></div>
                 </div>
-                <div class="clearfix fs-mini mt">
+                <!-- <div class="clearfix fs-mini mt">
                   <span class="pull-right m-0 fw-semi-bold">LAN</span>
                   <span class="fs-mini">6 Mb/s <i class="fa fa-caret-down"></i> &nbsp; 3 Mb/s <i class="fa fa-caret-up"></i></span>
                 </div>
@@ -372,7 +333,7 @@
                 <div class="progress progress-xs">
                   <div class="progress-bar progress-xs bg-success" style="width: 64%;">
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>

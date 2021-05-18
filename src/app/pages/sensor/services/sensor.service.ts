@@ -41,7 +41,7 @@ export class SensorService {
                   name: response.sensorname,
                   gatewayName: response.gatewayname,
                   readingValue: currReading,
-                  lastCommDate: formatDate(response.lastCommDate,'MM/dd/yyyy,HH:mm',this.locale),
+                  lastCommDate: formatDate(response.lastCommDate,'MM/dd/yyyy,h:mm a',this.locale),
                   location: "",
                   minThreshold: response.minThreshold,
                   maxThreshold: response.maxThreshold,

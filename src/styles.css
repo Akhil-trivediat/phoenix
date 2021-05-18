@@ -57,6 +57,20 @@ body .bs-datepicker-body table td span.is-highlighted:not(.disabled):not(.select
     border-top: 1px solid grey;
 }
 
+.form-horizontal-custom input::placeholder {
+    color: #000000;
+}
+
+.form-horizontal-custom .form-check input[type="checkbox"] {
+    margin-left: 0rem;
+    width: 17px;
+    height: 17px;
+    border: 1px solid #fff;
+    border-radius: 3px;
+    background-color: #fff;
+    transition: border .15s ease-in-out,color .15s ease-in-out;
+}
+
 .form-horizontal-custom .form-actions {
     padding: 17px 15px 18px;
     background-color: transparent;

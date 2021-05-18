@@ -1,20 +1,60 @@
-.header-container {
-    margin-bottom: 30px;
+/*.header-container {*/
+/*    margin-bottom: 30px;*/
+/*}*/
+
+/*.header-container a{*/
+/*    margin-right: 10px;*/
+/*}*/
+
+/*.header-container a:last-child{*/
+/*    margin-right: 0px;*/
+/*}*/
+
+/*.device-status-property .connection-status::before {*/
+/*    content: "\2B24";*/
+/*    margin-right: 0.5rem;*/
+/*}*/
+
+/*.device-status-property .connection-status {*/
+/*    font-size: 18px;*/
+/*}*/
+.status-online{
+  background: #61D85E !important;
+}
+.status-offline{
+  background: #FF8253 !important;
+}
+.card {
+  min-height: 172px;
 }
 
-.header-container a{
-    margin-right: 10px;
+.card .icon {
+  font-size: 36px;
+  margin: 0 10px 10px;
+}
+img {
+  height: 30px;
+  width: 30px;
+  margin-bottom: 10px;
+}
+.lg-2{
+  font-size: 2em !important;
+  width: 19px !important;
+}.btn-toolbar .glyphicon:before {
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+}
+.action-bar {
+  display: flex;
 }
 
-.header-container a:last-child{
-    margin-right: 0px;
+.action-bar .action-bar-item {
+  margin-right: 15px
 }
 
-.device-status-property .connection-status::before {
-    content: "\2B24";
-    margin-right: 0.5rem;
+.action-bar .action-bar-item:last-child {
+  margin-right: 0px
 }
-
-.device-status-property .connection-status {
-    font-size: 18px;
+.header-bar {
+  margin-bottom: 30px;
 }

@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { AlertModule } from 'ngx-bootstrap';
+import {AlertModule, TooltipModule} from 'ngx-bootstrap';
 import { TreeviewModule } from 'ngx-treeview';
 import { AlertComponentModule } from '../../shared/component/alert/alert.module';
 import { GatewaysListComponent } from './gateways-list/gateways-list.component';
@@ -31,19 +31,20 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [GatewaysListComponent, GatewayDetailComponent, GatewayRegistrationComponent, AssignSensorComponent],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    FormsModule,
-    ReactiveFormsModule,
-    NgxDatatableModule,
-    TabsModule,
-    NgSelectModule,
-    AlertComponentModule,
-    AlertModule,
-    SharedModule,
-    TreeviewModule.forRoot()
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        FormsModule,
+        ReactiveFormsModule,
+        NgxDatatableModule,
+        TabsModule,
+        NgSelectModule,
+        AlertComponentModule,
+        AlertModule,
+        SharedModule,
+        TreeviewModule.forRoot(),
+        TooltipModule
+    ],
   providers: [
   ]
 })

@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, LOCALE_ID } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { ColumnMode } from "@swimlane/ngx-datatable";
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { HttpParams } from "@angular/common/http";
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
@@ -10,6 +10,7 @@ import { PubsubService } from '../../../shared/service/pubsub.service';
 import { RequesterService } from '../../../shared/service/requester.service';
 import { NotificationService } from '../../../shared/service/notification.service';
 import { NgxDialogComponent } from 'src/app/shared/component/ngx-dialog/ngx-dialog.component';
+import {string} from "@amcharts/amcharts4/core";
 
 @Component({
   selector: 'app-gateways-list',
@@ -19,6 +20,7 @@ import { NgxDialogComponent } from 'src/app/shared/component/ngx-dialog/ngx-dial
 export class GatewaysListComponent implements OnInit {
   public columnMode: typeof ColumnMode = ColumnMode;
   bsModalRef: BsModalRef;
+  searchGateway : string;
 
   emptyRowObj: any = {
     gatewayName: "",
@@ -29,16 +31,18 @@ export class GatewaysListComponent implements OnInit {
     lastConnected: ""
   };
   gatewaysArray = [];
+  backupGatewayArray = [];
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private modalService: BsModalService,
     private pubsubService: PubsubService,
     private requesterService: RequesterService,
     private notificationService: NotificationService,
     @Inject(LOCALE_ID) private locale: string,
-  ) { 
+  ) {
     this.subscribetoMQTT();
   }
 
@@ -50,7 +54,23 @@ export class GatewaysListComponent implements OnInit {
   getUserDetails() {
     return localStorage.getItem('USER_NAME');
   }
+  gotoGatewayDetailsScreen(gatewayid: any) {
+    this.router.navigate(['id/', gatewayid],{relativeTo: this.route});
+  }
+  filterGateway(event) {
+    this.gatewaysArray = this.backupGatewayArray;
 
+    if(this.searchGateway != '') {
+
+      const val = event.target.value.toLowerCase();
+
+      this.gatewaysArray = this.gatewaysArray.filter(x => {
+        return (x.gatewayName.toLocaleLowerCase().includes(val)
+          || x.gatewayid.toLocaleLowerCase().includes(val));
+      });
+
+    }
+  }
   getGatewaysList() {
     let gatewayArray = [];
     const email = this.getUserDetails();
@@ -68,6 +88,7 @@ export class GatewaysListComponent implements OnInit {
           });
         });
         this.gatewaysArray = gatewayArray;
+        this.backupGatewayArray = this.gatewaysArray;
         this.spinner.hide();
       },
       (error) => {

@@ -1,1 +1,141 @@
-<p>data-connector works!</p>
+<h1 class="page-title">Data Connectors</h1>
+<p>
+  Export Telemetry data to your own public or private clouds using our connectors
+</p>
+<div class="row"> 
+    <div class="col-12 mb-lg">
+        <tabset>
+          <tab heading="AWS"  [active]="true">
+            <form class="form-horizontal" role="form">
+                <fieldset>
+                  <legend><strong>Export data to AWS S3 :</strong></legend>
+                  <div class="form-group row">
+                    <label for="normal-field" class="col-md-4  col-form-label text-md-right">Amazon Resource Name (ARN)</label>
+                    <div class="col-md-7 ">
+                      <input type="text" id="normal-field" class="form-control input-transparent"
+                        placeholder="arn:partition:service:region:account-id:resource-type:resource-id">
+                    </div>
+                  </div>
+                  
+                  <div class="form-group row">
+                    <label for="accesskey" class="col-md-4 col-form-label text-md-right">
+                      Access Key
+                    </label>
+                    <div class="col-md-7 ">
+                      <input type="text" id="accesskey" class="form-control input-transparent">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-md-4  col-form-label text-md-right" for="awssecret">Secret</label>
+                    <div class="col-md-7 ">
+                      <input type="password" id="awssecret" class="form-control input-transparent">
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label for="hint-field" class="col-md-4 col-form-label text-md-right">
+                      Region
+                    </label>
+                    <div class="col-md-7 ">
+                      <input type="text" id="region" class="form-control input-transparent">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="hint-field" class="col-md-4 col-form-label text-md-right">
+                      Assume STS Role
+                    </label>
+                    <div class="col-md-7 ">
+                        <input class="form-check-input" id="stsrole" type="checkbox">
+                    </div>
+                  </div>
+                  
+                </fieldset>
+                <div class="form-actions">
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="button" class="btn btn-inverse ml-xs">Cancel</button>
+                  </div>
+                </div>
+              </form>
+          </tab>
+          <tab heading="Azure">
+            <form class="form-horizontal" role="form">
+                <fieldset>
+                  <legend><strong>Export data to Azure Blob :</strong></legend>
+                  <div class="form-group row">
+                    <label for="normal-field" class="col-md-4  col-form-label text-md-right">Account Name</label>
+                    <div class="col-md-7 ">
+                      <input type="text" id="accountname" class="form-control input-transparent"
+                        placeholder="arn:partition:service:region:account-id:resource-type:resource-id">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="hint-field" class="col-md-4 col-form-label text-md-right">
+                      Account Key
+                    </label>
+                    <div class="col-md-7 ">
+                      <input type="text" id="azurekey" class="form-control input-transparent">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-md-4  col-form-label text-md-right" for="tooltip-enabled">Container ID</label>
+                    <div class="col-md-7 ">
+                      <input type="text" id="containerid" class="form-control  input-transparent">
+                    </div>
+                  </div>    
+                  
+                </fieldset>
+                <div class="form-actions">
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="button" class="btn btn-inverse ml-xs">Cancel</button>
+                  </div>
+                </div>
+              </form>
+            <div class="btn-toolbar">
+                <button class="btn btn-inverse">Cancel</button>
+                <button class="btn btn-primary">Save</button>
+              </div>  
+          </tab>
+          <tab heading="Google">
+            <form class="form-horizontal" role="form">
+                <fieldset>
+                  <legend><strong>Export data to Google Storage :</strong></legend>
+                  <div class="form-group row">
+                    <label for="normal-field" class="col-md-4  col-form-label text-md-right">Access Key</label>
+                    <div class="col-md-7 ">
+                      <input type="text" id="googleacceekey" class="form-control input-transparent"
+                        placeholder="arn:partition:service:region:account-id:resource-type:resource-id">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="hint-field" class="col-md-4 col-form-label text-md-right">
+                      Secret
+                    </label>
+                    <div class="col-md-7 ">
+                      <input type="text" id="gcpsecret" class="form-control input-transparent">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-md-4  col-form-label text-md-right" for="tooltip-enabled">Bucket Name</label>
+                    <div class="col-md-7 ">
+                      <input type="text" id="bucketname" class="form-control input-transparent">
+                    </div>
+                  </div>    
+                  
+                </fieldset>
+                <div class="form-actions">
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="button" class="btn btn-inverse ml-xs">Cancel</button>
+                  </div>
+                </div>
+              </form>
+            <div class="btn-toolbar">
+                <button class="btn btn-inverse">Cancel</button>
+                <button class="btn btn-primary">Save</button>
+              </div>
+          </tab>
+        </tabset>
+      </div>
+</div>

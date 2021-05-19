@@ -25,7 +25,7 @@
   background: #FF8253 !important;
 }
 .card {
-  min-height: 172px;
+  min-height: 136px;
 }
 
 .card .icon {
@@ -40,7 +40,8 @@ img {
 .lg-2{
   font-size: 2em !important;
   width: 19px !important;
-}.btn-toolbar .glyphicon:before {
+}
+.btn-toolbar .glyphicon:before {
   padding: 0.5rem 0.75rem;
   font-size: 1rem;
 }

@@ -44,6 +44,9 @@ export class SensorDetailComponent implements OnInit {
   ddSensorsList: Array<Object> = [{
     id: ""
   }];
+  yaxisList: Array<Object> = [{
+    id: ""
+  }];
   sensorModel: any;
   aSensorsSelectedforGraph: any = [];
   sSensorsSelectedforGraph: string;
@@ -116,6 +119,14 @@ export class SensorDetailComponent implements OnInit {
   }
   
   ngOnInit() {
+
+    this.yaxisList = [
+      {id: "Channel1"},
+      {id: "Channel2"},
+      {id: "Channel3"},
+      {id: "Humidity"}
+    ];
+
     this.spinner.show();
 
     this.getSensorList();

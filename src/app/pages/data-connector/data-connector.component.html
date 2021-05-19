@@ -1,141 +1,230 @@
-<h1 class="page-title">Data Connectors</h1>
-<p>
-  Export Telemetry data to your own public or private clouds using our connectors
-</p>
-<div class="row"> 
-    <div class="col-12 mb-lg">
-        <tabset>
-          <tab heading="AWS"  [active]="true">
-            <form class="form-horizontal" role="form">
-                <fieldset>
-                  <legend><strong>Export data to AWS S3 :</strong></legend>
-                  <div class="form-group row">
-                    <label for="normal-field" class="col-md-4  col-form-label text-md-right">Amazon Resource Name (ARN)</label>
-                    <div class="col-md-7 ">
-                      <input type="text" id="normal-field" class="form-control input-transparent"
-                        placeholder="arn:partition:service:region:account-id:resource-type:resource-id">
-                    </div>
-                  </div>
-                  
-                  <div class="form-group row">
-                    <label for="accesskey" class="col-md-4 col-form-label text-md-right">
-                      Access Key
-                    </label>
-                    <div class="col-md-7 ">
-                      <input type="text" id="accesskey" class="form-control input-transparent">
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label class="col-md-4  col-form-label text-md-right" for="awssecret">Secret</label>
-                    <div class="col-md-7 ">
-                      <input type="password" id="awssecret" class="form-control input-transparent">
-                    </div>
-                  </div>
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <h3>Data Connectors</h3>
+    <p>
+      Export Telemetry data to your own public or private clouds using our connectors
+    </p>
+  </div>
+</div>
 
-                  <div class="form-group row">
-                    <label for="hint-field" class="col-md-4 col-form-label text-md-right">
-                      Region
-                    </label>
-                    <div class="col-md-7 ">
-                      <input type="text" id="region" class="form-control input-transparent">
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="hint-field" class="col-md-4 col-form-label text-md-right">
-                      Assume STS Role
-                    </label>
-                    <div class="col-md-7 ">
-                        <input class="form-check-input" id="stsrole" type="checkbox">
-                    </div>
-                  </div>
-                  
-                </fieldset>
-                <div class="form-actions">
-                  <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                    <button type="button" class="btn btn-inverse ml-xs">Cancel</button>
-                  </div>
-                </div>
-              </form>
-          </tab>
-          <tab heading="Azure">
-            <form class="form-horizontal" role="form">
-                <fieldset>
-                  <legend><strong>Export data to Azure Blob :</strong></legend>
-                  <div class="form-group row">
-                    <label for="normal-field" class="col-md-4  col-form-label text-md-right">Account Name</label>
-                    <div class="col-md-7 ">
-                      <input type="text" id="accountname" class="form-control input-transparent"
-                        placeholder="arn:partition:service:region:account-id:resource-type:resource-id">
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="hint-field" class="col-md-4 col-form-label text-md-right">
-                      Account Key
-                    </label>
-                    <div class="col-md-7 ">
-                      <input type="text" id="azurekey" class="form-control input-transparent">
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label class="col-md-4  col-form-label text-md-right" for="tooltip-enabled">Container ID</label>
-                    <div class="col-md-7 ">
-                      <input type="text" id="containerid" class="form-control  input-transparent">
-                    </div>
-                  </div>    
-                  
-                </fieldset>
-                <div class="form-actions">
-                  <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                    <button type="button" class="btn btn-inverse ml-xs">Cancel</button>
-                  </div>
-                </div>
-              </form>
-            <div class="btn-toolbar">
-                <button class="btn btn-inverse">Cancel</button>
-                <button class="btn btn-primary">Save</button>
-              </div>  
-          </tab>
-          <tab heading="Google">
-            <form class="form-horizontal" role="form">
-                <fieldset>
-                  <legend><strong>Export data to Google Storage :</strong></legend>
-                  <div class="form-group row">
-                    <label for="normal-field" class="col-md-4  col-form-label text-md-right">Access Key</label>
-                    <div class="col-md-7 ">
-                      <input type="text" id="googleacceekey" class="form-control input-transparent"
-                        placeholder="arn:partition:service:region:account-id:resource-type:resource-id">
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="hint-field" class="col-md-4 col-form-label text-md-right">
-                      Secret
-                    </label>
-                    <div class="col-md-7 ">
-                      <input type="text" id="gcpsecret" class="form-control input-transparent">
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label class="col-md-4  col-form-label text-md-right" for="tooltip-enabled">Bucket Name</label>
-                    <div class="col-md-7 ">
-                      <input type="text" id="bucketname" class="form-control input-transparent">
-                    </div>
-                  </div>    
-                  
-                </fieldset>
-                <div class="form-actions">
-                  <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                    <button type="button" class="btn btn-inverse ml-xs">Cancel</button>
-                  </div>
-                </div>
-              </form>
-            <div class="btn-toolbar">
-                <button class="btn btn-inverse">Cancel</button>
-                <button class="btn btn-primary">Save</button>
-              </div>
-          </tab>
-        </tabset>
-      </div>
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-horizontal-custom">
+    <tabset>
+      <tab heading="AWS">
+        <!-- <ng-template tabHeading><i class="fa fa-aws"></i>Tab 2</ng-template> -->
+        <h5>Export data to AWS S3 :</h5>
+        <hr>
+
+        <form class="form-horizontal" role="form" name="exportToS3Form" [formGroup]="exportToS3Form">
+
+          <div class="form-group row mt">
+
+            <label for="arn"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Amazon Resource Name (ARN):</label>
+    
+            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+              <input type="text" id="arn" class="form-control pl-3" formControlName="arn" placeholder="arn:partition:service:region:account-id:resource-type:resource-id" required/>
+            </div>
+    
+            <div class="errors" 
+              *ngIf="exportToS3Form.controls.arn.invalid && (exportToS3Form.controls.arn.touched || exportToS3Form.controls.arn.dirty)">
+              <small class="form-text text-danger" *ngIf="exportToS3Form.controls.arn.errors.required">ARN is required!</small>
+            </div>
+    
+          </div>
+
+          <div class="form-group row mt">
+
+            <label for="accesskey"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Access key:</label>
+    
+            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+              <input type="text" id="accesskey" class="form-control pl-3" formControlName="accesskey" required/>
+            </div>
+    
+            <div class="errors" 
+              *ngIf="exportToS3Form.controls.accesskey.invalid && (exportToS3Form.controls.accesskey.touched || exportToS3Form.controls.accesskey.dirty)">
+              <small class="form-text text-danger" *ngIf="exportToS3Form.controls.accesskey.errors.required">Access key is required!</small>
+            </div>
+    
+          </div>
+
+          <div class="form-group row mt">
+
+            <label for="secret"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Secret:</label>
+    
+            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+              <input type="text" id="secret" class="form-control pl-3" formControlName="secret" required/>
+            </div>
+    
+            <div class="errors" 
+              *ngIf="exportToS3Form.controls.secret.invalid && (exportToS3Form.controls.secret.touched || exportToS3Form.controls.secret.dirty)">
+              <small class="form-text text-danger" *ngIf="exportToS3Form.controls.secret.errors.required">Secret is required!</small>
+            </div>
+    
+          </div>
+
+          <div class="form-group row mt">
+
+            <label for="region"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Region:</label>
+    
+            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+              <input type="text" id="region" class="form-control pl-3" formControlName="region" required/>
+            </div>
+    
+            <div class="errors" 
+              *ngIf="exportToS3Form.controls.region.invalid && (exportToS3Form.controls.region.touched || exportToS3Form.controls.region.dirty)">
+              <small class="form-text text-danger" *ngIf="exportToS3Form.controls.region.errors.required">Region is required!</small>
+            </div>
+    
+          </div>
+
+          <div class="form-group row mt">
+
+            <label for="assumeRole"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Assume STS Role:</label>
+            <div class="form-check col-lg-5 col-md-5 col-sm-12 col-xs-12">
+              <input id="assumeRole" type="checkbox" class="form-check-input" formControlName="assumeRole">
+            </div>
+    
+          </div>
+
+          <div class="form-actions col-lg-7 col-md-7 col-sm-7 col-xs-7">
+            <div class="text-right">
+              <button type="submit" class="btn btn-primary" (click)="onExportToS3FormSubmit(exportToS3Form)" type="submit" [disabled]="exportToS3Form.invalid" >Submit</button>
+              <button type="button" class="btn btn-inverse" (click)="onCancel(exportToS3Form)" >Cancel</button>
+            </div>
+          </div>
+
+        </form>
+        
+      </tab>
+
+      <tab heading="Azure">
+
+        <h5>Export data to Azure Blob :</h5>
+        <hr>
+
+        <form class="form-horizontal" role="form" name="exportToAzureForm" [formGroup]="exportToAzureForm">
+
+          <div class="form-group row mt">
+
+            <label for="accountname"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Account Name:</label>
+    
+            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+              <input type="text" id="accountname" class="form-control pl-3" formControlName="accountname" 
+                placeholder="arn:partition:service:region:account-id:resource-type:resource-id" required/>
+            </div>
+    
+            <div class="errors" 
+              *ngIf="exportToAzureForm.controls.accountname.invalid && (exportToAzureForm.controls.accountname.touched || exportToAzureForm.controls.accountname.dirty)">
+              <small class="form-text text-danger" *ngIf="exportToAzureForm.controls.accountname.errors.required">Account Name is required!</small>
+            </div>
+    
+          </div>
+
+          <div class="form-group row mt">
+
+            <label for="accountkey"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Account Key :</label>
+    
+            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+              <input type="text" id="accountkey" class="form-control pl-3" formControlName="accountkey" required/>
+            </div>
+    
+            <div class="errors" 
+              *ngIf="exportToAzureForm.controls.accountkey.invalid && (exportToAzureForm.controls.accountkey.touched || exportToAzureForm.controls.accountkey.dirty)">
+              <small class="form-text text-danger" *ngIf="exportToAzureForm.controls.accountkey.errors.required">Account Key is required!</small>
+            </div>
+    
+          </div>
+
+          <div class="form-group row mt">
+
+            <label for="containerid"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Container ID:</label>
+    
+            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+              <input type="text" id="containerid" class="form-control pl-3" formControlName="containerid" required/>
+            </div>
+    
+            <div class="errors" 
+              *ngIf="exportToAzureForm.controls.containerid.invalid && (exportToAzureForm.controls.containerid.touched || exportToAzureForm.controls.containerid.dirty)">
+              <small class="form-text text-danger" *ngIf="exportToAzureForm.controls.containerid.errors.required">Container ID is required!</small>
+            </div>
+    
+          </div>
+
+          <div class="form-actions col-lg-7 col-md-7 col-sm-7 col-xs-7">
+            <div class="text-right">
+              <button type="submit" class="btn btn-primary" (click)="onExportToAzureFormSubmit(exportToAzureForm)" type="submit" [disabled]="exportToAzureForm.invalid" >Submit</button>
+              <button type="button" class="btn btn-inverse" (click)="onCancel(exportToAzureForm)" >Cancel</button>
+            </div>
+          </div>
+
+        </form>
+        
+      </tab>
+
+      <tab heading="Google">
+
+        <h5>Export data to Google Storage :</h5>
+        <hr>
+
+        <form class="form-horizontal" role="form" name="exportToGoogleForm" [formGroup]="exportToGoogleForm">
+
+          <div class="form-group row mt">
+
+            <label for="accesskey_google"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Access Key:</label>
+    
+            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+              <input type="text" id="accesskey_google" class="form-control pl-3" formControlName="accesskey" 
+                placeholder="arn:partition:service:region:account-id:resource-type:resource-id" required/>
+            </div>
+    
+            <div class="errors" 
+              *ngIf="exportToGoogleForm.controls.accesskey.invalid && (exportToGoogleForm.controls.accesskey.touched || exportToGoogleForm.controls.accesskey.dirty)">
+              <small class="form-text text-danger" *ngIf="exportToGoogleForm.controls.accesskey.errors.required">Access Key is required!</small>
+            </div>
+    
+          </div>
+
+          <div class="form-group row mt">
+
+            <label for="secret_google"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Secret :</label>
+    
+            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+              <input type="text" id="secret_google" class="form-control pl-3" formControlName="secret" required/>
+            </div>
+    
+            <div class="errors" 
+              *ngIf="exportToGoogleForm.controls.secret.invalid && (exportToGoogleForm.controls.secret.touched || exportToGoogleForm.controls.secret.dirty)">
+              <small class="form-text text-danger" *ngIf="exportToGoogleForm.controls.secret.errors.required">Secret is required!</small>
+            </div>
+    
+          </div>
+
+          <div class="form-group row mt">
+
+            <label for="bucketname"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Bucket Name:</label>
+    
+            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+              <input type="text" id="bucketname" class="form-control pl-3" formControlName="bucketname" required/>
+            </div>
+    
+            <div class="errors" 
+              *ngIf="exportToGoogleForm.controls.bucketname.invalid && (exportToGoogleForm.controls.bucketname.touched || exportToGoogleForm.controls.bucketname.dirty)">
+              <small class="form-text text-danger" *ngIf="exportToGoogleForm.controls.bucketname.errors.required">Bucket Name is required!</small>
+            </div>
+    
+          </div>
+
+          <div class="form-actions col-lg-7 col-md-7 col-sm-7 col-xs-7">
+            <div class="text-right">
+              <button type="submit" class="btn btn-primary" (click)="onExportToGoogleFormSubmit(exportToGoogleForm)" type="submit" [disabled]="exportToGoogleForm.invalid" >Submit</button>
+              <button type="button" class="btn btn-inverse" (click)="onCancel(exportToGoogleForm)" >Cancel</button>
+            </div>
+          </div>
+
+        </form>
+
+      </tab>
+
+    </tabset>
+  </div>
 </div>

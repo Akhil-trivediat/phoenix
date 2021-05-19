@@ -191,6 +191,10 @@
 
 /* Graph Section */
 
+.analytics-section > .details-section form .form-group {
+    margin-bottom: 1rem;
+}
+
 .analytics-section > .details-section label {
     width: 46%;
     margin-left: 15px;

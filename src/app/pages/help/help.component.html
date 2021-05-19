@@ -1,41 +1,59 @@
 <div class="row">
-    <div class="col-12 mb-lg"> 
-        <form class="form-horizontal" role="form">
-            <fieldset>
-              <legend><strong>Contact Us</strong></legend>
-              <div class="form-group row">
-                <label for="normal-field" class="col-md-4  col-form-label text-md-right">Full Name</label>
-                <div class="col-md-7 ">
-                  <input type="text" id="normal-field" class="form-control input-transparent"
-                    placeholder="">
-                </div>
-              </div>
-              
-              <div class="form-group row">
-                <label for="accesskey" class="col-md-4 col-form-label text-md-right">
-                  Email
-                </label>
-                <div class="col-md-7 ">
-                  <input type="text" id="email" class="form-control input-transparent">
-                </div>
-              </div>
-              
-              <div class="form-group row">
-                <label for="message" class="col-md-4 col-form-label text-md-right">
-                  Message
-                </label>
-                <div class="col-md-7 ">
-                    <textarea rows="4" class="form-control input-transparent" id="message"></textarea>
-                </div>
-              </div>
-              <div class="form-group row">
-                <div class="col-md-7">
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                  <button type="button" class="btn btn-inverse ml-xs">Cancel</button>
-                </div>
-              </div>
-            </fieldset>
-            
-          </form>
-    </div>
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-horizontal-custom">
+
+    <h5>Contact Us: </h5>
+    <hr>
+
+    <form class="form-horizontal" role="form" name="helpForm" [formGroup]="helpForm">
+
+      <div class="form-group row mt">
+
+        <label for="fullname"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Full Name:</label>
+
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+          <input type="text" id="fullname" class="form-control pl-3" formControlName="name" required />
+        </div>
+
+        <div class="errors" 
+          *ngIf="helpForm.controls.name.invalid && (helpForm.controls.name.touched || helpForm.controls.name.dirty)">
+          <small class="form-text text-danger" *ngIf="helpForm.controls.name.errors.required">Name is required!</small>
+        </div>
+
+      </div>
+
+      <div class="form-group row mt">
+
+        <label for="email"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Email:</label>
+
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+          <input type="email" id="email" class="form-control pl-3" formControlName="email" required />
+        </div>
+
+        <div class="errors" 
+          *ngIf="helpForm.controls.email.invalid && (helpForm.controls.email.touched || helpForm.controls.email.dirty)">
+          <small class="form-text text-danger" *ngIf="helpForm.controls.email.errors.required">Email is required!</small>
+        </div>
+
+      </div>
+
+      <div class="form-group row mt">
+
+        <label for="message"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Message:</label>
+
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+          <textarea rows="4" class="form-control" id="message" formControlName="message"></textarea>
+        </div>
+
+      </div>
+
+      <div class="form-actions col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <div class="text-right">
+          <button type="submit" class="btn btn-primary" (click)="onSubmit(helpForm)" type="submit" [disabled]="helpForm.invalid" >Submit</button>
+          <button type="button" class="btn btn-inverse" (click)="onCancel(helpForm)" >Cancel</button>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
 </div>

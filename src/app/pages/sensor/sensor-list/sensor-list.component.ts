@@ -12,6 +12,8 @@ import { SensorService } from '../services/sensor.service';
 
 import { HttpClient } from '@angular/common/http';
 import {string} from "@amcharts/amcharts4/core";
+import {Subscription} from "rxjs";
+
 
 @Component({
   selector: 'app-sensor-list',
@@ -24,6 +26,8 @@ export class SensorListComponent implements OnInit {
   bsModalRef: BsModalRef;
   sensorDetails: any;
   filterText : string;
+  private sub: Subscription;
+  status: number;
 
   constructor(
     @Inject(LOCALE_ID) private locale: string,
@@ -45,7 +49,14 @@ export class SensorListComponent implements OnInit {
     this.removeToken();
 
     this.getSensorList();
-
+    this.sub = this.route
+      .paramMap
+      // .filter(params => params.status)
+      .subscribe(params => {
+        // Defaults to 0 if no query param provided.
+        this.status = +params['status'] || 0;
+        console.log(status);
+      });
   }
 
   getUserDetails() {
@@ -101,7 +112,7 @@ export class SensorListComponent implements OnInit {
     if(this.filterText != '') {
 
       const val = event.target.value.toLowerCase();
-      
+
       this.sensorsArray = this.sensorsArray.filter(x => {
         return (x.sensorName.toLocaleLowerCase().includes(val)
           || x.sensorid.toLocaleLowerCase().includes(val));
@@ -109,7 +120,7 @@ export class SensorListComponent implements OnInit {
 
     }
   }
-  
+
   onAssignGateway(sensorID: string,gatewayID: string) {
     localStorage.setItem(this.GATEWAY_ID, gatewayID);
     const path = "/app/sensor/" + sensorID + "/assignGateway";

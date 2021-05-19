@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, NgZone, PLATFORM_ID } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router} from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpParams } from "@angular/common/http";
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -25,7 +25,7 @@ am4core.useTheme(am4themes_animated);
 })
 export class DashboardComponent implements OnInit {
 
-  
+
 
   // options = [
   //   { id: 1, label: 'One' },
@@ -34,7 +34,7 @@ export class DashboardComponent implements OnInit {
   //   { id: 4, label: 'Four' }
   // ];
   control = new FormControl();
-
+  status: string;
   username: string;
   location: string;
   totalGatewayCount: any = "0";
@@ -53,7 +53,7 @@ export class DashboardComponent implements OnInit {
     this.subscribetoMQTT();
   }
 
-  
+
 
   ngOnInit() {
     this.spinner.show();
@@ -64,13 +64,13 @@ export class DashboardComponent implements OnInit {
     // this.prepareDonutChart();
    // this.prepareHighChartDonutChart();
   }
-  
+
   ngAfterViewInit(){
     //jQuery('#world-map').vectorMap();
     //document.querySelector('#world-map').vectorMap();
   }
 
-  prepareHighChartDonutChart() { 
+  prepareHighChartDonutChart() {
 
     new Highcharts.Chart({
       navigator: {
@@ -248,7 +248,7 @@ export class DashboardComponent implements OnInit {
     circle.stroke = am4core.color("rgb(255, 255, 255)");
 
     //circle.propertyFields.fill = "color";
-    
+
     circle.nonScaling = true;
 
     let circle2 = imageSeries.mapImages.template.createChild(am4core.Circle);
@@ -256,7 +256,7 @@ export class DashboardComponent implements OnInit {
     circle2.strokeWidth = 2;
     circle2.fill = am4core.color("rgb(255, 194, 71)");
     circle2.stroke = am4core.color("rgb(255, 255, 255)");
-    
+
 
     circle2.events.on("inited", function(event){
       //animateBullet(event.target);
@@ -399,10 +399,10 @@ export class DashboardComponent implements OnInit {
     //   "latitude": -25.7463,
     //   "longitude": 28.1876,
     //   "color":colorSet.next()
-    // } 
+    // }
   ];
 
-  
+
 
   }
 
@@ -497,7 +497,7 @@ export class DashboardComponent implements OnInit {
   // }
 
   onGoToDevicePage(path: string) {
-    this.router.navigate([path]);
+    this.router.navigate([path], {queryParams:{status: 'Online'}});
   }
 
   subscribetoMQTT() {

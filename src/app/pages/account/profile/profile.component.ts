@@ -41,18 +41,29 @@ export class ProfileComponent implements OnInit {
       phonenumber: new FormControl(''),
       timezone: new FormControl('')
     });
+
+    this.fillFormData("");
   }
 
   fillFormData(formData: any) {
     this.profileForm.patchValue({
-      firstName: formData.firstname,
-      lastName: formData.lastname,
-      email: formData.email,
-      companyName: formData.companyname,
-      address: formData.address,
-      phonenumber: formData.phonenumber,
-      timezone: formData.timezone
+      firstName: "Suryasnata",
+      lastName: "Mohanty",
+      email: "suryasnata@trivediat.com",
+      companyName: "Trivedi",
+      address: "123 Street, Toronto",
+      phonenumber: "4145568992",
+      timezone: "EST"
     });
+    // this.profileForm.patchValue({
+    //   firstName: formData.firstname,
+    //   lastName: formData.lastname,
+    //   email: formData.email,
+    //   companyName: formData.companyname,
+    //   address: formData.address,
+    //   phonenumber: formData.phonenumber,
+    //   timezone: formData.timezone
+    // });
   }
 
   ngOnDestroy() {

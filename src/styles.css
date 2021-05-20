@@ -48,17 +48,27 @@ body .bs-datepicker-body table td span.is-highlighted:not(.disabled):not(.select
     text-align: center;
 }
 
+hr {
+    border-top: 1px solid grey;
+}
+
 .form-horizontal-custom h5 {
     font-weight: bold;
     clear: both;
 }
 
-.form-horizontal-custom hr {
-    border-top: 1px solid grey;
-}
-
 .form-horizontal-custom input::placeholder {
     color: #000000;
+}
+
+.form-horizontal-custom input.form-control-plaintext {
+    background-color: transparent;
+    color: #FFFFFF;
+    width: 100%;
+}
+
+.form-horizontal-custom input.form-control-plaintext:focus-visible {
+    outline: none;
 }
 
 .form-horizontal-custom .form-check input[type="checkbox"] {
@@ -69,6 +79,14 @@ body .bs-datepicker-body table td span.is-highlighted:not(.disabled):not(.select
     border-radius: 3px;
     background-color: #fff;
     transition: border .15s ease-in-out,color .15s ease-in-out;
+}
+
+.form-horizontal-custom textarea.form-control-plaintext {
+    background-color: transparent;
+    color: #FFFFFF;
+    resize: none;
+    font-family: inherit;
+    width: 100%;
 }
 
 .form-horizontal-custom .form-actions {

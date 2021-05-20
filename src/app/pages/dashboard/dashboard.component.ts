@@ -50,7 +50,7 @@ export class DashboardComponent implements OnInit {
     private pubsubService: PubsubService,
     private requesterService: RequesterService,
   ) {
-    this.subscribetoMQTT();
+    //this.subscribetoMQTT();
   }
 
   
@@ -435,9 +435,10 @@ export class DashboardComponent implements OnInit {
 
   getAllGateways() {
     const email = this.username;
-    //const email = "suryasnata@trivediat.com";
+
     this.requesterService.getRequest("/gateway" + "?email=" + email).subscribe(
       (gatewaysList) => {
+        this.subscribetoMQTTforGateway(gatewaysList);
         this.publishtoMQTTforGateway(gatewaysList);
         this.totalGatewayCount = gatewaysList.length;
         this.spinner.hide();
@@ -452,6 +453,12 @@ export class DashboardComponent implements OnInit {
   publishtoMQTTforGateway(gatewayList: any) {
     gatewayList.forEach((gateway: any) => {
       this.publishtoMQTT(gateway.id);
+    });
+  }
+
+  subscribetoMQTTforGateway(gatewayList: any) {
+    gatewayList.forEach((gateway: any) => {
+      this.subscribetoMQTT(gateway.id);
     });
   }
 
@@ -500,8 +507,11 @@ export class DashboardComponent implements OnInit {
     this.router.navigate([path]);
   }
 
-  subscribetoMQTT() {
-    this.pubsubService.subscribetoMQTT().subscribe(
+  subscribetoMQTT(clientId: any) {
+
+    let subTopic = clientId + this.pubsubService.getSubscriptionTopic();
+
+    this.pubsubService.subscribetoMQTT(subTopic).subscribe(
       data => {
         this.getActiveGatewayCount(data);
       },
@@ -518,7 +528,7 @@ export class DashboardComponent implements OnInit {
     }
 
     let IOTParams = {
-      topic: gatewayID + "/config_sub_tt_message",
+      topic: gatewayID + this.pubsubService.getPublishTopic(),
       payload: deviceConfigJSON
     }
 

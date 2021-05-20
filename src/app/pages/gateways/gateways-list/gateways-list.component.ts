@@ -43,7 +43,7 @@ export class GatewaysListComponent implements OnInit {
     private notificationService: NotificationService,
     @Inject(LOCALE_ID) private locale: string,
   ) {
-    this.subscribetoMQTT();
+    //this.subscribetoMQTT();
   }
 
   ngOnInit() {
@@ -54,9 +54,11 @@ export class GatewaysListComponent implements OnInit {
   getUserDetails() {
     return localStorage.getItem('USER_NAME');
   }
+
   gotoGatewayDetailsScreen(gatewayid: any) {
     this.router.navigate(['id/', gatewayid],{relativeTo: this.route});
   }
+
   filterGateway(event) {
     this.gatewaysArray = this.backupGatewayArray;
 
@@ -71,13 +73,18 @@ export class GatewaysListComponent implements OnInit {
 
     }
   }
+
   getGatewaysList() {
     let gatewayArray = [];
     const email = this.getUserDetails();
     this.requesterService.getRequest("/gateway" + "?email=" + email).subscribe(
       (gatewaysList) => {
         gatewaysList.forEach((gateway) => {
+
+          this.subscribetoMQTT(gateway["id"]);
+
           this.publishtoMQTT(gateway["id"]);
+
           (gatewayArray).push({
             'gatewayName': gateway["productname"],
             'gatewayid': gateway["id"],
@@ -154,8 +161,11 @@ export class GatewaysListComponent implements OnInit {
     });
   }
 
-  subscribetoMQTT() {
-    this.pubsubService.subscribetoMQTT().subscribe(
+  subscribetoMQTT(clientId: any) {
+
+    let subTopic = clientId + this.pubsubService.getSubscriptionTopic();
+
+    this.pubsubService.subscribetoMQTT(subTopic).subscribe(
       data => {
         console.log(data);
         this.setGatewayStatus(data);
@@ -173,7 +183,7 @@ export class GatewaysListComponent implements OnInit {
     }
 
     let IOTParams = {
-      topic: gatewayID + "/config_sub_tt_message",
+      topic: gatewayID + this.pubsubService.getPublishTopic(),
       payload: deviceConfigJSON
     }
 

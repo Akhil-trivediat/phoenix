@@ -12,6 +12,7 @@ import { RequesterService } from './requester.service';
   providedIn: 'root'
 })
 export class PubsubService {
+
     private IOT_REGION: any = environment.cognito.region;
     private IOT_ENDPOINT: string = environment.iotEndpoint;
     private IOT_POLICY: string = environment.iotPolicy;
@@ -36,13 +37,13 @@ export class PubsubService {
         }
     }
 
-    subscribetoMQTT(): zenObservable<any> {
+    subscribetoMQTT(topic: any): zenObservable<any> {
         Amplify.addPluggable(new AWSIoTProvider({
             aws_pubsub_region: this.IOT_REGION,
             aws_pubsub_endpoint: this.IOT_ENDPOINT,
         }));
 
-        return PubSub.subscribe('m500{0001c02a195c}/config_pub_tt_message').map(
+        return PubSub.subscribe(topic).map(
             response => {
                 return response;
             }
@@ -55,17 +56,17 @@ export class PubsubService {
                 return this.handleExternalRequestException(error);
             })
         );
-        // this.requesterService.addRequest("/iotdevice", JSON.stringify(requestBody)).subscribe(
-        //     response => {
-        //       console.log(response);
-        //     },
-        //     error => {
-        //       console.log(error);
-        //     }
-        // );
     }
 
     private handleExternalRequestException(error: any) {
         return throwError(error);
+    }
+
+    getSubscriptionTopic() {
+       return "/config_pub_tt_message"; 
+    }
+
+    getPublishTopic() {
+        return "/config_sub_tt_message"; 
     }
 }

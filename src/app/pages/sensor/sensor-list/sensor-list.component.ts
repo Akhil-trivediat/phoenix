@@ -1,17 +1,15 @@
-import { Component, OnInit, Inject, LOCALE_ID  } from '@angular/core';
-import { formatDate } from '@angular/common';
-import { ColumnMode } from "@swimlane/ngx-datatable";
-import { HttpParams } from "@angular/common/http";
-import { ActivatedRoute, Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { Sensor } from '../../../models/commonmodel.data';
-import { RequesterService } from '../../../shared/service/requester.service';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { NgxDialogComponent } from 'src/app/shared/component/ngx-dialog/ngx-dialog.component';
-import { SensorService } from '../services/sensor.service';
-
-import { HttpClient } from '@angular/common/http';
-import {string} from "@amcharts/amcharts4/core";
+import {Component, Inject, LOCALE_ID, OnInit} from '@angular/core';
+import {formatDate} from '@angular/common';
+import {ColumnMode} from "@swimlane/ngx-datatable";
+import {HttpClient, HttpParams} from "@angular/common/http";
+import {ActivatedRoute, Router} from '@angular/router';
+import {NgxSpinnerService} from 'ngx-spinner';
+import {Sensor} from '../../../models/commonmodel.data';
+import {RequesterService} from '../../../shared/service/requester.service';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import {NgxDialogComponent} from 'src/app/shared/component/ngx-dialog/ngx-dialog.component';
+import {SensorService} from '../services/sensor.service';
+import 'rxjs/add/operator/filter';
 import {Subscription} from "rxjs";
 
 
@@ -27,8 +25,7 @@ export class SensorListComponent implements OnInit {
   sensorDetails: any;
   filterText : string;
   private sub: Subscription;
-  status: number;
-
+  private status: string;
   constructor(
     @Inject(LOCALE_ID) private locale: string,
     private requesterService: RequesterService,
@@ -38,26 +35,44 @@ export class SensorListComponent implements OnInit {
     private route: ActivatedRoute,
     private http: HttpClient,
     private sensorService: SensorService
-  ) { }
+  ) {
+    this.route.queryParams.filter(params => params.status).subscribe(params => {
+      this.status = params.status;
+      console.log(this.status);
+    });
+   }
   sensorsArray = [];
   backupSensorArray = [];
 
   ngOnInit() {
 
+    this.route.queryParams.subscribe(params => {
+      if(params.status == null && this.status != null){
+        this.status = null;
+        this.spinner.show();
+        this.getSensorList();
+       }
+    });
     this.spinner.show();
 
     this.removeToken();
 
     this.getSensorList();
-    this.sub = this.route
-      .paramMap
-      // .filter(params => params.status)
-      .subscribe(params => {
-        // Defaults to 0 if no query param provided.
-        this.status = +params['status'] || 0;
-        console.log(status);
-      });
+
+
   }
+ // get statusFilter(){
+ //    return this._statusFilter;
+ // }
+ // set statusFilter(value: string){
+ //    this._statusFilter = value;
+ //    // this.filterList = this.filterStatusList(value);
+ // }
+ //  filterStatusList(statusString: string){
+ //    return this.sensorsArray.filter(x => {
+ //      return (x.status.toLocaleLowerCase().indexOf(statusString.toLocaleLowerCase()) !== -1);
+ //    });
+ //  }
 
   getUserDetails() {
     return localStorage.getItem('USER_NAME');
@@ -91,7 +106,13 @@ export class SensorListComponent implements OnInit {
             'currentReading': currReading
           });
         });
-        this.sensorsArray = sensorArray;
+        if(this.status != null) {
+          this.sensorsArray = sensorArray.filter(value => value.status == this.status);
+        }
+        else {
+          this.sensorsArray = sensorArray;
+        }
+        // this.sensorsArray = sensorArray;
         this.backupSensorArray = this.sensorsArray;
         this.spinner.hide();
       },

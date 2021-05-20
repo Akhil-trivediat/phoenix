@@ -41,6 +41,7 @@ export class DashboardComponent implements OnInit {
   activeGatewayCount: any = "0";
   totalSensorCount: any = "0";
   activeSensorCount: any = "0";
+  statusFilter: any;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId,
@@ -496,8 +497,13 @@ export class DashboardComponent implements OnInit {
   //   this.router.navigate([path]);
   // }
 
-  onGoToDevicePage(path: string) {
-    this.router.navigate([path], {queryParams:{status: 'Online'}});
+  onGoToDevicePage(path: string, deviceStatus: string) {
+    if(deviceStatus != '') {
+      this.router.navigate([path], {queryParams: {status: deviceStatus}});
+    }
+    else{
+      this.router.navigate([path]);
+    }
   }
 
   subscribetoMQTT() {

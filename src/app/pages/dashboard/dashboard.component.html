@@ -28,11 +28,11 @@
                   </div>
 
                   <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 device-status-sectionB">
-                    <div class="status-circle online" (click)="onGoToDevicePage('/app/sensor')">
+                    <div class="status-circle online" (click)="onGoToDevicePage('/app/sensor','Online')">
                       <span>{{activeSensorCount}}</span>
                     </div>
 
-                    <div class="status-circle offline" (click)="onGoToDevicePage('/app/sensor')">
+                    <div class="status-circle offline" (click)="onGoToDevicePage('/app/sensor','Offline')">
                       <span>{{totalSensorCount - activeSensorCount}}</span>
                     </div>
                   </div>
@@ -40,7 +40,7 @@
                 </div>
                 <div class="row footer">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <a class="float-right" (click)="onGoToDevicePage('app/sensor/addSensor')">
+                    <a class="float-right" (click)="onGoToDevicePage('app/sensor/addSensor','')">
                       <i class="glyphicon glyphicon-plus text-white"></i>
                     </a>
                   </div>
@@ -75,11 +75,11 @@
               </div>
 
               <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 device-status-sectionB">
-                <div class="status-circle online" (click)="onGoToDevicePage('/app/gateway')">
+                <div class="status-circle online" (click)="onGoToDevicePage('/app/gateway', 'Online')">
                   <span>{{activeGatewayCount}}</span>
                 </div>
 
-                <div class="status-circle offline" (click)="onGoToDevicePage('/app/gateway')">
+                <div class="status-circle offline" (click)="onGoToDevicePage('/app/gateway','Offline')">
                   <span>{{totalGatewayCount - activeGatewayCount}}</span>
                 </div>
               </div>
@@ -87,7 +87,7 @@
             </div>
             <div class="row footer">
               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <a class="float-right" (click)="onGoToDevicePage('app/gateway/addGateway')">
+                <a class="float-right" (click)="onGoToDevicePage('app/gateway/addGateway','')">
                   <i class="glyphicon glyphicon-plus text-white"></i>
                 </a>
               </div>

@@ -13,7 +13,7 @@
           [fullscreenControl]="false"
           [collapseControl]="false"
           [closeControl]="false"
-          titleClass="mt-0"> 
+          titleClass="mt-0">
               <div class="widget-content">
 
                 <div class="row">
@@ -21,18 +21,18 @@
                   <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 device-status-sectionA">
 
                     <div class="header">
-                      <i class="fa fa-thermometer-half icon"></i> 
+                      <i class="fa fa-thermometer-half icon"></i>
                       <span>Sensors</span>
-                    </div> 
+                    </div>
 
                   </div>
 
                   <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 device-status-sectionB">
-                    <div class="status-circle online" (click)="onGoToDevicePage('/app/sensor')">
+                    <div class="status-circle online" (click)="onGoToDevicePage('/app/sensor','Online')">
                       <span>{{activeSensorCount}}</span>
                     </div>
-  
-                    <div class="status-circle offline" (click)="onGoToDevicePage('/app/sensor')"> 
+
+                    <div class="status-circle offline" (click)="onGoToDevicePage('/app/sensor','Offline')">
                       <span>{{totalSensorCount - activeSensorCount}}</span>
                     </div>
                   </div>
@@ -40,12 +40,12 @@
                 </div>
                 <div class="row footer">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <a class="float-right" (click)="onGoToDevicePage('app/sensor/addSensor')">
-                      <i class="glyphicon glyphicon-plus text-white"></i> 
+                    <a class="float-right" (click)="onGoToDevicePage('app/sensor/addSensor','')">
+                      <i class="glyphicon glyphicon-plus text-white"></i>
                     </a>
                   </div>
                 </div>
-                
+
               </div>
       </section>
 
@@ -64,44 +64,44 @@
           <div class="widget-content">
 
             <div class="row">
-      
+
               <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 device-status-sectionA">
-      
+
                 <div class="header">
                   <img src="assets/img/phoenix/router.svg" alt="Gateway">
                   <span>Gateways</span>
-                </div> 
-      
+                </div>
+
               </div>
-      
+
               <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 device-status-sectionB">
-                <div class="status-circle online" (click)="onGoToDevicePage('/app/gateway')"> 
+                <div class="status-circle online" (click)="onGoToDevicePage('/app/gateway', 'Online')">
                   <span>{{activeGatewayCount}}</span>
                 </div>
-      
-                <div class="status-circle offline" (click)="onGoToDevicePage('/app/gateway')"> 
+
+                <div class="status-circle offline" (click)="onGoToDevicePage('/app/gateway','Offline')">
                   <span>{{totalGatewayCount - activeGatewayCount}}</span>
                 </div>
               </div>
-      
+
             </div>
             <div class="row footer">
               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <a class="float-right" (click)="onGoToDevicePage('app/gateway/addGateway')">
-                  <i class="glyphicon glyphicon-plus text-white"></i> 
+                <a class="float-right" (click)="onGoToDevicePage('app/gateway/addGateway','')">
+                  <i class="glyphicon glyphicon-plus text-white"></i>
                 </a>
               </div>
             </div>
-            
+
           </div>
         </section>
     </div>
 
-    
+
 
     <!-- <div class="col-md-3 col-sm-12 col-xs-12">
 
-      <section 
+      <section
           class="mx-auto"
           widgster
           [optionsControl]="false"
@@ -115,9 +115,9 @@
 
     </div> -->
 
-    <!--  <div class="col-md-3 col-sm-12 col-xs-12"> 
+    <!--  <div class="col-md-3 col-sm-12 col-xs-12">
 
-      <section 
+      <section
           class="mx-auto"
           widgster
           [optionsControl]="false"
@@ -136,7 +136,7 @@
   <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
 
-      <section 
+      <section
         class="mx-auto"
         widgster
         [optionsControl]="false"
@@ -145,17 +145,17 @@
         [collapseControl]="false"
         [closeControl]="false"
         titleClass="mt-0">
-          <div id="chartdiv" style="width: 100%; height: 500px"></div> 
+          <div id="chartdiv" style="width: 100%; height: 500px"></div>
       </section>
 
-      
+
     </div>
   </div>
 
   <div class="row">
 
     <div class="col-md-4 col-sm-12 col-xs-12">
-      <section 
+      <section
         class="mx-auto"
         widgster
         [optionsControl]="false"
@@ -238,7 +238,7 @@
 
     <div class="col-md-4 col-sm-12 col-xs-12">
 
-      <section 
+      <section
         class="mx-auto"
         widgster
         [optionsControl]="false"
@@ -283,12 +283,12 @@
             </div>
           </div>
       </section>
-      
+
     </div>
 
     <div class="col-md-4 col-sm-12 col-xs-12">
 
-      <section 
+      <section
         class="mx-auto"
         widgster
         [optionsControl]="false"
@@ -338,8 +338,8 @@
             </div>
           </div>
       </section>
-      
+
     </div>
   </div>
-  
+
   </div>

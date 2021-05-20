@@ -32,7 +32,7 @@ export class GatewaysListComponent implements OnInit {
   };
   gatewaysArray = [];
   backupGatewayArray = [];
-
+  private status: string;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -43,10 +43,22 @@ export class GatewaysListComponent implements OnInit {
     private notificationService: NotificationService,
     @Inject(LOCALE_ID) private locale: string,
   ) {
-    //this.subscribetoMQTT();
+
+    this.route.queryParams.filter(params => params.status).subscribe(params => {
+      this.status = params.status;
+      console.log(this.status);
+    });
+    
   }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      if(params.status == null && this.status != null){
+        this.status = null;
+        this.spinner.show();
+        this.getGatewaysList();
+      }
+    });
     this.spinner.show();
     this.getGatewaysList();
   }
@@ -94,7 +106,13 @@ export class GatewaysListComponent implements OnInit {
             'lastconnected': gateway["lastconnected"]
           });
         });
-        this.gatewaysArray = gatewayArray;
+        if(this.status != null) {
+          this.gatewaysArray = gatewayArray.filter(value => value.status == this.status);
+        }
+        else {
+          this.gatewaysArray = gatewayArray;
+        }
+        // this.gatewaysArray = gatewayArray;
         this.backupGatewayArray = this.gatewaysArray;
         this.spinner.hide();
       },

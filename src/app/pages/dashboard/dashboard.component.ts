@@ -439,7 +439,7 @@ export class DashboardComponent implements OnInit {
 
     this.requesterService.getRequest("/gateway" + "?email=" + email).subscribe(
       (gatewaysList) => {
-        this.subscribetoMQTTforGateway(gatewaysList);
+        //this.subscribetoMQTTforGateway(gatewaysList);
         this.publishtoMQTTforGateway(gatewaysList);
         this.totalGatewayCount = gatewaysList.length;
         this.spinner.hide();

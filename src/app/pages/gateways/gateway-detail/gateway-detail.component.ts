@@ -56,7 +56,7 @@ export class GatewayDetailComponent implements OnInit {
       this.gatewayid = params['id'];
     });
 
-    this.subscribetoMQTT(this.gatewayid);
+   // this.subscribetoMQTT(this.gatewayid);
 
     this.getGatewayDetails();
 

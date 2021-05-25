@@ -36,11 +36,12 @@ export class SensorListComponent implements OnInit {
     private http: HttpClient,
     private sensorService: SensorService
   ) {
+
     this.route.queryParams.filter(params => params.status).subscribe(params => {
       this.status = params.status;
-      console.log(this.status);
     });
-   }
+
+  }
   sensorsArray = [];
   backupSensorArray = [];
 
@@ -53,6 +54,7 @@ export class SensorListComponent implements OnInit {
         this.getSensorList();
        }
     });
+    
     this.spinner.show();
 
     this.removeToken();

@@ -16,7 +16,7 @@ import { SharedModule } from '../../shared/component/shared.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { Angular2CsvModule } from 'angular2-csv';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
-import {TooltipModule} from "ngx-bootstrap";
+import { TooltipModule } from "ngx-bootstrap";
 
 const routes: Routes = [
   {

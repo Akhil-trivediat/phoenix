@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, LOCALE_ID } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { ColumnMode } from "@swimlane/ngx-datatable";
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpParams } from "@angular/common/http";
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
@@ -44,23 +44,30 @@ export class GatewaysListComponent implements OnInit {
     @Inject(LOCALE_ID) private locale: string,
   ) {
 
-    this.route.queryParams.filter(params => params.status).subscribe(params => {
-      this.status = params.status;
-      console.log(this.status);
-    });
+    // this.route.paramMap.filter(params => params['status']).subscribe(params => {
+    //   this.status = params['status'];
+    // });
     
   }
 
   ngOnInit() {
+
+    // this.route.queryParams.subscribe(params => {
+    //   if(params.status == null && this.status != null){
+    //     this.status = null;
+    //     this.spinner.show();
+    //     this.getGatewaysList();
+    //   }
+    // });
+
     this.route.queryParams.subscribe(params => {
-      if(params.status == null && this.status != null){
-        this.status = null;
-        this.spinner.show();
-        this.getGatewaysList();
-      }
+      this.status = params.status || null;
     });
+
     this.spinner.show();
+
     this.getGatewaysList();
+
   }
 
   getUserDetails() {
@@ -93,14 +100,14 @@ export class GatewaysListComponent implements OnInit {
       (gatewaysList) => {
         gatewaysList.forEach((gateway) => {
 
-          this.subscribetoMQTT(gateway["id"]);
+        //  this.subscribetoMQTT(gateway["id"]);
 
           this.publishtoMQTT(gateway["id"]);
 
           (gatewayArray).push({
             'gatewayName': gateway["productname"],
             'gatewayid': gateway["id"],
-            'status': gateway["status"],
+            'status': gateway["status"] ? gateway["status"] : "Offline",
             'sensor': gateway["sensor"],
             'activationdate': gateway["createddate"].length > 0 ? formatDate(gateway["createddate"],'MM/dd/yyyy,HH:mm',this.locale) : gateway["createddate"],
             'lastconnected': gateway["lastconnected"]

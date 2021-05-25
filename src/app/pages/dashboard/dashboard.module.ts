@@ -13,7 +13,6 @@ import { FilterPipe } from './autocomplete-input-bar/filter.pipe';
 import { AutocompleteDirective } from './autocomplete-input-bar/autocomplete.directive';
 import { AutocompleteContentDirective } from './autocomplete-input-bar/autocomplete-content.directive';
 import { AutocompleteOptionComponent } from './autocomplete-input-bar/autocomplete-option/autocomplete-option.component';
-import {SensorListComponent} from "../sensor/sensor-list/sensor-list.component";
 
 const routes: Routes = [
   {

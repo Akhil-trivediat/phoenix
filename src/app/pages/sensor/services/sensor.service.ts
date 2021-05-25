@@ -37,16 +37,18 @@ export class SensorService {
               }
 
               return {
-                  id: response.sensorid,
-                  name: response.sensorname,
-                  gatewayName: response.gatewayname,
-                  readingValue: currReading,
-                  lastCommDate: formatDate(response.lastCommDate,'MM/dd/yyyy,h:mm a',this.locale),
-                  location: "",
-                  minThreshold: response.minThreshold,
-                  maxThreshold: response.maxThreshold,
-                  status:  response.status,
-                  uom: response.readingUnit
+                id: response.sensorid,
+                name: response.sensorname,
+                gatewayName: response.gatewayname,
+                readingValue: currReading,
+                lastCommDate: formatDate(response.lastCommDate,'MM/dd/yyyy,h:mm a',this.locale),
+                location: "",
+                minThreshold: response.minThreshold,
+                maxThreshold: response.maxThreshold,
+                status:  response.status,
+                uom: response.readingUnit,
+                transmittertype: response.transmittertype,
+                humidity: response.humidity ? parseFloat(response.humidity).toFixed(2) + this.getUnitofMeasurment("humi") : ""
               }
             }
         )
@@ -68,7 +70,9 @@ export class SensorService {
               minThreshold: response.minThreshold,
               maxThreshold: response.maxThreshold,
               status:  response.status,
-              uom: response.readingUnit
+              uom: response.readingUnit,
+              transmittertype: response.transmittertype,
+              humidity: response.humidity ? parseFloat(response.humidity).toFixed(2) + " %" : ""
           }
       }
     );
@@ -118,6 +122,35 @@ export class SensorService {
       startDate: startDate,
       endDate: endDate
     });
+  }
+
+  getUnitofMeasurment(type: string, uom?: string) {
+
+    if(type == "temp") {
+
+      if(uom.toLowerCase() == "celsius") {
+
+        return " °C";
+
+      } else if ( uom.toLowerCase() == "fahrenheit" ) {
+
+        return " °F";
+
+      } else {
+
+        return " ";
+
+      }
+    } else if(type == "humi") {
+
+      return " %";
+
+    } else {
+
+      return " ";
+
+    }
+
   }
 
 }

@@ -45,16 +45,23 @@ export class GatewayDetailComponent implements OnInit {
     private requesterService: RequesterService,
     private notificationService: NotificationService
   ) { 
-    this.subscribetoMQTT();
+    //this.subscribetoMQTT();
   }
 
   ngOnInit() {
+
     this.spinner.show();
+
     this.subscription = this.route.params.subscribe(params => {
       this.gatewayid = params['id'];
     });
+
+   // this.subscribetoMQTT(this.gatewayid);
+
     this.getGatewayDetails();
+
     this.prepareForm();
+
     this.getSensorStatus();
     //this.formatJSONtoFlatList(this.jsonArray);
   }
@@ -121,8 +128,11 @@ export class GatewayDetailComponent implements OnInit {
     return localStorage.getItem('USER_NAME');
   }
 
-  subscribetoMQTT() {
-    this.pubsubService.subscribetoMQTT().subscribe(
+  subscribetoMQTT(clientId: any) {
+
+    let subTopic = clientId + this.pubsubService.getSubscriptionTopic();
+
+    this.pubsubService.subscribetoMQTT(subTopic).subscribe(
       data => {
         console.log(data);
         this.storeMQTTresponse(data.value);
@@ -146,7 +156,7 @@ export class GatewayDetailComponent implements OnInit {
     }
 
     let IOTParams = {
-      topic: this.gatewayid + "/config_sub_tt_message",
+      topic: this.gatewayid + this.pubsubService.getPublishTopic(),
       payload: deviceConfigJSON
     }
 
@@ -586,7 +596,7 @@ export class GatewayDetailComponent implements OnInit {
     }
 
     let IOTParams = {
-      topic: this.gatewayid + "/config_sub_tt_message",
+      topic: this.gatewayid + this.pubsubService.getPublishTopic(),
       payload: deviceConfigJSON
     }
 

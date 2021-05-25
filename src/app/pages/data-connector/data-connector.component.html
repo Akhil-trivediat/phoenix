@@ -19,7 +19,7 @@
 
           <div class="form-group row mt">
 
-            <label for="arn"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Amazon Resource Name (ARN):</label>
+            <label for="arn"  class="col-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12">Amazon Resource Name (ARN):</label>
     
             <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
               <input type="text" id="arn" class="form-control pl-3" formControlName="arn" placeholder="arn:partition:service:region:account-id:resource-type:resource-id" required/>
@@ -34,7 +34,7 @@
 
           <div class="form-group row mt">
 
-            <label for="accesskey"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Access key:</label>
+            <label for="accesskey"  class="col-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12">Access key:</label>
     
             <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
               <input type="text" id="accesskey" class="form-control pl-3" formControlName="accesskey" required/>
@@ -49,7 +49,7 @@
 
           <div class="form-group row mt">
 
-            <label for="secret"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Secret:</label>
+            <label for="secret"  class="col-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12">Secret:</label>
     
             <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
               <input type="text" id="secret" class="form-control pl-3" formControlName="secret" required/>
@@ -64,7 +64,7 @@
 
           <div class="form-group row mt">
 
-            <label for="region"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Region:</label>
+            <label for="region"  class="col-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12">Region:</label>
     
             <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
               <input type="text" id="region" class="form-control pl-3" formControlName="region" required/>
@@ -79,7 +79,8 @@
 
           <div class="form-group row mt">
 
-            <label for="assumeRole"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Assume STS Role:</label>
+            <label for="assumeRole"  class="col-form-labelcol-lg-2 col-md-2 col-sm-12 col-xs-12">Assume STS Role:</label>
+
             <div class="form-check col-lg-5 col-md-5 col-sm-12 col-xs-12">
               <input id="assumeRole" type="checkbox" class="form-check-input" formControlName="assumeRole">
             </div>
@@ -106,7 +107,7 @@
 
           <div class="form-group row mt">
 
-            <label for="accountname"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Account Name:</label>
+            <label for="accountname"  class="col-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12">Account Name:</label>
     
             <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
               <input type="text" id="accountname" class="form-control pl-3" formControlName="accountname" 
@@ -122,7 +123,7 @@
 
           <div class="form-group row mt">
 
-            <label for="accountkey"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Account Key :</label>
+            <label for="accountkey"  class="col-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12">Account Key :</label>
     
             <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
               <input type="text" id="accountkey" class="form-control pl-3" formControlName="accountkey" required/>
@@ -137,7 +138,7 @@
 
           <div class="form-group row mt">
 
-            <label for="containerid"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Container ID:</label>
+            <label for="containerid"  class="col-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12">Container ID:</label>
     
             <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
               <input type="text" id="containerid" class="form-control pl-3" formControlName="containerid" required/>
@@ -170,7 +171,7 @@
 
           <div class="form-group row mt">
 
-            <label for="accesskey_google"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Access Key:</label>
+            <label for="accesskey_google"  class="col-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12">Access Key:</label>
     
             <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
               <input type="text" id="accesskey_google" class="form-control pl-3" formControlName="accesskey" 
@@ -186,7 +187,7 @@
 
           <div class="form-group row mt">
 
-            <label for="secret_google"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Secret :</label>
+            <label for="secret_google"  class="col-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12">Secret :</label>
     
             <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
               <input type="text" id="secret_google" class="form-control pl-3" formControlName="secret" required/>
@@ -201,7 +202,7 @@
 
           <div class="form-group row mt">
 
-            <label for="bucketname"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Bucket Name:</label>
+            <label for="bucketname"  class="col-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12">Bucket Name:</label>
     
             <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
               <input type="text" id="bucketname" class="form-control pl-3" formControlName="bucketname" required/>

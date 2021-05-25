@@ -64,12 +64,14 @@ export class SensorDetailComponent implements OnInit {
     maxThreshold: "",
     status: "",
     sensorstobeDisplayedonGraph: [],
-    uom: ""
+    uom: "",
+    transmittertype: "",
+    humidity: ""
   };
 
   columns = [
     { name: 'timestamp', prop: 'timestamp' }, 
-    { name: 'Temperature (°C)', prop: 'temperature' }
+    { name: 'Temperature' + this.sensorService.getUnitofMeasurment("temp","celsius"), prop: 'temperature' }
   ];
 
   private $graph_textcolor = "#FFFFFF";
@@ -216,7 +218,8 @@ export class SensorDetailComponent implements OnInit {
       gatewayName: new FormControl({value: '', disabled: true}, [Validators.required]),
       minThres: new FormControl({value: '', disabled: true}, [Validators.required]),
       maxThres: new FormControl({value: '', disabled: true}, [Validators.required]),
-      sensorType: new FormControl({value: '', disabled: true}, [Validators.required])
+      transmitterType: new FormControl({value: '', disabled: true}, [Validators.required]),
+      humidity: new FormControl({value: '', disabled: true}, [Validators.required])
     }); 
 
     this.addSensorForm = new FormGroup({
@@ -235,7 +238,8 @@ export class SensorDetailComponent implements OnInit {
         gatewayName: sensorData.gatewayName,
         minThres: sensorData.minThreshold + " " + sensorData.uom,
         maxThres: sensorData.maxThreshold + " " + sensorData.uom,
-        sensorType: "M500"
+        transmitterType: sensorData.transmittertype,
+        humidity: sensorData.humidity,
       });
     }
   }
@@ -254,7 +258,9 @@ export class SensorDetailComponent implements OnInit {
           minThreshold: sensor.minThreshold,
           maxThreshold: sensor.maxThreshold,
           status: sensor.status,
-          uom: sensor.uom
+          uom: sensor.uom,
+          transmittertype: sensor.transmittertype,
+          humidity: sensor.humidity
         });
 
         this.setSensorStatus(this.mapSensorDetailsData.status);
@@ -611,7 +617,7 @@ export class SensorDetailComponent implements OnInit {
           dashStyle: 'shortdash',
           width: 1,
           label: {
-              text: this.mapSensorDetailsData.minThreshold + " " + this.getUnitofMeasurment(this.mapSensorDetailsData.uom),
+              text: this.mapSensorDetailsData.minThreshold + " " + this.sensorService.getUnitofMeasurment("temp",this.mapSensorDetailsData.uom),
               style: {
                 color: this.$graph_textcolor
               }
@@ -622,7 +628,7 @@ export class SensorDetailComponent implements OnInit {
             dashStyle: 'shortdash',
             width: 1,
             label: {
-                text: this.mapSensorDetailsData.maxThreshold + " " + this.getUnitofMeasurment(this.mapSensorDetailsData.uom),
+                text: this.mapSensorDetailsData.maxThreshold + " " + this.sensorService.getUnitofMeasurment("temp",this.mapSensorDetailsData.uom),
                 style: {
                   color: this.$graph_textcolor
                 }
@@ -661,16 +667,6 @@ export class SensorDetailComponent implements OnInit {
     });
     Highcharts.stockChart('highChart', this.options);
     this.spinner.hide();
-  }
-
-  getUnitofMeasurment(uom: string) {
-    if( uom.toLowerCase() == "celsius" ) {
-      return "°C";
-    } else if ( uom.toLowerCase() == "fahrenheit" ) {
-      return "°F";
-    } else {
-      return "";
-    }
   }
 
   loadGraphasPromise(startdate,enddate,sensorid) {

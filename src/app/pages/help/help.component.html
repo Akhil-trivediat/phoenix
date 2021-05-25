@@ -1,14 +1,19 @@
 <div class="row">
-  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-horizontal-custom">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <h3>Contact Us</h3>
+  </div>
+</div>
 
-    <h5>Contact Us: </h5>
-    <hr>
+<hr>
+
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-horizontal-custom">
 
     <form class="form-horizontal" role="form" name="helpForm" [formGroup]="helpForm">
 
       <div class="form-group row mt">
 
-        <label for="fullname"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Full Name:</label>
+        <label for="fullname"  class="col-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12">Full Name:</label>
 
         <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
           <input type="text" id="fullname" class="form-control pl-3" formControlName="name" required />
@@ -23,7 +28,7 @@
 
       <div class="form-group row mt">
 
-        <label for="email"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Email:</label>
+        <label for="email"  class="col-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12">Email:</label>
 
         <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
           <input type="email" id="email" class="form-control pl-3" formControlName="email" required />
@@ -38,10 +43,10 @@
 
       <div class="form-group row mt">
 
-        <label for="message"  class="col-lg-2 col-md-2 col-sm-12 col-xs-12">Message:</label>
+        <label for="message"  class="col-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12">Message:</label>
 
         <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-          <textarea rows="4" class="form-control" id="message" formControlName="message"></textarea>
+          <textarea rows="4" class="form-control pl-3" id="message" formControlName="message"></textarea>
         </div>
 
       </div>

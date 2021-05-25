@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, LOCALE_ID } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { ColumnMode } from "@swimlane/ngx-datatable";
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpParams } from "@angular/common/http";
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
@@ -43,31 +43,41 @@ export class GatewaysListComponent implements OnInit {
     private notificationService: NotificationService,
     @Inject(LOCALE_ID) private locale: string,
   ) {
-    this.subscribetoMQTT();
-    this.route.queryParams.filter(params => params.status).subscribe(params => {
-      this.status = params.status;
-      console.log(this.status);
-    });
+
+    // this.route.paramMap.filter(params => params['status']).subscribe(params => {
+    //   this.status = params['status'];
+    // });
+    
   }
 
   ngOnInit() {
+
+    // this.route.queryParams.subscribe(params => {
+    //   if(params.status == null && this.status != null){
+    //     this.status = null;
+    //     this.spinner.show();
+    //     this.getGatewaysList();
+    //   }
+    // });
+
     this.route.queryParams.subscribe(params => {
-      if(params.status == null && this.status != null){
-        this.status = null;
-        this.spinner.show();
-        this.getGatewaysList();
-      }
+      this.status = params.status || null;
     });
+
     this.spinner.show();
+
     this.getGatewaysList();
+
   }
 
   getUserDetails() {
     return localStorage.getItem('USER_NAME');
   }
+
   gotoGatewayDetailsScreen(gatewayid: any) {
     this.router.navigate(['id/', gatewayid],{relativeTo: this.route});
   }
+
   filterGateway(event) {
     this.gatewaysArray = this.backupGatewayArray;
 
@@ -82,17 +92,22 @@ export class GatewaysListComponent implements OnInit {
 
     }
   }
+
   getGatewaysList() {
     let gatewayArray = [];
     const email = this.getUserDetails();
     this.requesterService.getRequest("/gateway" + "?email=" + email).subscribe(
       (gatewaysList) => {
         gatewaysList.forEach((gateway) => {
+
+        //  this.subscribetoMQTT(gateway["id"]);
+
           this.publishtoMQTT(gateway["id"]);
+
           (gatewayArray).push({
             'gatewayName': gateway["productname"],
             'gatewayid': gateway["id"],
-            'status': gateway["status"],
+            'status': gateway["status"] ? gateway["status"] : "Offline",
             'sensor': gateway["sensor"],
             'activationdate': gateway["createddate"].length > 0 ? formatDate(gateway["createddate"],'MM/dd/yyyy,HH:mm',this.locale) : gateway["createddate"],
             'lastconnected': gateway["lastconnected"]
@@ -171,8 +186,11 @@ export class GatewaysListComponent implements OnInit {
     });
   }
 
-  subscribetoMQTT() {
-    this.pubsubService.subscribetoMQTT().subscribe(
+  subscribetoMQTT(clientId: any) {
+
+    let subTopic = clientId + this.pubsubService.getSubscriptionTopic();
+
+    this.pubsubService.subscribetoMQTT(subTopic).subscribe(
       data => {
         console.log(data);
         this.setGatewayStatus(data);
@@ -190,7 +208,7 @@ export class GatewaysListComponent implements OnInit {
     }
 
     let IOTParams = {
-      topic: gatewayID + "/config_sub_tt_message",
+      topic: gatewayID + this.pubsubService.getPublishTopic(),
       payload: deviceConfigJSON
     }
 

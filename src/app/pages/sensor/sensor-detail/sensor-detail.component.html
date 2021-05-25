@@ -15,29 +15,16 @@
         </button>
     </div>
 </div>
-<div class="sensor-details-page">
-    <div class="sensor-graph">
-        <!-- <h5>Sensor Graph: </h5> -->
-        <hr>
-        
-        <!-- <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <app-filter-bar
-                    (dateTimeChangeEvent)="onDateTimeChange($event)"
-                    [ngSelectItems]="ddSensorsList"
-                    (ngSelectChangeEvent)="onItemChanged($event)"
-                    (ngSelectAddEvent)="onItemAdded($event)"
-                    (ngSelectRemoveEvent)="onItemRemoved($event)"
-                    (ngSelectClearEvent)="onClear()"
-                >
-                </app-filter-bar>
-            </div>
-        </div> -->  
-        
+
+<hr>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-horizontal-custom">
 
         <div class="jumbotron jumbotron-fluid">
+
             <div class="row">
-                <div class="jumbotron-header col-md-12 col-sm-12 col-xs-12">
+                <div class="jumbotron-header col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <app-filter-bar
                         (dateTimeChangeEvent)="onDateTimeChange($event)"
                         [ngSelectItemsforComparision]="ddSensorsList"
@@ -50,308 +37,152 @@
                     </app-filter-bar>
                 </div>
             </div>
-            <div class="row analytics-section">
-                <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 graph-section">
+
+            <div class="row">
+
+                <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
                     <div id="highChart" ></div>
                 </div>
-                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 details-section">
-                    <form name="sensorDetailsForm" [formGroup]="sensorDetailsForm">
-                        <div class="form-group row">
-                            <label for="sensorID"  class="col-form-label">Sensor ID:</label> 
-                            
-                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
-                                <input type="text" class="form-control input-transparent pl-3" formControlName="sensorID"/>
+
+                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 form-horizontal-custom">
+
+                    <form class="form-horizontal" role="form" name="sensorDetailsForm" [formGroup]="sensorDetailsForm">
+
+                        <div class="form-group row mt">
+
+                            <label for="sensorID"  class="col-form-label col-lg-5 col-md-5 col-sm-12 col-xs-12">Sensor ID:</label>
+                    
+                            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                              <input type="text" id="sensorID" class="form-control-plaintext pl-3" formControlName="sensorID" readonly/>
                             </div>
+                    
                         </div>
 
-                        <div class="form-group row">
-                            <label for="readingValue"  class="col-form-label">Current Reading:</label>
+                        <div class="form-group row mt">
 
-                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
-                                <input type="text"  class="form-control input-transparent pl-3" formControlName="readingValue"/>
+                            <label for="readingValue"  class="col-form-label col-lg-5 col-md-5 col-sm-12 col-xs-12">Current Reading:</label>
+                    
+                            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                              <input type="text" id="readingValue" class="form-control-plaintext pl-3" formControlName="readingValue" readonly/>
                             </div>
-                        </div>  
-
-                        <!-- <div class="form-group row">
-                            <label for="readingValue"  class="col-form-label">Channel 1:</label>
-
-                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
-                                <input type="text"  class="form-control input-transparent pl-3" formControlName="readingValue"/>
-                            </div>
+                    
                         </div>
 
-                        <div class="form-group row">
-                            <label for="readingValue"  class="col-form-label">Channel 2:</label>
+                        <div class="form-group row mt" *ngIf="sensorDetailsForm.get('humidity').value">
 
-                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
-                                <input type="text"  class="form-control input-transparent pl-3" formControlName="readingValue"/>
+                            <label for="humidity"  class="col-form-label col-lg-5 col-md-5 col-sm-12 col-xs-12">Humidity:</label>
+                    
+                            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                              <input type="text" id="humidity" class="form-control-plaintext pl-3" formControlName="humidity" readonly/>
                             </div>
+                    
                         </div>
 
-                        <div class="form-group row">
-                            <label for="readingValue"  class="col-form-label">Channel 3:</label>
+                        <div class="form-group row mt">
 
-                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
-                                <input type="text"  class="form-control input-transparent pl-3" formControlName="readingValue"/>
+                            <label for="lastCommDate"  class="col-form-label col-lg-5 col-md-5 col-sm-12 col-xs-12">Last Communication Date:</label>
+                    
+                            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                              <input type="text" id="lastCommDate" class="form-control-plaintext pl-3" formControlName="lastCommDate" readonly/>
                             </div>
+                    
                         </div>
 
-                        <div class="form-group row">
-                            <label for="readingValue"  class="col-form-label">Channel 4:</label>
+                        <div class="form-group row mt">
 
-                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
-                                <input type="text"  class="form-control input-transparent pl-3" formControlName="readingValue"/>
+                            <label for="gatewayName"  class="col-form-label col-lg-5 col-md-5 col-sm-12 col-xs-12">Gateway Name:</label>
+                    
+                            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                              <textarea rows="1" class="form-control-plaintext pl-3" id="gatewayName" formControlName="gatewayName" readonly></textarea>
                             </div>
-                        </div> -->
-
-                        <div class="form-group row">
-                            <label for="lastCommDate"  class="col-form-label">Last Communication Date:</label>
-
-                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
-                                <input type="text"  class="form-control input-transparent pl-3" formControlName="lastCommDate"/>
-                            </div>
+                    
                         </div>
 
-                        <div class="form-group row">
-                            <label for="gatewayName"  class="col-form-label">Gateway Name:</label>
+                        <div class="form-group row mt">
 
-                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
-                                <input type="text"  class="form-control input-transparent pl-3" formControlName="gatewayName"/>
+                            <label for="minThres"  class="col-form-label col-lg-5 col-md-5 col-sm-12 col-xs-12">Minimum Threshold:</label>
+                    
+                            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                              <input type="text" id="minThres" class="form-control-plaintext pl-3" formControlName="minThres" readonly/>
                             </div>
+                    
                         </div>
 
-                        <div class="form-group row">
-                            <label for="minThres"  class="col-form-label">Minimum Threshold:</label>
+                        <div class="form-group row mt">
 
-                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
-                                <input type="text"  class="form-control input-transparent pl-3" formControlName="minThres"/>
+                            <label for="maxThres"  class="col-form-label col-lg-5 col-md-5 col-sm-12 col-xs-12">Maximum Threshold:</label>
+                    
+                            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                              <input type="text" id="maxThres" class="form-control-plaintext pl-3" formControlName="maxThres" readonly/>
                             </div>
+                    
                         </div>
 
-                        <div class="form-group row">
-                            <label for="maxThres"  class="col-form-label">Maximum Threshold:</label>
+                        <div class="form-group row mt">
 
-                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
-                                <input type="text"  class="form-control input-transparent pl-3" formControlName="maxThres"/>
+                            <label for="transmitterType"  class="col-form-label col-lg-5 col-md-5 col-sm-12 col-xs-12">Sensor Type:</label>
+                    
+                            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <textarea rows="2" class="form-control-plaintext pl-3" id="transmitterType" formControlName="transmitterType" readonly></textarea>
                             </div>
+                    
                         </div>
-
-                        <div class="form-group row">
-                            <label for="location"  class="col-form-label">Sensor Type:</label>
-
-                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
-                                <input type="text"  class="form-control input-transparent pl-3" formControlName="sensorType"/>
-                            </div>
-                        </div>
-
-                        <!-- <div class="form-group row">
-                            <label for="location"  class="col-form-label">Location:</label>
-
-                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
-                                <input type="text"  class="form-control input-transparent pl-3" formControlName="location"/>
-                            </div>
-                        </div> -->
 
                     </form>
+
                 </div>
+
             </div>
             
         </div>
-         
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+        <section 
+            class="mx-auto"
+            widgster
+            [optionsControl]="false"
+            [reloadControl]="false"
+            [fullscreenControl]="false"
+            [collapseControl]="false"
+            [closeControl]="false"
+            titleClass="mt-0"
+            bodyclass="widget-table-overflow">
+                <header>
+                    <h5 class="title float-left">Sensor Data</h5>
+                    <angular2csv [data]="downloadCSVdata" filename={{CSVfilename}} [options]="downloadCSVoptions" class="downloadCSV float-right"></angular2csv>
+                </header>
+                <div class="widget-content">
+                    <ngx-datatable class="table table-striped table-hover" [rows]="sensorDataTable"
+                    [columnMode]="columnMode.force" [headerHeight]="50" [footerHeight]="50" 
+                    [rowHeight]="'auto'" [limit]="10" [sorts]="[{prop: 'timestamp', dir: 'desc'}]">
+                        <ngx-datatable-column name="Timestamp" prop="timestamp">
+                            <ng-template let-column="column" ngx-datatable-header-template>
+                                <span>{{column.name}}</span>
+                            </ng-template>
+                            <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+                            {{value}}
+                            </ng-template>
+                        </ngx-datatable-column>
+                
+                        <ngx-datatable-column name="Temperature (°C)" prop="temperature">
+                            <ng-template let-column="column" ngx-datatable-header-template>
+                                <span>{{column.name}}</span>
+                            </ng-template>
+                            <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+                            {{value}}
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </div>
+        </section>
+
     </div>
 
-    <section 
-        class="mx-auto"
-        widgster
-        [optionsControl]="false"
-        [reloadControl]="false"
-        [fullscreenControl]="false"
-        [collapseControl]="false"
-        [closeControl]="false"
-        titleClass="mt-0"
-        bodyclass="widget-table-overflow">
-            <header>
-                <h5 class="title float-left">Sensor Data</h5>
-                <angular2csv [data]="downloadCSVdata" filename={{CSVfilename}} [options]="downloadCSVoptions" class="downloadCSV float-right"></angular2csv>
-            </header>
-            <div class="widget-content">
-                <ngx-datatable class="table table-striped table-hover" [rows]="sensorDataTable"
-                [columnMode]="columnMode.force" [headerHeight]="50" [footerHeight]="50" 
-                [rowHeight]="'auto'" [limit]="10" [sorts]="[{prop: 'timestamp', dir: 'desc'}]">
-                    <ngx-datatable-column name="Timestamp" prop="timestamp">
-                        <ng-template let-column="column" ngx-datatable-header-template>
-                            <span>{{column.name}}</span>
-                        </ng-template>
-                        <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
-                        {{value}}
-                        </ng-template>
-                    </ngx-datatable-column>
-            
-                    <ngx-datatable-column name="Temperature (°C)" prop="temperature">
-                        <ng-template let-column="column" ngx-datatable-header-template>
-                            <span>{{column.name}}</span>
-                        </ng-template>
-                        <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
-                        {{value}}
-                        </ng-template>
-                    </ngx-datatable-column>
-                </ngx-datatable>
-            </div>
-    </section>
-
-    <!-- <div class="jumbotron jumbotron-fluid">
-        <div class="sensor-details">
-            <form name="sensorDetailsForm" [formGroup]="sensorDetailsForm" class="sensorForm">
-                <div class="form-group row mt">
-                    <div class="col-md-4 col-sm-12 col-xs-12">
-                        <label for="sensorID"  class="col-form-label">Sensor ID:</label>
-                        <div class="device-input">
-                            <div class="input-group input-group-transparent">
-                                <input type="text"  class="form-control input-transparent pl-3" formControlName="sensorID"/>
-                            </div>
-                        </div>
-                    </div>
-    
-                    <div class="col-md-4 col-sm-12 col-xs-12">
-                        <label for="readingValue"  class="col-form-label">Reading Value:</label>
-                        <div class="device-input">
-                            <div class="input-group input-group-transparent">
-                                <input type="text"  class="form-control input-transparent pl-3" formControlName="readingValue"/>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-sm-12 col-xs-12"> 
-                        <label for="lastCommDate"  class="col-form-label">Last Communication Date:</label>
-                        <div class="device-input">
-                            <div class="input-group input-group-transparent">
-                                <input type="text"  class="form-control input-transparent pl-3" formControlName="lastCommDate"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group row mt">
-                    <div class="col-md-4 col-sm-12 col-xs-12">
-                        <label for="gatewayName"  class="col-form-label">Gateway Name:</label>
-                        <div class="device-input">
-                            <div class="input-group input-group-transparent">
-                                <input type="text"  class="form-control input-transparent pl-3" formControlName="gatewayName"/>
-                            </div>
-                        </div>
-                    </div>
-    
-                    
-
-                    <div class="col-md-4 col-sm-12 col-xs-12"> 
-                        <label for="minThres"  class="col-form-label">Minimum Threshold:</label>
-                        <div class="device-input">
-                            <div class="input-group input-group-transparent">
-                                <input type="text"  class="form-control input-transparent pl-3" formControlName="minThres"/>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-sm-12 col-xs-12"> 
-                        <label for="maxThres"  class="col-form-label">Maximum Threshold:</label>
-                        <div class="device-input">
-                            <div class="input-group input-group-transparent">
-                                <input type="text"  class="form-control input-transparent pl-3" formControlName="maxThres"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group row mt">
-                    <div class="col-md-4 col-sm-12 col-xs-12">
-                        <label for="location"  class="col-form-label">Location:</label>
-                        <div class="device-input">
-                            <div class="input-group input-group-transparent">
-                                <input type="text"  class="form-control input-transparent pl-3" formControlName="location"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="form-group row mt">
-                     
-                </div>
-                
-                <div class="more-info-section">
-                    <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed"
-                        [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">More Details
-                    </button>
-                    <div id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true">
-                        <div class="form-group row mt">
-                            <label for="gatewayName"  class="col-form-label">Gateway Name:</label>
-                            <div class="device-input">
-                                <div class="input-group input-group-transparent">
-                                    <input type="text"  class="form-control input-transparent pl-3" formControlName="gatewayName"/>
-                                  </div>
-                            </div>
-                            <label for="location"  class="col-form-label">Location:</label>
-                            <div class="device-input">
-                                <div class="input-group input-group-transparent">
-                                    <input type="text"  class="form-control input-transparent pl-3" formControlName="location"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group row mt">
-                            <label for="minThres"  class="col-form-label">Minimum Threshold:</label>
-                            <div class="device-input">
-                                <div class="input-group input-group-transparent">
-                                    <input type="text"  class="form-control input-transparent pl-3" formControlName="minThres"/>
-                                  </div>
-                            </div>
-                            <label for="maxThres"  class="col-form-label">Maximum Threshold:</label>
-                            <div class="device-input">
-                                <div class="input-group input-group-transparent">
-                                    <input type="text"  class="form-control input-transparent pl-3" formControlName="maxThres"/>
-                                  </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div> -->
-    
-    <!-- <div class="form-group row mt">
-        <label for="gatewayName"  class="col-form-label">Gateway Name:</label>
-        <div class="device-input">
-            <div class="input-group input-group-transparent">
-                <input type="text"  class="form-control input-transparent pl-3" formControlName="gatewayName"/>
-              </div>
-        </div>
-        <label for="location"  class="col-form-label">Location:</label>
-        <div class="device-input">
-            <div class="input-group input-group-transparent">
-                <input type="text"  class="form-control input-transparent pl-3" formControlName="location"/>
-            </div>
-        </div>
-    </div> -->
-    
-
-    <!-- <div class="sensor-data-table"> 
-        <h5>Sensor Data: </h5> 
-        <hr>
-
-        <angular2csv [data]="downloadCSVdata" filename={{CSVfilename}} [options]="downloadCSVoptions" class="downloadCSV float-right"></angular2csv>
-        <ngx-datatable class="table table-striped table-hover" [rows]="sensorDataTable"
-        [columnMode]="columnMode.force" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [sorts]="[{prop: 'timestamp', dir: 'desc'}]">
-            <ngx-datatable-column name="timestamp" prop="timestamp">
-                <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
-                {{value}}
-                </ng-template>
-            </ngx-datatable-column>
-    
-            <ngx-datatable-column name="temperature (°C)" prop="temperature">
-                <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
-                {{value}}
-                </ng-template>
-            </ngx-datatable-column>
-        </ngx-datatable>
-    </div> -->
 </div>
 
 <ng-template #datepickermodalTemplate>
@@ -365,43 +196,3 @@
         <app-ngx-bootstrap-datepicker (onDateTimeChange)="onDateTimeChange($event)"></app-ngx-bootstrap-datepicker>
     </div>
 </ng-template>
-
-
-<!-- <div class="row sensor-multi-select">
-            <div class="col-sm">
-                <p>Select sensors: </p>
-                <ng-select
-                    class="custom"
-                    [items]="ddSensorsList"
-                    [multiple]="true"
-                    [closeOnSelect]="false"
-                    [searchable]="false"
-                    bindLabel="id"
-                    placeholder="Select sensor"
-                    [(ngModel)]="selectedSensor"
-                    (change)="onCompareSensor($event)"
-                    (add)="onItemAdded($event)"
-                    (remove)="onItemRemoved($event)"
-                    (clear)="onClear()">
-                </ng-select>
-                <button (click)="addSensortoGraph()" class="btn btn-m btn-primary">Add</button>
-            </div>
-        </div> -->
-
-        <!-- <app-ngx-bootstrap-datepicker (onDateTimeChange)="onDateTimeChange($event)" showDatepicker="true" showTimepicker="false"></app-ngx-bootstrap-datepicker> -->
-        <!-- <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <ul class="filter-bar">
-                    <li class="duration" (click)="openModal(datepickermodalTemplate)">
-                        <div>
-                            Duration
-                        </div>
-                    </li>
-                    <li class="compare-sensor">
-                        <div>
-                            Compare Sensor
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div> -->
